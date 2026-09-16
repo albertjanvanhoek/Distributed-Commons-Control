@@ -104,6 +104,10 @@ __all__ = [
     "repair_net_value",
     "replacement_gap",
     "target_baseline_maintenance",
+    "JamMaintenanceState",
+    "escalation_vector_change",
+    "one_validator_correction_gain",
+    "one_validator_scalability_gain",
 ]
 
 from .closed_loop import (
@@ -192,4 +196,11 @@ from .behavioral_maintenance import (
     repair_net_value,
     replacement_gap,
     target_baseline_maintenance,
+)
+
+from .jam_maintenance import (
+    JamMaintenanceState,
+    escalation_vector_change,
+    one_validator_correction_gain,
+    one_validator_scalability_gain,
 )

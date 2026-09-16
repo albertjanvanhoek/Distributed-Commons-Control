@@ -106,6 +106,13 @@ slower time scale than effort.
 
 ## Phase 9 — Substrate return tests
 
+**Status:** active; Experiment 9 establishes the first JAM return test.
+
+- Audit Experiment-8 maintenance operators as implemented, delegated, absent or outside the assurance layer.
+- Measure a grounded JAM viability vector rather than assigning a scalar "good/bad" score.
+- Perturb fixed validator profiles and protocol escalation parameters.
+- Keep client-diversity and silent-failure results explicitly marked as extensions to ELVES assumptions.
+
 **Status:** next active phase. Use Experiment 8 to test which maintenance operators are implemented, delegated or absent in grounded substrates; do not add further generic mechanisms without a substrate need.
 
 Only after the neutral theory is stable, map it to concrete substrates.
@@ -125,8 +132,7 @@ Only after the neutral theory is stable, map it to concrete substrates.
 - Test whether viability-margin contribution predicts perturbation outcomes
   beyond ordinary service-flow or interaction-network descriptions.
 
-**Exit criterion:** at least one substrate mapping produces a discriminating
-prediction without changing the neutral mathematical definitions.
+**Exit criterion:** partially achieved for JAM: one-validator client/reliability perturbations and escalation-strength tradeoffs produce discriminating predictions without changing the neutral definitions. The next unresolved JAM behavior is compute versus rubber-stamp versus no-show, which requires further incentive grounding.
 
 ## Publication discipline
 

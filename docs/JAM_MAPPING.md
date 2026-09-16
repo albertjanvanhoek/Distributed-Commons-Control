@@ -145,3 +145,33 @@ latency or checking load.
   3 June 2026.
 - Jeff Burdges et al., *Efficient Execution Auditing for Blockchains under
   Byzantine Assumptions*, IACR ePrint 2024/961, 14 June 2024.
+
+
+## Behavioral maintenance operator audit
+
+Experiment 9 returns the neutral maintenance-operator framework to JAM without
+changing the neutral definitions.
+
+See [JAM maintenance operators](JAM_MAINTENANCE_OPERATORS.md).
+
+The audited assurance layer implements validity sensing and compensatory
+correction directly. Other functions are split across layers: auditing
+reinforcement/funding is delegated to staking/economic mechanisms; validator
+and client capacity are maintained by operators and the implementation
+ecosystem; protocol revision lies outside the ELVES assurance theorem.
+
+The resulting JAM viability vector keeps at least two components separate:
+
+[
+mathbf M_{m JAM}
+=
+(M_{m safety},M_{m scale}),
+]
+
+where (M_{m safety}) is a log certificate margin against the economically
+derived ELVES target and (M_{m scale}=1-A) is distance from no-show
+criticality.
+
+Increasing escalation strength improves the first correction channel while
+reducing the second margin when no-show-prone validators exist. The repository
+therefore does not assign a scalar global sign to "more correction."

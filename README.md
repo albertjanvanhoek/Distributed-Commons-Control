@@ -62,6 +62,7 @@ and hence \(\liminf P_{\mathrm{bad},t}\ge\rho m\). This turns the static floor i
 | [`docs/STATE_DEPENDENT_CONTRIBUTION.md`](docs/STATE_DEPENDENT_CONTRIBUTION.md) | Experiment 6: participant contribution to access of stored capacity |
 | [`docs/VECTOR_CONTRIBUTION.md`](docs/VECTOR_CONTRIBUTION.md) | Experiment 7: vector-valued contribution across viability loops |
 | [`docs/BEHAVIORAL_MAINTENANCE.md`](docs/BEHAVIORAL_MAINTENANCE.md) | Experiment 8: behavioral maintenance operators and falsification boundaries |
+| [`docs/JAM_MAINTENANCE_OPERATORS.md`](docs/JAM_MAINTENANCE_OPERATORS.md) | Experiment 9: grounded JAM operator audit and viability-vector perturbations |
 | [`CLAIMS.md`](CLAIMS.md) | Claim ledger separating proofs, computations and hypotheses |
 | [`src/distributed_commons/`](src/distributed_commons/) | Dependency-free executable model |
 | [`scripts/run_experiment.py`](scripts/run_experiment.py) | Reproducible parameter sweep |
