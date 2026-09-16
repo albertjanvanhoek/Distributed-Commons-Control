@@ -1,0 +1,41 @@
+name: Model and Formalization Checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install package
+        run: python -m pip install -e .
+      - name: Run tests
+        run: python -m unittest discover -s tests -v
+      - name: Reproduce phase sweep
+        run: python scripts/run_experiment.py --output results/phase_sweep.csv
+
+  lean:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: formalization
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install elan
+        run: |
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Update dependencies
+        run: $HOME/.elan/bin/lake update
+      - name: Fetch Mathlib cache
+        run: $HOME/.elan/bin/lake exe cache get
+      - name: Compile proofs
+        run: $HOME/.elan/bin/lake build

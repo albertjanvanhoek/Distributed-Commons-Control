@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite it using this metadata."
+title: "Distributed Commons Control"
+type: software
+authors:
+  - family-names: van Hoek
+    given-names: Albert Jan
+repository-code: "https://github.com/albertjanvanhoek/Distributed-Commons-Control"
+license: Apache-2.0
+version: 0.1.0
+date-released: 2026-09-16
+abstract: >-
+  An executable and formally checked minimal theory of how distributed
+  monitoring can maintain shared state under costly effort, local capture
+  incentives and correlated failure.
