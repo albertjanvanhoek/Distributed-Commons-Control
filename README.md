@@ -58,6 +58,7 @@ and hence \(\liminf P_{\mathrm{bad},t}\ge\rho m\). This turns the static floor i
 | [`docs/CLOSED_LOOP.md`](docs/CLOSED_LOOP.md) | Experiment 2: closed commons loop, folds, hysteresis and recovery basins |
 | [`docs/VIABILITY_CONTRIBUTION.md`](docs/VIABILITY_CONTRIBUTION.md) | Experiment 3: neutral participant contribution to a declared viability margin |
 | [`docs/SELECTED_VIABILITY.md`](docs/SELECTED_VIABILITY.md) | Experiment 4: direct-positive but selected-negative participant contribution |
+| [`docs/CORRECTIVE_CAPACITY.md`](docs/CORRECTIVE_CAPACITY.md) | Experiment 5: current shared state versus slow corrective capacity |
 | [`CLAIMS.md`](CLAIMS.md) | Claim ledger separating proofs, computations and hypotheses |
 | [`src/distributed_commons/`](src/distributed_commons/) | Dependency-free executable model |
 | [`scripts/run_experiment.py`](scripts/run_experiment.py) | Reproducible parameter sweep |

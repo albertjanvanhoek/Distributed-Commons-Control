@@ -31,6 +31,11 @@ The Lean source checks only the algebraic core of the declared model. It does no
 | Positive frozen/direct participant contribution | `direct_addition_positive` |
 | Exact selected-contribution identity | `selected_addition_identity` |
 | Direct-positive selected-negative reversal | `selected_addition_negative` |
+| Shock viable iff below (M(X,C)) | `shock_viable_iff_below_margin` |
+| Margin difference from capacity difference | `capacity_margin_difference` |
+| Higher capacity raises finite-shock margin | `higher_capacity_higher_margin` |
+| Full shared state fixed during quiet period | `quietSharedStep_full` |
+| Quiet capacity decay lowers shock margin | `quiet_capacity_erodes_margin_at_full_state` |
 | Attempt-rate floor implies harmful-finalization floor | `badFinalizationN_floor_from_attempt_floor` |
 
 Build with:
@@ -67,3 +72,7 @@ leastness hypothesis remains assumed in `selected_safety_iff_critical_cost`.
 ## Selected viability reversal
 
 `SelectedViability.lean` formalizes the minimal Experiment 4 counterexample: adding a participant improves viability at frozen effort but can reduce realized viability after shared-reward re-equilibration. The formal theorem uses the exact polynomial reversal condition (z^2+4z-4>0); the equivalent square-root threshold is reported by the executable model.
+
+## Corrective capacity
+
+`CorrectiveCapacity.lean` formalizes the minimal Experiment 5 separation between current shared condition and a slower corrective-capacity stock. The key result is that the shared state can remain exactly at its quiet fixed point while capacity decay strictly lowers the derived finite-shock viability margin.

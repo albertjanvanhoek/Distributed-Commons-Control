@@ -51,6 +51,8 @@ Delta_i M_{selected}<0.
 
 ## Phase 5 — Slow corrective capacity
 
+**Status:** operational two-state baseline established in Experiment 5.
+
 Introduce a separate slow stock C:
 
 [
@@ -67,9 +69,7 @@ slower time scale than effort.
 - Test whether capacity decay creates fragility without a current-state early
   warning in X.
 
-**Exit criterion:** two systems with the same X but different C have
-demonstrably different disturbance margins, and C has a non-definitional
-dynamics.
+**Exit criterion:** achieved for the minimal shock-margin model: identical X and local X recovery can coexist with different finite-shock margins because C follows an independent maintenance/decay law.
 
 ## Phase 6 — Multiple loops
 

@@ -73,6 +73,16 @@ __all__ = [
     "two_frozen_margin",
     "two_participant_effort",
     "two_selected_margin",
+    "CapacityParameters",
+    "local_shared_state_multiplier",
+    "maintenance_shortfall",
+    "post_shock_state",
+    "quiet_step",
+    "quiet_trajectory",
+    "required_maintenance_for_capacity",
+    "shock_is_viable",
+    "shock_margin",
+    "uncapped_shock_margin",
 ]
 
 from .closed_loop import (
@@ -118,4 +128,17 @@ from .selected_viability import (
     two_frozen_margin,
     two_participant_effort,
     two_selected_margin,
+)
+
+from .corrective_capacity import (
+    CapacityParameters,
+    local_shared_state_multiplier,
+    maintenance_shortfall,
+    post_shock_state,
+    quiet_step,
+    quiet_trajectory,
+    required_maintenance_for_capacity,
+    shock_is_viable,
+    shock_margin,
+    uncapped_shock_margin,
 )
