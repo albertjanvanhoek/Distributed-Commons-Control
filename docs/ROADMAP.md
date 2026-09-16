@@ -93,9 +93,20 @@ slower time scale than effort.
 
 **Exit criterion:** achieved at the representation level: mixed-sign loop contributions are vector-valued, and any scalar net sign requires explicit weights.
 
-## Phase 8 — Substrate return tests
+## Phase 8 — Behavioral maintenance challenge
 
-**Status:** next active phase. No further generic scalar mechanisms should be added without a substrate need.
+**Status:** baseline falsification layer established in Experiment 8.
+
+- Define behavior operationally as a state-contingent participant process that changes future viability.
+- Separate passive renewal from participant-generated maintenance.
+- Test correction, reinforcement, repair and signal fidelity as conditional maintenance operators rather than virtues.
+- Preserve the distinction between human-language SCAP implementations and substrate-neutral functions.
+
+**Exit criterion:** achieved for the minimal replacement/correction/reinforcement/repair models; the strongest universal-maintenance and always-beneficial-operator claims are falsified.
+
+## Phase 9 — Substrate return tests
+
+**Status:** next active phase. Use Experiment 8 to test which maintenance operators are implemented, delegated or absent in grounded substrates; do not add further generic mechanisms without a substrate need.
 
 Only after the neutral theory is stable, map it to concrete substrates.
 

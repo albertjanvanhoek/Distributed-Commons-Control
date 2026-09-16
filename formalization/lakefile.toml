@@ -1,6 +1,6 @@
 name = "distributed_commons_control"
 version = "0.1.0"
-defaultTargets = ["DistributedCommons", "RootSafety", "DynamicSafety", "EndogenousFloor", "ClosedLoopStability", "ViabilityContribution", "SelectedViability", "CorrectiveCapacity", "StateDependentContribution", "VectorContribution"]
+defaultTargets = ["DistributedCommons", "RootSafety", "DynamicSafety", "EndogenousFloor", "ClosedLoopStability", "ViabilityContribution", "SelectedViability", "CorrectiveCapacity", "StateDependentContribution", "VectorContribution", "BehavioralMaintenance"]
 
 [[require]]
 name = "mathlib"
@@ -36,3 +36,6 @@ name = "StateDependentContribution"
 
 [[lean_lib]]
 name = "VectorContribution"
+
+[[lean_lib]]
+name = "BehavioralMaintenance"

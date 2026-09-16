@@ -43,6 +43,13 @@ The Lean source checks only the algebraic core of the declared model. It does no
 | Quiet capacity decay scales contribution | `quiet_decay_scales_access_contribution` |
 | Positive scalarization witness for mixed-sign vector | `positive_scalarization_witness` |
 | Negative scalarization witness for same vector | `negative_scalarization_witness` |
+| Replacement closure iff viability boundary preserved | `boundary_preserved_iff_replacement_closed` |
+| Passive renewal can eliminate active-maintenance necessity | `passive_renewal_can_suffice` |
+| Active maintenance must close passive replacement gap | `participant_maintenance_must_close_gap` |
+| Excess correction produces multiplier below -1 | `overcorrection_multiplier_lt_neg_one` |
+| Low-fidelity signal reverses correction | `low_fidelity_reverses_correction` |
+| Reinforcement can be net harmful | `reinforcement_can_be_harmful` |
+| Conditional repair inequality | `repair_nonnegative_iff` |
 | Attempt-rate floor implies harmful-finalization floor | `badFinalizationN_floor_from_attempt_floor` |
 
 Build with:
@@ -91,3 +98,7 @@ leastness hypothesis remains assumed in `selected_safety_iff_critical_cost`.
 ## Vector-valued contribution
 
 `VectorContribution.lean` formalizes the Experiment 7 representation result: for a two-loop contribution vector with opposite signs, admissible positive scalarization weights can produce either sign. A scalar global contribution therefore requires an explicit aggregation rule.
+
+## Behavioral maintenance operators
+
+`BehavioralMaintenance.lean` formalizes Experiment 8's falsification layer. It proves the exact replacement-gap condition, a passive-renewal counterexample to universal active-maintenance necessity, an overcorrection instability boundary, sign reversal under low signal fidelity, a harmful-reinforcement region, and the conditional repair criterion. The model uses "behavior" operationally and does not assume cognition or moral agency.
