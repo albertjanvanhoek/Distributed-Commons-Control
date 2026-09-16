@@ -89,6 +89,21 @@ __all__ = [
     "expected_participant_contribution",
     "ContributionVector",
     "opposite_sign_weight_witnesses",
+    "MaintenanceParameters",
+    "boundary_is_preserved",
+    "correction_is_locally_stable",
+    "correction_multiplier",
+    "decentralized_boundary_is_preserved",
+    "effective_corrective_gain",
+    "noisy_correction_multiplier",
+    "overcorrection_threshold",
+    "passive_renewal_suffices",
+    "positive_reinforcement_is_beneficial",
+    "reinforcement_value_numerator",
+    "repair_is_worthwhile",
+    "repair_net_value",
+    "replacement_gap",
+    "target_baseline_maintenance",
 ]
 
 from .closed_loop import (
@@ -159,4 +174,22 @@ from .state_dependent_contribution import (
 from .vector_contribution import (
     ContributionVector,
     opposite_sign_weight_witnesses,
+)
+
+from .behavioral_maintenance import (
+    MaintenanceParameters,
+    boundary_is_preserved,
+    correction_is_locally_stable,
+    correction_multiplier,
+    decentralized_boundary_is_preserved,
+    effective_corrective_gain,
+    noisy_correction_multiplier,
+    overcorrection_threshold,
+    passive_renewal_suffices,
+    positive_reinforcement_is_beneficial,
+    reinforcement_value_numerator,
+    repair_is_worthwhile,
+    repair_net_value,
+    replacement_gap,
+    target_baseline_maintenance,
 )
