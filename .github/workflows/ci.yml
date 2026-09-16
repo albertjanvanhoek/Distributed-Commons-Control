@@ -34,6 +34,8 @@ jobs:
         run: python scripts/viability_contribution_experiment.py --output results/viability_contribution.csv
       - name: Reproduce JAM / ELVES grounding check
         run: python -m unittest tests/test_jam_elves.py
+      - name: Reproduce selected viability experiment
+        run: python scripts/selected_viability_experiment.py --output results/selected_viability.csv
 
   lean:
     runs-on: ubuntu-latest
