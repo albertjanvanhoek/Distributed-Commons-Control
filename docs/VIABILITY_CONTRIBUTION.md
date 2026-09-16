@@ -1,0 +1,315 @@
+# Experiment 3 — viability contribution of heterogeneous participants
+
+## 1. Object of study
+
+This experiment is deliberately substrate-neutral. It does not model species,
+validators, institutions, cells, sensors, or any other named participant type.
+Those are possible later mappings.
+
+The abstract relation is
+
+\[
+\text{participant}
+\longleftrightarrow
+\text{network of participants}
+\longleftrightarrow
+\text{shared enabling state}.
+\]
+
+The quantity of interest is not a participant's effect on the current state.
+It is the change in what disturbances the network can tolerate while still
+satisfying a declared viability condition.
+
+A later dynamic model will condition viability on state \((X,C)\), where
+
+- \(X\) is current shared state;
+- \(C\) is a slower stock of corrective capacity/readiness.
+
+This experiment freezes that dynamic state and studies the structural
+participant problem exactly.
+
+## 2. Declared one-loop viability margin
+
+Let \(S\) be the set of present participants. Each participant can block a
+harmful disturbance unless disabled by an active failure cause.
+
+Let
+
+\[
+\pi(S)
+=
+P(\text{every participant in }S\text{ is disabled}).
+\]
+
+If harmful disturbances are attempted at rate \(b\in[0,1]\), and the declared
+maximum acceptable harmful-finalization probability is \(\varepsilon\), then
+
+\[
+b\,\pi(S)\le\varepsilon.
+\]
+
+Define the **viability margin**
+
+\[
+\boxed{
+M(S)
+=
+\sup\{b\in[0,1]:b\pi(S)\le\varepsilon\}.
+}
+\]
+
+Hence
+
+\[
+\boxed{
+M(S)=
+\begin{cases}
+1,&\pi(S)=0,\\
+\min\!\left(1,\dfrac{\varepsilon}{\pi(S)}\right),&\pi(S)>0.
+\end{cases}
+}
+\]
+
+This is a disturbance-capacity measure. Two configurations can have the same
+current shared-state level and different \(M\).
+
+## 3. Heterogeneous failure causes
+
+The first exact model uses independent Bernoulli failure causes. Participant
+\(i\) has a vulnerability set \(V_i\). It is disabled whenever at least one
+active cause belongs to \(V_i\).
+
+The executable model evaluates \(\pi(S)\) exactly by enumerating the active
+cause sets. This is intentionally small-scale: the purpose is to expose the
+mathematics before introducing correlated causes, behavior, or multiple loops.
+
+### 3.1 Smallest decorrelation example
+
+Take two independent causes \(A\) and \(B\), each active with probability
+\(\rho\).
+
+Participants \(A_1\) and \(A_2\) are vulnerable only to \(A\). Then
+
+\[
+\pi(\{A_1,A_2\})=\rho.
+\]
+
+Add participant \(B_1\), vulnerable only to \(B\). Now all participants are
+disabled only when both causes are active:
+
+\[
+\boxed{
+\pi(\{A_1,A_2,B_1\})=\rho^2.
+}
+\]
+
+For \(0<\rho<1\), \(\rho^2<\rho\). In the nontrivial uncapped margin
+regime,
+
+\[
+M_{\rm before}=\frac{\varepsilon}{\rho},
+\qquad
+M_{\rm after}=\frac{\varepsilon}{\rho^2},
+\]
+
+so
+
+\[
+\boxed{
+\frac{M_{\rm after}}{M_{\rm before}}
+=
+\frac1\rho.
+}
+\]
+
+The algebraic core is machine-checked in
+`formalization/ViabilityContribution.lean`.
+
+At \(\rho=0.05\) and \(\varepsilon=0.001\):
+
+| coalition | escape \(\pi(S)\) | viability margin \(M(S)\) |
+|---|---:|---:|
+| empty | 1 | 0.001 |
+| one \(A\)-profile participant | 0.05 | 0.020 |
+| \(A_1,A_2\) | 0.05 | 0.020 |
+| \(A_1,B_1\) | 0.0025 | 0.400 |
+| \(A_1,A_2,B_1\) | 0.0025 | 0.400 |
+
+The topology-changing participant is therefore valuable because it breaks a
+shared failure mode, not because it supplies more of the same corrective
+effort.
+
+## 4. Three different attribution questions
+
+Contribution is not a single number until the attribution question is
+declared.
+
+### 4.1 Leave-one-out necessity
+
+For a participant \(i\) in the current network \(N\),
+
+\[
+L_i
+=
+M(N)-M(N\setminus\{i\}).
+\]
+
+In the example above,
+
+\[
+L_{A_1}=L_{A_2}=0,
+\qquad
+L_{B_1}=0.38.
+\]
+
+Thus \(B_1\) carries the entire current structural margin above the redundant
+\(A\)-only configuration, even though every participant has the same
+single-cause reliability.
+
+### 4.2 Shapley attribution
+
+Leave-one-out depends strongly on the current coalition. The Shapley value
+
+\[
+\phi_i
+=
+\sum_{T\subseteq N\setminus\{i\}}
+\frac{|T|!(n-|T|-1)!}{n!}
+\left[M(T\cup\{i\})-M(T)\right]
+\]
+
+instead averages marginal contribution across all coalition contexts.
+
+For the same example:
+
+| participant | leave-one-out | Shapley value |
+|---|---:|---:|
+| \(A_1\) | 0 | 0.06967 |
+| \(A_2\) | 0 | 0.06967 |
+| \(B_1\) | 0.38 | 0.25967 |
+
+The Shapley values sum exactly to
+
+\[
+M(N)-M(\varnothing)=0.399.
+\]
+
+Therefore there is no "Shapley leftover": efficiency is built into the
+definition.
+
+### 4.3 Non-additive interaction terms
+
+To keep non-additivity visible rather than allocating it back to individuals,
+the implementation also computes the Möbius/Harsanyi dividend
+
+\[
+I(T)
+=
+\sum_{U\subseteq T}
+(-1)^{|T|-|U|}M(U).
+\]
+
+For the example:
+
+\[
+I(\{A_1,A_2\})=-0.019
+\]
+
+captures redundancy between the two same-profile participants, whereas
+
+\[
+I(\{A_1,B_1\})
+=
+I(\{A_2,B_1\})
+=
+0.361
+\]
+
+captures strong complementarity between independent failure profiles.
+
+The three-way term is
+
+\[
+I(\{A_1,A_2,B_1\})=-0.361,
+\]
+
+showing why higher-order interaction accounting is required. These interaction
+terms are exact non-additivity measures. The repository does not label them
+"emergence" by definition.
+
+## 5. What is and is not being claimed
+
+The exact result is narrow:
+
+\[
+\boxed{
+\text{changing failure topology can change viability margin far more than
+adding same-mode redundancy.}
+}
+\]
+
+This is closely related to established ideas such as response diversity,
+reliability diversity and common-cause failure. The existence of that general
+principle is not claimed as new.
+
+Likewise, Shapley values and Harsanyi dividends are established cooperative
+game-theory tools. Their use here is an attribution layer, not a mathematical
+novelty claim.
+
+Ecology also now has an explicit distinction between a species' static and
+dynamic functional contribution after interactions propagate through the
+community: Ardichvili et al. (2026), *Beyond Biomass: How Interactions Shape
+Species' Contribution to Ecosystem Functioning*, Ecology Letters 29:e70370,
+DOI 10.1111/ele.70370.
+
+The specific research question here is different: contribution is anchored to
+a declared **viability margin** under a specified disturbance and failure
+architecture.
+
+## 6. Why the model remains neutral
+
+Nothing in \(M(S)\), \(\pi(S)\), Shapley attribution, or interaction
+decomposition says what a participant *is*. A failure cause can represent any
+shared dependency. A participant can later map to any process that occupies a
+corrective position in a network.
+
+The model also does not call a participant globally helpful or harmful.
+Experiment 3 still contains only one declared loop. Multiple loops will later
+allow a participant to have different signed contribution profiles across
+different viability requirements.
+
+## 7. Next result to seek
+
+The next extension should add behavior without adding another shared-state
+dimension yet.
+
+Define
+
+\[
+M_{\rm structural}(S)
+\]
+
+from what the architecture could withstand under supplied correction, and
+
+\[
+M_{\rm selected}(S)
+\]
+
+from what participants actually choose under incentives.
+
+The target counterexample is
+
+\[
+\boxed{
+\Delta_i M_{\rm structural}>0
+\quad\text{but}\quad
+\Delta_i M_{\rm selected}<0.
+}
+\]
+
+That would show that adding a structurally valuable participant can reduce the
+realized viability margin through induced responses such as reward
+crowding-out.
+
+Only after that result should the dynamic model introduce a slow capacity
+stock \(C_t\) and make contribution a function of the state \((X_t,C_t)\).
