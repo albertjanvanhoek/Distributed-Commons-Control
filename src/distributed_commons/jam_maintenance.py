@@ -54,7 +54,7 @@ class JamMaintenanceState:
     validator_count: int = 1023
     adversarial_count: int = 205
     vulnerable_honest_count: int = 82
-    no_show_share: float = 0.15
+    no_show_prone_count: int = 153
     s0: float = 30.0
     s_delta: float = 2.0
     collateral_share: float = 0.05
@@ -75,8 +75,9 @@ class JamMaintenanceState:
             raise ValueError(
                 "vulnerable_honest_count must lie within the honest population"
             )
-        if not isfinite(self.no_show_share) or not 0.0 <= self.no_show_share < 1.0:
-            raise ValueError("no_show_share must lie in [0,1)")
+        u = self.no_show_prone_count
+        if isinstance(u, bool) or not isinstance(u, int) or not 0 <= u < n:
+            raise ValueError("no_show_prone_count must be an integer in [0,n)")
         if not isfinite(self.s0) or self.s0 <= 0.0:
             raise ValueError("s0 must be positive")
         if not isfinite(self.s_delta) or self.s_delta <= 0.0:
@@ -100,6 +101,10 @@ class JamMaintenanceState:
         return self.vulnerable_honest_count / self.honest_count
 
     @property
+    def no_show_share(self) -> float:
+        return self.no_show_prone_count / self.validator_count
+
+    @property
     def economic_target(self) -> float:
         return economic_soundness_threshold(
             self.validator_count, self.collateral_share
@@ -108,9 +113,9 @@ class JamMaintenanceState:
     @property
     def correction_reproduction(self) -> float:
         return (
-            (1.0 - self.gamma)
-            * (1.0 - self.vulnerable_honest_share)
-            * self.s_delta
+            self.s_delta
+            * (self.honest_count - self.vulnerable_honest_count)
+            / self.validator_count
         )
 
     @property
@@ -153,10 +158,11 @@ class JamMaintenanceState:
     def improve_one_validator_reliability(self) -> "JamMaintenanceState":
         """Remove one validator-equivalent share from the no-show term."""
 
-        step = 1.0 / self.validator_count
-        if self.no_show_share < step:
-            raise ValueError("no_show_share is smaller than one validator step")
-        return replace(self, no_show_share=self.no_show_share - step)
+        if self.no_show_prone_count <= 0:
+            raise ValueError("no no-show-prone validator remains")
+        return replace(
+            self, no_show_prone_count=self.no_show_prone_count - 1
+        )
 
     def with_escalation(self, s_delta: float) -> "JamMaintenanceState":
         return replace(self, s_delta=float(s_delta))
