@@ -62,7 +62,6 @@ theorem independent_profile_margin_ratio
       uncappedMargin ε ρ / ρ := by
   unfold uncappedMargin
   field_simp [hρ]
-  ring
 
 #print axioms independent_profile_lowers_escape
 #print axioms independent_profile_increases_margin
