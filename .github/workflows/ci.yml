@@ -21,6 +21,8 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Reproduce phase sweep
         run: python scripts/run_experiment.py --output results/phase_sweep.csv
+      - name: Reproduce exact phase boundary
+        run: python scripts/phase_boundary.py --output results/static_phase_boundary.csv
 
   lean:
     runs-on: ubuntu-latest

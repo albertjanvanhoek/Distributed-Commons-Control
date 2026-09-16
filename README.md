@@ -39,6 +39,7 @@ Therefore a safety target \(\varepsilon<b\rho\) is structurally unattainable by 
 | Path | Purpose |
 |---|---|
 | [`docs/MODEL.md`](docs/MODEL.md) | Assumptions, equations, phase boundaries and dynamic extension |
+| [`docs/PHASE_BOUNDARY.md`](docs/PHASE_BOUNDARY.md) | Complete piecewise phase theorem and critical-cost boundary |
 | [`CLAIMS.md`](CLAIMS.md) | Claim ledger separating proofs, computations and hypotheses |
 | [`src/distributed_commons/`](src/distributed_commons/) | Dependency-free executable model |
 | [`scripts/run_experiment.py`](scripts/run_experiment.py) | Reproducible parameter sweep |
@@ -56,6 +57,7 @@ Python 3.10 or later is sufficient; the model has no runtime dependencies.
 python -m pip install -e .
 python -m unittest discover -s tests -v
 python scripts/run_experiment.py --output results/phase_sweep.csv
+python scripts/phase_boundary.py --output results/static_phase_boundary.csv
 ```
 
 To compile the formalization:
@@ -68,6 +70,18 @@ lake build
 ```
 
 The same checks run in GitHub Actions.
+
+## Complete phase boundary
+
+In the non-trivial attainable region \(b\rho\le\varepsilon<b\), selected monitoring is sufficient exactly when
+
+\[
+\frac{b(1-\rho)r}{c}
+\ge
+1-\left(\frac{\varepsilon/b-\rho}{1-\rho}\right)^{1/n}.
+\]
+
+Equivalently, \(c\le c_{crit}=b(1-\rho)r/q_{suff}\). Increasing correlation therefore creates a double squeeze: it raises sufficient effort while lowering the private return to supplying it. The [full derivation](docs/PHASE_BOUNDARY.md) states all boundary cases.
 
 ## Scientific boundary
 

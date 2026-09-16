@@ -8,6 +8,7 @@ scientific software stack.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from enum import Enum
 from math import exp, inf
 
 
@@ -72,6 +73,28 @@ class EffortRequirement:
     effort: float | None
     correlation_floor: float
     reason: str
+
+
+class ControlPhase(str, Enum):
+    """Mutually exclusive regions of the static control problem."""
+
+    NO_MONITORING_REQUIRED = "no_monitoring_required"
+    STRUCTURALLY_UNATTAINABLE = "structurally_unattainable"
+    SUFFICIENT_SELECTED_CONTROL = "sufficient_selected_control"
+    UNDERPROVIDED_CONTROL = "underprovided_control"
+
+
+@dataclass(frozen=True)
+class PhaseAssessment:
+    """Complete static classification for one parameter combination."""
+
+    phase: ControlPhase
+    selected_effort: float
+    required_effort: float | None
+    effort_margin: float | None
+    correlation_floor: float
+    selected_bad_finalization: float
+    critical_effort_cost: float | None
 
 
 def sufficient_effort(
@@ -184,6 +207,85 @@ def selected_control_is_sufficient(
     return selected_effort(
         bad_attempt_rate, monitor_reward, effort_cost, correlation
     ) + 1e-12 >= requirement.effort
+
+
+def assess_control_phase(
+    bad_attempt_rate: float,
+    monitors: int,
+    correlation: float,
+    safety_target: float,
+    monitor_reward: float,
+    effort_cost: float,
+    *,
+    tolerance: float = 1e-12,
+) -> PhaseAssessment:
+    """Classify the complete selected-versus-sufficient static phase.
+
+    In the non-trivial attainable region, the exact interior boundary is
+
+    ``effort_cost <= b*(1-rho)*reward / q_sufficient``.
+
+    Because ``q_sufficient`` lies in ``(0, 1]``, clipping the privately
+    selected effort to one does not change this sufficiency inequality.
+    """
+
+    requirement = sufficient_effort(
+        bad_attempt_rate,
+        monitors,
+        correlation,
+        safety_target,
+        tolerance=tolerance,
+    )
+    chosen = selected_effort(
+        bad_attempt_rate, monitor_reward, effort_cost, correlation
+    )
+    selected_bad = bad_finalization_probability(
+        bad_attempt_rate, chosen, monitors, correlation
+    )
+
+    if not requirement.attainable:
+        return PhaseAssessment(
+            phase=ControlPhase.STRUCTURALLY_UNATTAINABLE,
+            selected_effort=chosen,
+            required_effort=None,
+            effort_margin=None,
+            correlation_floor=requirement.correlation_floor,
+            selected_bad_finalization=selected_bad,
+            critical_effort_cost=None,
+        )
+
+    assert requirement.effort is not None
+    required = requirement.effort
+    if required <= tolerance:
+        return PhaseAssessment(
+            phase=ControlPhase.NO_MONITORING_REQUIRED,
+            selected_effort=chosen,
+            required_effort=0.0,
+            effort_margin=chosen,
+            correlation_floor=requirement.correlation_floor,
+            selected_bad_finalization=selected_bad,
+            critical_effort_cost=inf,
+        )
+
+    private_marginal_return = (
+        bad_attempt_rate * (1.0 - correlation) * monitor_reward
+    )
+    critical_cost = private_marginal_return / required
+    effort_margin = chosen - required
+    phase = (
+        ControlPhase.SUFFICIENT_SELECTED_CONTROL
+        if effort_margin + tolerance >= 0.0
+        else ControlPhase.UNDERPROVIDED_CONTROL
+    )
+    return PhaseAssessment(
+        phase=phase,
+        selected_effort=chosen,
+        required_effort=required,
+        effort_margin=effort_margin,
+        correlation_floor=requirement.correlation_floor,
+        selected_bad_finalization=selected_bad,
+        critical_effort_cost=critical_cost,
+    )
 
 
 @dataclass(frozen=True)
