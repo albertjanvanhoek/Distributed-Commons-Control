@@ -42,7 +42,6 @@ theorem independent_profile_increases_margin
         ε * (1 - ρ) / (ρ * ρ) := by
     unfold uncappedMargin
     field_simp [hρne]
-    ring
   have hpos : 0 < ε * (1 - ρ) / (ρ * ρ) := by
     positivity
   linarith
@@ -55,7 +54,6 @@ theorem independent_profile_margin_gain
       ε * (1 - ρ) / (ρ * ρ) := by
   unfold uncappedMargin
   field_simp [hρ]
-  ring
 
 /-- The new margin is exactly the old margin divided by rho. -/
 theorem independent_profile_margin_ratio
