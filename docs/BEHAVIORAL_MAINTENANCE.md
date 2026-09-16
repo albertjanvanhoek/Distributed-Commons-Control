@@ -512,7 +512,50 @@ This prevents a common conceptual mistake:
 
 ---
 
-## 14. Empirical grounding outside humans
+## 14. Tautology guard
+
+The replacement equation is an accounting constraint. By itself it does not
+show that a biologically or socially interesting "maintenance behavior" exists.
+
+The statement
+
+> persistence requires enough replacement to offset loss
+
+is nearly definitional once decay and the maintained stock are declared.
+
+A **behavioral maintenance claim** therefore requires additional empirical
+content:
+
+1. identify a participant process independently of the persistence outcome;
+2. show that the process is state-contingent or otherwise mechanistically
+   linked to the maintained condition;
+3. perturb, remove or alter that process;
+4. predict a change in the replacement balance or viability margin that is not
+   already explained by passive/exogenous renewal;
+5. test that prediction.
+
+In symbols, it is not enough to observe
+
+\[
+K_{t+1}\approx K_t.
+\]
+
+One needs a discriminating prediction such as
+
+\[
+\boxed{
+M(\beta_i)-M(\beta_i')
+\neq0
+}
+\]
+
+for a specified change in participant process \(\beta_i\), with passive
+renewal held fixed or separately estimated.
+
+This is the standard by which the proposed cross-substrate operator family
+should be falsified.
+
+## 15. Empirical grounding outside humans
 
 This model was motivated by the possibility that functions humans describe in
 moral or social language may have non-human implementations.
@@ -550,7 +593,7 @@ can be compared without attributing human moral cognition to them.
 
 ---
 
-## 15. JAM as the next falsification substrate
+## 16. JAM as the next falsification substrate
 
 JAM remains useful because it implements maintenance functions without moral
 language.
@@ -583,7 +626,7 @@ vector rather than assuming the operator is beneficial.
 
 ---
 
-## 16. Research boundary
+## 17. Research boundary
 
 Experiment 8 does **not** establish that ethics is reducible to network
 maintenance.
