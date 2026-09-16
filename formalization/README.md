@@ -23,6 +23,10 @@ The Lean source checks only the algebraic core of the declared model. It does no
 | Critical-slowing recovery identity \(1-M=\gamma(1-\eta)\) | `one_sub_commonsMultiplier_eq_recovery_gap` |
 | Local multiplier threshold iff loop gain < 1 | `abs_commonsMultiplier_lt_one_iff_loopGain_lt_one` |
 | Fold-neutral multiplier at loop gain = 1 | `commonsMultiplier_eq_one_of_loopGain_eq_one` |
+| Independent failure profile lowers escape from rho to rho^2 | `independent_profile_lowers_escape` |
+| Independent failure profile raises uncapped viability margin | `independent_profile_increases_margin` |
+| Exact viability-margin gain from independent profile | `independent_profile_margin_gain` |
+| Margin ratio is 1/rho in the uncapped regime | `independent_profile_margin_ratio` |
 | Attempt-rate floor implies harmful-finalization floor | `badFinalizationN_floor_from_attempt_floor` |
 
 Build with:
@@ -51,3 +55,7 @@ leastness hypothesis remains assumed in `selected_safety_iff_critical_cost`.
 ## Closed-loop stability
 
 `ClosedLoopStability.lean` formalizes the algebraic core of Experiment 2 for the declared reduced discrete-time map. It does not formalize the numerical existence of a fold or the general theorem connecting a one-dimensional differentiable map to local asymptotic stability; it verifies that, under the model assumptions and the equilibrium relation, the usual multiplier condition `|M| < 1` is exactly equivalent to loop gain `eta < 1`.
+
+## Viability contribution
+
+`ViabilityContribution.lean` formalizes the algebraic core of Experiment 3. The executable Python model supports arbitrary small failure topologies and coalition attribution; the Lean file isolates the exact two-cause result so the topology effect is separated from numerical enumeration and from any substrate-specific interpretation.
