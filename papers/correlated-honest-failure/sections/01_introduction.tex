@@ -1,0 +1,84 @@
+\section{Introduction}
+
+Efficient execution auditing relies on a deliberate asymmetry: only a small randomly selected subset of validators re-executes a report in the ordinary case, while additional validators are recruited if the first audit does not resolve cleanly. ELVES formalizes this architecture under Byzantine assumptions and adaptive crashes, and the JAM Gray Paper adopts an equivalent auditing-and-judging mechanism \citep{burdges2024,wood2026}.
+
+The security argument therefore depends not only on the number of validators but on what fraction of the population can supply a correct independent judgment for the report being audited.
+
+The usual honest/adversarial partition hides one important failure mode. A validator can be honest in the game-theoretic and protocol sense---it executes the assigned software, announces when selected, and publishes the result it obtains---yet still be wrong because several validators share the same implementation defect. This is a classical concern in multiversion software: independently developed implementations can exhibit coincident failures on the same inputs, and nominal redundancy does not by itself imply independent failure \citep{eckhardt1985,littlewood1989}.
+
+JAM explicitly encourages implementation diversity, but the question studied here is narrower:
+
+\begin{quote}
+\textbf{What changes in the JAM/ELVES security bookkeeping when some otherwise-honest validators share a fault that makes one crafted invalid report appear valid?}
+\end{quote}
+
+We call this \emph{correlated honest failure}. The phrase is fault-specific. A validator class can be correct for almost all reports and correlated only on one input family. Consequently the relevant quantity is not the number of clients but the size of a \emph{fault domain}: the set of validators that would produce the same erroneous judgment for the same fault.
+
+This paper separates three layers that should not be conflated.
+
+\begin{enumerate}[label=\textbf{R\arabic*.},leftmargin=*]
+\item \textbf{Verdict attribution.} Given the current Gray Paper dispute rules, how large can the combined adversarial-plus-buggy-positive bloc become before a bad verdict, and therefore ordinary offender attribution, can no longer be guaranteed?
+\item \textbf{Audit escalation.} Under ELVES's pessimistic adaptive-crash branching model, how does a shared fault change the reproduction number of independent correction?
+\item \textbf{Sampling dilution.} When only a sample audits, can adding honest-but-correlated validators reduce structural safety even before incentives or behavior change?
+\end{enumerate}
+
+The first result is the strongest because it depends only on the current JAM verdict rules plus the correlated-fault thought experiment. The second and third results are extensions of ELVES and inherit its modeling assumptions.
+
+\subsection{Main results}
+
+Let \(N\) be the verdict validator-set size. Let \(A\) validators be adversarial, \(B_x\) otherwise-honest validators share fault \(x\) and judge one invalid report as valid, and \(C_x=N-A-B_x\) independently judge it as invalid. Define
+\[
+\gamma=\frac{A}{N},
+\qquad
+f_x=\frac{B_x}{N-A},
+\qquad
+p_x=\frac{A+B_x}{N}=\gamma+(1-\gamma)f_x.
+\]
+
+The Gray Paper requires each verdict to contain
+\[
+K=\floor{\frac{2N}{3}}+1
+\]
+judgments. A bad verdict contains zero positive judgments. It can therefore be formed despite the adversary voting positive if and only if
+\[
+\boxed{C_x\ge K.}
+\]
+For large \(N\), this is
+\[
+\boxed{p_x<\frac13.}
+\]
+At the other end, a good verdict becomes constructible if \(A+B_x\ge K\), asymptotically \(p_x>2/3\).
+
+In the ELVES branching extension, only \(C_x/N\) supplies independent honest correction, so
+\[
+\boxed{\lambda_x=F\frac{C_x}{N}=F(1-\gamma)(1-f_x).}
+\]
+Supercritical correction requires \(\lambda_x>1\). Thus the fault-domain criticality boundary is
+\[
+\boxed{
+ f_{\rm crit}=1-\frac{1}{(1-\gamma)F}.
+}
+\]
+For JAM's current \(F=2\), the asymptotic boundaries are particularly transparent in terms of \(p_x\):
+\[
+\boxed{
+\underbrace{\frac13}_{\text{bad-verdict attribution}}
+<
+\underbrace{\frac12}_{\text{audit escalation}}
+<
+\underbrace{\frac23}_{\text{false-good eligibility}}.
+}
+\]
+The ordering is illustrated in \Cref{fig:thresholds}.
+
+Finally, with \(C_x\) fixed,
+\[
+\lambda_x(N)=F\frac{C_x}{N}
+\]
+is strictly decreasing in \(N\). Hence adding honest validators that belong to the same fault domain can reduce the corrective reproduction number without any behavioral response. The effect remains in a JAM-specific fixed-core variant in which the expected initial sample grows with validator count, although the larger sample partly offsets the dilution.
+
+\subsection{Scope}
+
+Nothing in this paper establishes that JAM currently violates a security requirement or that a particular correlated client bug exists. The model deliberately asks what follows \emph{if} a crafted report lies inside a shared fault domain. The results are therefore best read as assumption audits and design margins.
+
+The paper also distinguishes accidental failure from strategic exploitation. For an accidental bug, assignment probabilities determine how often a bad report is produced and how often independently correct auditors see it. For a strategic attacker who knows the bug, opportunity can be concentrated on favorable assignments. We quantify the frequency of such assignments but do not assume the attacker can route arbitrary work to a chosen core unless that ability is established separately.
