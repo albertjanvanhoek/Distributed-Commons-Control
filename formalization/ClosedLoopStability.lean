@@ -86,6 +86,30 @@ theorem abs_commonsMultiplier_lt_one_iff_loopGain_lt_one
   rw [abs_of_nonneg hmult0]
   constructor <;> intro h <;> nlinarith
 
+/-- Failure pressure increasing with the deficit is the positive-gain
+direction. If failure pressure instead increases with commons health, loop gain
+is nonpositive and the multiplier moves away from the saddle-node condition
+M = 1. This does not by itself exclude a discrete-time flip instability. -/
+theorem commonsLoopGain_nonpos
+    {X P dP : ℝ} (hX : X ≤ 1) (hP : 0 < P) (hdP : 0 ≤ dP) :
+    commonsLoopGain X P dP ≤ 0 := by
+  unfold commonsLoopGain
+  have hx : 0 ≤ 1 - X := sub_nonneg.mpr hX
+  have hprod : 0 ≤ (1 - X) * dP := mul_nonneg hx hdP
+  have hnum : -((1 - X) * dP) ≤ 0 := neg_nonpos.mpr hprod
+  exact div_nonpos_of_nonpos_of_nonneg hnum hP.le
+
+/-- The recovery gap from the unit multiplier is gamma times one minus loop
+gain. This is the algebraic critical-slowing-down identity for the reduced
+map. -/
+theorem one_sub_commonsMultiplier_eq_recovery_gap
+    {γ δ X P dP : ℝ} (hP : 0 < P)
+    (heq : δ * P = γ * (1 - X)) :
+    1 - commonsMultiplier γ δ dP =
+      γ * (1 - commonsLoopGain X P dP) := by
+  rw [commonsMultiplier_eq_one_sub_gamma_add_gain hP heq]
+  ring
+
 /-- At eta = 1 the local multiplier equals one, the neutral condition at a
 generic fold of the one-dimensional reduced equilibrium branch. -/
 theorem commonsMultiplier_eq_one_of_loopGain_eq_one
@@ -98,6 +122,8 @@ theorem commonsMultiplier_eq_one_of_loopGain_eq_one
 
 #print axioms commonsMultiplier_eq_one_sub_gamma_add_gain
 #print axioms commonsLoopGain_nonneg
+#print axioms commonsLoopGain_nonpos
+#print axioms one_sub_commonsMultiplier_eq_recovery_gap
 #print axioms abs_commonsMultiplier_lt_one_iff_loopGain_lt_one
 #print axioms commonsMultiplier_eq_one_of_loopGain_eq_one
 
