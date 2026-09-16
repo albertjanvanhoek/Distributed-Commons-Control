@@ -113,7 +113,7 @@ Using \(s_0=30\), \(s_\delta=2\), \(n=1023\):
 | 0.10 | 1.800 | \(2.58\times10^{-9}\) |
 | 0.05 | 1.900 | \(3.19\times10^{-10}\) |
 
-At the worst-case one-third adversarial share, the bound is above
+At the worst-case boundary \(\gamma\to1/3\), the bound is above
 \(\varepsilon_*\) for \(\nu=0.05\). The same expected-profit inequality would
 require
 
@@ -197,8 +197,7 @@ The required branching mean is
 -\frac{\ln q_*}{1-q_*}.
 \]
 
-Therefore the largest shared-client fraction compatible with the branching
-bound is
+Therefore the largest shared-client fraction **certified by this branching bound** is
 
 \[
 \boxed{
@@ -218,8 +217,7 @@ For JAM with \(\nu=0.05\), hence
 - at \(\gamma=0.20\), \(f_{\max}\approx0.1456\);
 - at \(\gamma=0.05\), \(f_{\max}\approx0.2805\).
 
-This is a JAM-native candidate viability margin: maximum tolerable shared-client
-fraction for one exploited bug under the stated pessimistic assumptions.
+This is a JAM-native candidate **certified viability margin**: the largest shared-client fraction for which this pessimistic bound certifies the chosen target. It is not an exact protocol security frontier.
 
 ## 5. Collateral blind spot
 
