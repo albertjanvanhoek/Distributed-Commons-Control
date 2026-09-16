@@ -227,3 +227,36 @@ monitoring per se. It is the integration of:
 
 Whether that recursive framing adds scientific value beyond established
 monitoring/reputation theory remains a cross-substrate research question.
+
+
+## Fungal adaptive transport and flux reinforcement are established prior art
+
+Experiment 12 does not claim novelty for fungi as adaptive transport networks or
+for flow-dependent network reinforcement.
+
+Key antecedents include:
+
+- Heaton et al. (2010), *Growth-induced mass flows in fungal networks*,
+  Proceedings of the Royal Society B, DOI 10.1098/rspb.2010.0735. In
+  *Phanerochaete velutina*, cords predicted to carry faster/larger currents
+  were significantly more likely to increase in size; the authors propose that
+  fluid velocity provides a local signal carrying quasi-global information
+  about cord function.
+- Fricker et al. (2008), *The interplay between structure and function in
+  fungal networks*, Topologica 1:004, DOI 10.3731/TOPOLOGICA.1.004, describing
+  selective reinforcement of transport routes, recycling of redundant
+  mycelium, dynamic flux switching, and resilience to damage/grazing.
+- Fricker et al. (2017), *The Mycelium as a Network*, Microbiology Spectrum,
+  DOI 10.1128/microbiolspec.FUNK-0033-2017, reviewing the reciprocal relation
+  between network structure and resource flows across scales.
+- Aguilar-Trigueros et al. (2022), *Network traits predict ecological
+  strategies in fungi*, ISME Communications 2:2, DOI
+  10.1038/s43705-021-00085-1, quantifying connectivity, construction cost,
+  transport efficiency and robustness trade-offs.
+- Nonlinear positive flux reinforcement is also established in adaptive
+  biological-network models, especially the related *Physarum* literature.
+
+The Experiment-12 power-law allocation is therefore a deliberately minimal
+cross-substrate falsification model, not a proposed novel fungal mechanism.
+Its use here is to test whether the repository's maintenance abstractions
+survive when explicit agents, monitoring and economic rewards are absent.

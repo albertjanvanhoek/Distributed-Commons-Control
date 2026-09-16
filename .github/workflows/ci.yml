@@ -50,6 +50,8 @@ jobs:
         run: python scripts/jam_behavior_selection_experiment.py
       - name: Reproduce JAM effort-observability experiment
         run: python scripts/jam_effort_observability_experiment.py
+      - name: Reproduce fungal flow-maintenance experiment
+        run: python scripts/fungal_flow_maintenance_experiment.py --output results/fungal_flow_maintenance.csv
 
   lean:
     runs-on: ubuntu-latest

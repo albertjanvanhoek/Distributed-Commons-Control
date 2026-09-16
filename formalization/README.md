@@ -64,6 +64,10 @@ The Lean source checks only the algebraic core of the declared model. It does no
 | Perfect observability may still be insufficient | `perfect_observability_insufficient` |
 | More effort observability improves selection | `higher_observability_improves_selection` |
 | Lower exposure raises observability requirement | `lower_exposure_raises_observability_threshold` |
+| Fungal redundant-state stability iff effective gain < 1 | `fungal_stable_iff_effective_gain_lt_one` |
+| Unit fungal effective gain is neutral | `fungal_neutral_iff_effective_gain_eq_one` |
+| Superunit fungal effective gain is unstable | `fungal_unstable_iff_effective_gain_gt_one` |
+| Equal route allocation maximizes worst-case backup | `fungal_backup_share_le_half`, `fungal_backup_share_at_half` |
 | Attempt-rate floor implies harmful-finalization floor | `badFinalizationN_floor_from_attempt_floor` |
 
 Build with:
@@ -128,3 +132,7 @@ leastness hypothesis remains assumed in `selected_safety_iff_critical_cost`.
 ## JAM effort observability
 
 `JamEffortObservability.lean` formalizes Experiment 11's second-order maintenance channel. It proves that selective reinforcement depends jointly on effort observability and returned reward, and that structural loss of false-positive exposure raises the observability burden needed to select real computation.
+
+## Fungal flow-coupled maintenance
+
+`FungalFlowMaintenance.lean` formalizes Experiment 12's two-route local stability boundary. The nonlinear flow-reinforcement rule is a falsification model extension motivated by empirical fungal flow/cord-growth coupling; the file does not claim that this exact power-law is fungal physiology.

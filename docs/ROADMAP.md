@@ -165,3 +165,16 @@ speculative cross-domain hypotheses.
 - Structural correction changes the observability threshold through false-positive exposure.
 
 **Exit criterion:** achieved for the partial interface. The values of (s) and (W) remain empirical/staking-layer quantities and are not invented.
+
+
+## Phase 12 — Fungal cross-substrate falsification
+
+**Status:** Experiment 12 establishes the second radically different substrate test.
+
+- Local unit: cord/hyphal region/process rather than autonomous individual.
+- Empirical coupling: transport flow can act as a local signal of network role and is associated with cord growth.
+- Model extension: two-route use-dependent maintenance allocation with effective gain (eta s).
+- Exact boundary: equal redundant allocation is locally stable iff (eta s<1).
+- Cross-substrate correction: a separate maintenance-observer layer is not required when functional use and structural return are directly coupled.
+
+**Exit criterion:** achieved for the minimal fungal transport test. A richer fungal viability vector should be added only against a specific dataset or experiment involving cost, transport efficiency, exploration or damage.
