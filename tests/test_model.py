@@ -187,5 +187,30 @@ class DynamicModelTests(unittest.TestCase):
         self.assertTrue(math.isinf(record.required_effort))
 
 
+class BoundaryRegressionTests(unittest.TestCase):
+    def test_tiny_impossible_target_is_not_relaxed(self):
+        r = sufficient_effort(1e-14, 3, 0.5, 0.0)
+        self.assertFalse(r.attainable)
+
+    def test_exact_floor_requires_perfect_effort(self):
+        b, rho = 0.2, 0.15
+        r = sufficient_effort(b, 9, rho, b*rho)
+        self.assertEqual(r.effort, 1.0)
+
+    def test_large_monitor_count_retains_positive_requirement(self):
+        r = sufficient_effort(0.2, 10**18, 0.0, 0.1)
+        self.assertGreater(r.effort, 0.0)
+        self.assertAlmostEqual(r.effort * 10**18, math.log(2.0))
+
+    def test_nonfinite_cost_rejected(self):
+        for cost in (float('nan'), float('inf')):
+            with self.assertRaises(ValueError):
+                selected_effort(0.2, 1.0, cost)
+
+    def test_zero_effort_never_meets_positive_requirement(self):
+        result = assess_control_phase(0.2, 10**18, 0.0, 0.1, 0.0, 1.0)
+        self.assertEqual(result.phase, ControlPhase.UNDERPROVIDED_CONTROL)
+        self.assertFalse(selected_control_is_sufficient(0.2, 10**18, 0.0, 0.1, 0.0, 1.0))
+
 if __name__ == "__main__":
     unittest.main()

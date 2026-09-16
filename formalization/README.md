@@ -24,3 +24,12 @@ lake build
 ```
 
 The toolchain and Mathlib commit match the current formalization convention used by the companion Evolution-by-Emergence repository.
+
+## End-to-end real-root proof
+
+`RootSafety.lean` is a default Lake build target. It adds 11 declarations covering
+root construction, its power identity, uniqueness, monotonicity, residual bounds,
+threshold feasibility, exact target attainment, least sufficient effort and the
+selected-safety/critical-cost equivalence. Every declaration prints its axioms.
+See `docs/PHASE_BOUNDARY.md` for the exact claim map. No root existence or
+leastness hypothesis remains assumed in `selected_safety_iff_critical_cost`.
