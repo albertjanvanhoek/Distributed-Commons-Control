@@ -178,3 +178,17 @@ speculative cross-domain hypotheses.
 - Cross-substrate correction: a separate maintenance-observer layer is not required when functional use and structural return are directly coupled.
 
 **Exit criterion:** achieved for the minimal fungal transport test. A richer fungal viability vector should be added only against a specific dataset or experiment involving cost, transport efficiency, exploration or damage.
+
+
+## Phase 13 — Viability-conditioned ought synthesis
+
+**Status:** cross-substrate synthesis established.
+
+- Separate conditional viability necessity from categorical moral normativity.
+- Position the mathematical move against established viability theory.
+- Position self-maintenance normativity against autopoietic/enactive and organizational prior art.
+- Derive the exact JAM simultaneous-feasibility condition (u<h).
+- Use JAM and fungal results to distinguish explicit monitoring/reward from embodied functional return coupling.
+- Treat the candidate maintenance decomposition as a falsifiable research programme rather than a universal law.
+
+**Next criterion:** test the decomposition in a third substrate only where an independently measurable viability property and local maintenance mechanism can be specified. Avoid additional generic abstraction until such a substrate is chosen.
