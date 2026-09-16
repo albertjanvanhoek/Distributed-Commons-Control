@@ -19,6 +19,8 @@ The Lean source checks only the algebraic core of the declared model. It does no
 | Finite-time producer lower envelope under partial adjustment | `producerPath_lowerEnvelope` |
 | Closed-loop multiplier identity | `commonsMultiplier_eq_one_sub_gamma_add_gain` |
 | Loop-gain nonnegativity under protective response | `commonsLoopGain_nonneg` |
+| Loop-gain nonpositivity when failure rises with commons health | `commonsLoopGain_nonpos` |
+| Critical-slowing recovery identity \(1-M=\gamma(1-\eta)\) | `one_sub_commonsMultiplier_eq_recovery_gap` |
 | Local multiplier threshold iff loop gain < 1 | `abs_commonsMultiplier_lt_one_iff_loopGain_lt_one` |
 | Fold-neutral multiplier at loop gain = 1 | `commonsMultiplier_eq_one_of_loopGain_eq_one` |
 | Attempt-rate floor implies harmful-finalization floor | `badFinalizationN_floor_from_attempt_floor` |
