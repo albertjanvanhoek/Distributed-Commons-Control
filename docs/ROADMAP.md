@@ -71,7 +71,17 @@ slower time scale than effort.
 
 **Exit criterion:** achieved for the minimal shock-margin model: identical X and local X recovery can coexist with different finite-shock margins because C follows an independent maintenance/decay law.
 
-## Phase 6 — Multiple loops
+## Phase 6 — State-dependent participant contribution
+
+**Status:** baseline established in Experiment 6 by coupling failure topology to accessible reserve capacity.
+
+- Define contribution as \(\Delta_i M(X,C)\), not a participant-intrinsic score.
+- Separate expected access contribution from threshold/certified contribution.
+- Show contribution changes as reserve capacity changes even when topology is fixed.
+
+**Exit criterion:** achieved for the binary capacity-access model.
+
+## Phase 7 — Multiple loops
 
 - Replace the scalar shared-state requirement with multiple declared
   viability loops.
@@ -83,7 +93,7 @@ slower time scale than effort.
 positive for one viability loop, negative for another, and neutral for a
 third without collapsing those signs into one moral or functional label.
 
-## Phase 7 — Substrate return tests
+## Phase 8 — Substrate return tests
 
 Only after the neutral theory is stable, map it to concrete substrates.
 
