@@ -25,6 +25,7 @@ This ledger prevents mathematical results, simulation behavior and cross-domain 
 | C19 | The fold and bistability are not specific to reward funding: they also occur in the tested alternative closures where degraded commons health raises checking cost exponentially or raises capture gain. | Computational cross-closure robustness result | `docs/CLOSED_LOOP.md` §6; alternative-closure tests |
 | C20 | In the two-cause heterogeneous-participant model, adding a participant with an independent failure profile changes structural escape from \(\rho\) to \(\rho^2\); in the uncapped viability-margin regime this multiplies the margin by \(1/\rho\). | Exact theorem; machine checked | Lean: `ViabilityContribution.lean`; Python exact-topology tests |
 | C21 | Leave-one-out, Shapley and Harsanyi attribution answer different questions on the same viability-margin set function: Shapley values exhaust the total margin gain by construction, while higher-order Harsanyi terms retain non-additive interactions explicitly. | Established attribution identities instantiated in the model | `viability.py`; `docs/VIABILITY_CONTRIBUTION.md`; tests |
+| C22 | In the one-loop structural viability model, adding participants cannot reduce the viability margin: if \(S\subseteq T\), then \(\pi(T)\le\pi(S)\) and hence \(M(T)\ge M(S)\). | Exact set-event consequence; exhaustively tested on declared examples | `viability.py`; `test_adding_participant_never_reduces_structural_margin`; `docs/VIABILITY_CONTRIBUTION.md` |
 
 ## Prior-art calibration
 
