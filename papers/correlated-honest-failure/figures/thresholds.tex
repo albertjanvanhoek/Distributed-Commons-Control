@@ -1,0 +1,18 @@
+\begin{tikzpicture}[x=12cm,y=1cm,>=Latex,font=\small]
+\draw[very thick] (0,0) -- (1,0);
+\foreach \x in {0.333,0.5,0.667} {\draw[thick] (\x,0.12) -- (\x,-0.12);}
+\node[align=center,font=\scriptsize] at (0.333,0.52) {attribution\\$p_x=1/3$};
+\node[align=center,font=\scriptsize] at (0.5,0.82) {escalation\\$p_x=1/2$};
+\node[align=center,font=\scriptsize] at (0.667,0.52) {false-good\\$p_x=2/3$};
+
+\node[align=center,text width=1.7cm,font=\tiny] at (0.166,-0.55)
+  {bad attribution robust};
+\node[align=center,text width=1.8cm,font=\tiny] at (0.416,-0.55)
+  {wonky can replace bad; audit supercritical};
+\node[align=center,text width=1.8cm,font=\tiny] at (0.583,-0.55)
+  {wonky region; audit subcritical};
+\node[align=center,text width=1.7cm,font=\tiny] at (0.833,-0.55)
+  {good verdict eligible};
+\node[below=1.15cm] at (0.5,0)
+  {$p_x=\gamma+(1-\gamma)f_x$: maximum wrong-positive share for fault $x$};
+\end{tikzpicture}

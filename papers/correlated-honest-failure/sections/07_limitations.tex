@@ -1,0 +1,53 @@
+\section{Limitations and questions for the ELVES/JAM authors}
+\label{sec:limitations}
+
+The purpose of this paper is to expose assumptions, not to claim a complete security analysis. Several issues require author or implementation review.
+
+\subsection{Correlated honest failure is outside the ELVES proof model}
+
+The branching extension assumes that a buggy honest auditor behaves like an auditor that cannot produce a useful negative judgment for fault \(x\). This is a natural substitution in the reproduction mean, but it is not proved by ELVES. The exact coupling to adaptive crashes, tranche timing, and the paper's stronger committee-size concentration bounds should be checked by the ELVES authors.
+
+\subsection{The verdict analysis assumes enough judgments become available}
+
+The finite-population verdict conditions in \Cref{sec:attribution} concern which signed judgment compositions can be assembled. If too many validators are offline, a verdict may fail to reach \(K\) total judgments at all. That is a distinct liveness failure.
+
+\subsection{What does the staking layer do with wonky?}
+
+This is the highest-priority clarification.
+
+The Gray Paper records wonky reports in a dedicated set and removes non-positive reports from the availability path. Its ordinary culprit/fault rules refer to good or bad reports, and its punish set is populated by those offense extrinsics. However, the chain's validator rewards and higher-level economic policy are delegated.
+
+Therefore the paper's narrow claim is:
+\begin{quote}
+A wonky verdict does not create the ordinary Gray-Paper culprit/fault offender record.
+\end{quote}
+It does \emph{not} follow that a production staking system must impose zero cost. If the staking layer explicitly penalizes guarantors or judges associated with wonky, the economic attribution gap narrows.
+
+\subsection{The one-vote finite-population gap}
+
+At \(N=1023\), a global composition of 682 positive and 341 negative judgments does not appear to contain a valid 683-judgment subset with any of the three permitted positive counts \(683\), \(341\), or \(0\). This may be resolved elsewhere in the intended protocol semantics, or it may be an unreachable/irrelevant edge case under assumptions not represented in our abstraction. It should be confirmed rather than silently approximated by the continuous \(2/3\) boundary.
+
+\subsection{Strategic entry is not established}
+
+The probability that at least two of three guarantors share a fault does not imply an attacker can freely choose such a core. Strategic exploitation requires a mapping from attacker-controlled work submission to core assignment and timing. The manuscript therefore separates:
+\begin{itemize}
+\item \emph{accidental correlated failure}, where assignment probabilities enter the event probability; and
+\item \emph{strategic exploitation}, where an attacker conditions on known favorable assignments only if the protocol gives it sufficient choice.
+\end{itemize}
+
+\subsection{Client identity is not fault identity}
+
+A client-diversity rule can miss shared dependencies and can be gamed when identity is self-declared. Conversely, two versions of the same client might not share a particular bug. The model's fundamental variable is fault-domain membership, which is generally latent until a fault is discovered.
+
+\subsection{Questions to send with the paper}
+
+We would ask the ELVES and JAM authors five concrete questions:
+\begin{enumerate}[label=Q\arabic*.]
+\item Is replacing the honest offspring share \((1-\gamma)\) by a fault-specific independently correct share \(h_x\) valid under the ELVES adaptive-crash proof, or does another part of the proof change?
+\item Under the current JAM dispute semantics, is our reading correct that a wonky verdict creates no culprit/fault offender records? Does the intended staking layer nevertheless act on the wonky set?
+\item Is the \(N=1023\), 682-positive/341-negative verdict composition handled by another rule, or is the literal three-count verdict restriction intentional?
+\item When validator count changes while the 341-core constant remains fixed, is the expected initial audit count per report intended to scale as \(10N/341\) once all cores are active?
+\item Are implementation/fault-domain diversity constraints considered anywhere in guarantor assignment, validator selection, or staking beyond the ecosystem-level encouragement of multiple clients?
+\end{enumerate}
+
+A negative answer to any of these can change the conclusions. That is precisely why the results are presented as a reviewable extension rather than a vulnerability claim.

@@ -1,0 +1,100 @@
+\section{Result 3: sampled correction breaks structural monotonicity}
+\label{sec:sampling}
+
+The preceding result can be written without separating adversarial and buggy shares:
+\[
+\boxed{
+\lambda_x=F\frac{C_x}{N},
+}
+\]
+where \(C_x\) is the number of validators that independently judge fault \(x\) correctly.
+
+This form exposes a structural effect of sampling.
+
+\subsection{Dilution theorem}
+
+Hold \(F>0\) and \(C_x>0\) fixed. Add \(m>0\) validators that do not increase the independently correct set for fault \(x\). The new population is \(N'=N+m\) and
+\[
+\lambda_x' = F\frac{C_x}{N+m}.
+\]
+Then
+\[
+\boxed{
+\lambda_x'<\lambda_x.
+}
+\]
+No behavioral response is involved. Every added validator can be honest in the ordinary sense; the effect arises because committee membership is sampled from a larger population while the number of useful correctors for this fault does not increase.
+
+This corrects the scope of a monotonicity result that holds in an all-participant coverage model. If every participant adds a blocking route, adding participants cannot reduce structural coverage. In sampled correction, an entrant can instead dilute the probability that a scarce corrective type enters the committee.
+
+\subsection{Exact-count illustration}
+
+To avoid ambiguity from rounded shares, take the baseline
+\[
+N_0=1023,
+\qquad
+A=205,
+\qquad
+B_x=164,
+\qquad
+C_x=654.
+\]
+Thus the baseline adversarial fraction is \(205/1023\approx0.2004\), while \(164/818\approx0.2005\) of the otherwise-honest validators belong to the fault domain.
+
+Now add \(m\) honest validators that share the same fault, holding \(A\) and \(C_x\) fixed. This deliberately makes the adversarial fraction \emph{fall} as the population grows. Nevertheless \(C_x/N\) declines.
+
+We evaluate two population-update variants.
+
+\paragraph{Variant 1: fixed initial sample.}
+Hold \(s_0=30\), \(F=2\). This isolates pure dilution.
+
+\paragraph{Variant 2: fixed 341 JAM cores.}
+The Gray Paper sets \(341\) cores as a separate constant and each validator initially samples ten active cores. Once all 341 cores are active, the expected initial auditors per report scale approximately as
+\[
+ s_0(N)=\frac{10N}{341}.
+\]
+This growing initial sample partly compensates dilution.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Pessimistic ELVES-extension bound under fault-domain dilution. Added validators are honest but belong to the same fault domain. \(A=205\) and \(C_x=654\) remain fixed.}
+\label{tab:dilution}
+\begin{tabular}{rrrrr}
+\toprule
+Added buggy honest & \(N\) & \(\lambda_x\) & fixed \(s_0=30\) & fixed 341 cores \\
+\midrule
+0   & 1023 & 1.279 & \(4.52\times10^{-4}\) & \(4.52\times10^{-4}\) \\
+100 & 1123 & 1.165 & \(9.12\times10^{-3}\) & \(5.76\times10^{-3}\) \\
+200 & 1223 & 1.070 & 0.130 & 0.0874 \\
+400 & 1423 & 0.919 & 1 & 1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The larger sample in the fixed-core case helps, but it does not eliminate the effect in this slice. At \(m=400\), \(\lambda_x<1\), so the pessimistic branching process is subcritical regardless of the larger initial sample.
+
+This example should not be read as a forecast for validator-set growth. It is a structural counterexample to the proposition that adding honest validators necessarily improves sampled correction.
+
+\subsection{Validator growth depends on how cores scale}
+
+A related but distinct question is how the initial sample required by the ELVES economic target changes with \(N\). With \(F\), \(\gamma\), and collateral parameter \(\nu\) fixed, the target
+\[
+\varepsilon_* = \frac{\nu}{N+\nu}
+\]
+tightens roughly as \(1/N\). Because the branching bound is exponential in \(s_0\), the required initial sample grows only logarithmically in \(N\).
+
+For \(F=2\), \(\gamma=1/3\), and \(\nu=0.05\), the required \(s_0\) is approximately:
+\begin{center}
+\begin{tabular}{rrrr}
+\toprule
+\(N\) & required \(s_0\) & if cores scale as \(N/3\) & if cores stay at 341 \\
+\midrule
+1023 & 32.8 & 30 & 30.0 \\
+3000 & 36.3 & 30 & 88.0 \\
+6000 & 38.6 & 30 & 176.0 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Therefore the earlier shorthand “JAM fixes the sample at 30” is only true under a design in which core count continues to scale approximately as \(N/3\). Under the current Gray Paper's fixed 341-core constant, the expected sample per report instead grows linearly with validator count and rapidly exceeds this logarithmic requirement. The scaling concern is conditional on how a future system grows cores relative to validators.

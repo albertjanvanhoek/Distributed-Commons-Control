@@ -1,0 +1,60 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs,tabularx,longtable,array}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,calc}
+\usepackage[backend=biber,style=authoryear,natbib=true,maxcitenames=2,maxbibnames=20]{biblatex}
+\addbibresource{references.bib}
+\usepackage[hidelinks]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+\newcommand{\Jam}{\textsc{Jam}}
+\newcommand{\Elves}{\textsc{Elves}}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Prb}{\mathbb P}
+\newcommand{\floor}[1]{\left\lfloor #1\right\rfloor}
+\newcommand{\ceil}[1]{\left\lceil #1\right\rceil}
+
+\title{\textbf{Correlated Honest Failure in JAM/ELVES}\\
+\large Fault-Domain Concentration, Sampling Dilution, and Attribution Boundaries}
+\author{Albert Jan van Hoek}
+\date{Draft --- September 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Execution-auditing protocols distinguish adversarial validators from honest validators, but implementation faults create a third class: validators that follow the protocol and nevertheless return the same wrong judgment on a particular crafted input. We extend the ELVES/JAM auditing model to this \emph{correlated honest failure} case and separate three consequences that arise at different protocol layers.
+
+First, the current JAM dispute rules imply an attribution boundary that does not depend on the ELVES adaptive-crash model. If a fraction \(\gamma\) of validators is adversarial and a fraction \(f\) of the otherwise-honest validators shares a fault that makes one invalid report appear valid, then the maximum wrong-positive share is \(p_x=\gamma+(1-\gamma)f\). A bad verdict---and therefore the Gray Paper's ordinary culprit/fault attribution path---remains available regardless of adversarial voting only while the independently correct share is at least the verdict quorum. Asymptotically this requires \(p_x<1/3\). At \(\gamma=0.2\), this corresponds to \(f<1/6\approx16.7\%\), well below the point at which audit escalation itself becomes subcritical.
+
+Second, under the ELVES pessimistic branching model, correlated honest failure changes the corrective reproduction mean from \(F(1-\gamma)\) to
+\[
+\lambda_x=F(1-\gamma)(1-f)=Fh_x,
+\]
+where \(h_x\) is the fraction of validators that are both non-adversarial and independently correct for fault \(x\). Supercritical correction requires \(\lambda_x>1\), giving \(f<1-1/[(1-\gamma)F]\). The tranche factor \(F\) therefore trades tolerance of fault-domain concentration against committee growth under no-shows.
+
+Third, sampled correction breaks a monotonicity property that holds when every participant supplies an independent blocking route. Writing \(C_x\) for the number of independently correct validators in a population of size \(N\), \(\lambda_x=FC_x/N\). Adding honest validators outside \(C_x\) lowers \(\lambda_x\) even with no behavioral change. In an exact-count illustration based on \(N=1023\), \(205\) adversarial validators and \(164\) honest validators sharing one fault, adding 200 further honest validators with the same fault raises the pessimistic acceptance bound from \(4.5\times10^{-4}\) to \(0.13\) when the initial committee is held at 30; if JAM's 341 cores remain fixed so the initial sample grows with \(N\), the same bound still rises to \(0.087\).
+
+These are model extensions, not claims about an observed JAM vulnerability. The attribution result follows from the current Gray Paper verdict rules; the branching and dilution results inherit ELVES assumptions. We identify several design questions rather than prescriptions: whether staking acts on wonky verdicts, whether fault-domain exposure should be measured across shared components, whether guarantor diversity can restore attacker-attributable collateral, and how audit effort and no-show rates behave under load. The purpose is to make the additional assumptions required by correlated honest failure explicit and reviewable by the ELVES and JAM authors.
+\end{abstract}
+
+\input{sections/01_introduction.tex}
+\input{sections/02_protocol_and_model.tex}
+\input{sections/03_attribution.tex}
+\input{sections/04_escalation.tex}
+\input{sections/05_sampling.tex}
+\input{sections/06_implications.tex}
+\input{sections/07_limitations.tex}
+\input{sections/08_conclusion.tex}
+
+\printbibliography
+\end{document}
