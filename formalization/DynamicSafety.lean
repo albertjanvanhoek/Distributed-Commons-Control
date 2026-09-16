@@ -71,8 +71,7 @@ theorem delayed_envelope (b : ℕ → ℝ) (v : ℝ)
   | zero => simp
   | succ k ih =>
     have hs := hstep (t + k)
-    simp only [Nat.succ_eq_add_one]
-    rw [show t + (k + 1) = t + k + 1 by omega]
+    rw [show t + Nat.succ k = t + k + 1 by omega]
     push_cast
     linarith
 
