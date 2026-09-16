@@ -2,49 +2,110 @@
 
 ## Phase 1 — Minimal distributed controller
 
-- Define the commons, local capture, monitoring and commitment.
-- Derive the correlated capture floor.
-- Separate selected from sufficient effort.
-- Supply executable tests and Lean proofs.
+- Define harmful-attempt, monitoring and commitment probabilities.
+- Derive the common-mode floor.
+- Separate selected from sufficient control.
+- Close the exact safety boundary with Lean.
 
-**Exit criterion:** exact static results compile; simulations reproduce the declared phase distinctions.
+**Status:** complete baseline/calibration layer.
 
-## Phase 2 — Dynamic correction margin
+## Phase 2 — Closed shared-state feedback
 
-- Compare candidate definitions of verification debt.
-- Add workload queues and finite checking capacity.
-- Vary delay, burstiness and monitor adaptation.
-- Identify observables that lead visible shared-state failure.
+- Add delayed observations and finite monitoring adjustment.
+- Close the return path from commons condition to future control.
+- Derive the reduced loop-gain criterion.
+- Test folds under multiple return-path closures.
+- Separate current-state slowing from basin fragility due to mobilisation.
 
-**Exit criterion:** early-warning claims survive sensitivity analysis and are not artifacts of one bookkeeping equation.
+**Status:** complete first closed-loop layer. Concrete fold locations remain
+computational; the multiplier identities are formalized.
 
-## Phase 3 — Strategic and Byzantine behavior
+## Phase 3 — Viability contribution of heterogeneous participants
 
-- Replace exogenous harmful-attempt rates with explicit producer games.
-- Model reward competition among monitors.
-- Add collusion, targeted corruption and endogenous correlation.
-- Separate crash, omission, invalidity and availability failures.
+- Replace interchangeable participants with heterogeneous vulnerability
+  profiles.
+- Declare a disturbance class and a viability margin M(S).
+- Compute leave-one-out, Shapley and explicit interaction contributions.
+- Prove the smallest decorrelation example exactly.
+- Keep the model substrate-neutral.
 
-**Exit criterion:** results remain meaningful when actors respond strategically to the checking architecture.
+**Exit criterion:** contribution is defined against network viability rather
+than current shared-state level, and the exact topology results reproduce.
 
-## Phase 4 — JAM-grounded case study
+## Phase 4 — Structural versus selected viability
 
-- Map variables to exact Gray Paper stages and constants.
-- Identify which assumptions are already ensured cryptographically or by quorum structure.
-- Locate remaining dynamic maintenance assumptions.
-- Seek review from JAM protocol specialists.
+- Add participant behavior and shared/reward-coupled incentives.
+- Let remaining participants re-equilibrate after addition/removal.
+- Distinguish structural margin from realized/selected margin.
+- Seek a clean counterexample with
 
-**Exit criterion:** no protocol-facing claim relies on a generic variable without a documented JAM referent.
+[
+Delta_i M_{structural}>0
+quad	ext{and}quad
+Delta_i M_{selected}<0.
+]
 
-## Phase 5 — Ecological return test
+**Exit criterion:** direct correction, decorrelation, deterrence and
+crowding-out can be separated in at least one exact model.
 
-- Select one empirically tractable ecological network.
-- Define a multidimensional commons state and candidate regulatory loops.
-- Estimate signs, delays and correlated vulnerabilities.
-- Test whether the distributed-control abstraction predicts intervention or perturbation responses.
+## Phase 5 — Slow corrective capacity
 
-**Exit criterion:** the framework yields at least one discriminating prediction beyond ordinary interaction-network description.
+Introduce a separate slow stock C:
+
+[
+	ext{state}=(X,C),
+]
+
+where X is current shared state and C is built, maintained and lost over a
+slower time scale than effort.
+
+- Define M(X,C) operationally as disturbance tolerance/recoverability.
+- Distinguish fast effort from slow readiness.
+- Redefine maintenance debt as capacity shortfall relative to required margin,
+  rather than accumulated realized failure.
+- Test whether capacity decay creates fragility without a current-state early
+  warning in X.
+
+**Exit criterion:** two systems with the same X but different C have
+demonstrably different disturbance margins, and C has a non-definitional
+dynamics.
+
+## Phase 6 — Multiple loops
+
+- Replace the scalar shared-state requirement with multiple declared
+  viability loops.
+- Allow each participant to have signed, delayed effects on several loops.
+- Represent contribution as a vector rather than a global good/bad score.
+- Study cross-loop tradeoffs and shared failure causes.
+
+**Exit criterion:** the framework can represent a participant that is
+positive for one viability loop, negative for another, and neutral for a
+third without collapsing those signs into one moral or functional label.
+
+## Phase 7 — Substrate return tests
+
+Only after the neutral theory is stable, map it to concrete substrates.
+
+### Distributed computation / JAM
+
+- Map abstract variables to exact protocol stages and failure modes.
+- Identify what cryptography/quorums already guarantee.
+- Keep generic results separate from protocol-specific claims.
+
+### Ecology
+
+- Select an empirically tractable interaction network.
+- Declare the relevant viability variables and disturbance classes.
+- Estimate participant vulnerability profiles, delays and corrective
+  capacities.
+- Test whether viability-margin contribution predicts perturbation outcomes
+  beyond ordinary service-flow or interaction-network descriptions.
+
+**Exit criterion:** at least one substrate mapping produces a discriminating
+prediction without changing the neutral mathematical definitions.
 
 ## Publication discipline
 
-At every phase, maintain separate ledgers for definitions, exact mathematical results, computational observations, protocol/ecological mappings, and speculative cross-domain hypotheses.
+At every phase, maintain separate ledgers for definitions, exact mathematical
+results, computational observations, substrate mappings, prior art, and
+speculative cross-domain hypotheses.
