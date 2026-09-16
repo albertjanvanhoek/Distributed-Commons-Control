@@ -87,6 +87,8 @@ __all__ = [
     "certified_participant_contribution",
     "expected_access_margin",
     "expected_participant_contribution",
+    "ContributionVector",
+    "opposite_sign_weight_witnesses",
 ]
 
 from .closed_loop import (
@@ -152,4 +154,9 @@ from .state_dependent_contribution import (
     certified_participant_contribution,
     expected_access_margin,
     expected_participant_contribution,
+)
+
+from .vector_contribution import (
+    ContributionVector,
+    opposite_sign_weight_witnesses,
 )

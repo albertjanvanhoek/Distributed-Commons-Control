@@ -40,6 +40,8 @@ jobs:
         run: python scripts/corrective_capacity_experiment.py --output results/corrective_capacity.csv
       - name: Reproduce state-dependent contribution experiment
         run: python scripts/state_dependent_contribution_experiment.py --output results/state_dependent_contribution.csv
+      - name: Reproduce vector contribution experiment
+        run: python scripts/vector_contribution_experiment.py
 
   lean:
     runs-on: ubuntu-latest

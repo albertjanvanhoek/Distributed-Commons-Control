@@ -83,17 +83,19 @@ slower time scale than effort.
 
 ## Phase 7 — Multiple loops
 
+**Status:** vector contribution and scalarization dependence established in Experiment 7.
+
 - Replace the scalar shared-state requirement with multiple declared
   viability loops.
 - Allow each participant to have signed, delayed effects on several loops.
 - Represent contribution as a vector rather than a global good/bad score.
 - Study cross-loop tradeoffs and shared failure causes.
 
-**Exit criterion:** the framework can represent a participant that is
-positive for one viability loop, negative for another, and neutral for a
-third without collapsing those signs into one moral or functional label.
+**Exit criterion:** achieved at the representation level: mixed-sign loop contributions are vector-valued, and any scalar net sign requires explicit weights.
 
 ## Phase 8 — Substrate return tests
+
+**Status:** next active phase. No further generic scalar mechanisms should be added without a substrate need.
 
 Only after the neutral theory is stable, map it to concrete substrates.
 
