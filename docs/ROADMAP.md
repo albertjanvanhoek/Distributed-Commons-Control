@@ -34,6 +34,8 @@ than current shared-state level, and the exact topology results reproduce.
 
 ## Phase 4 — Structural versus selected viability
 
+**Status:** exact two-participant reversal established in Experiment 4.
+
 - Add participant behavior and shared/reward-coupled incentives.
 - Let remaining participants re-equilibrate after addition/removal.
 - Distinguish structural margin from realized/selected margin.
@@ -45,8 +47,7 @@ quad	ext{and}quad
 Delta_i M_{selected}<0.
 ]
 
-**Exit criterion:** direct correction, decorrelation, deterrence and
-crowding-out can be separated in at least one exact model.
+**Exit criterion:** achieved for the minimal direct-versus-induced-response decomposition. Richer mechanisms can be revisited only if needed for a substrate mapping.
 
 ## Phase 5 — Slow corrective capacity
 
