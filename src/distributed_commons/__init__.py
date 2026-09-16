@@ -108,6 +108,12 @@ __all__ = [
     "escalation_vector_change",
     "one_validator_correction_gain",
     "one_validator_scalability_gain",
+    "AuditBehaviorPayoffs",
+    "certified_exposure_lower_bound",
+    "certified_required_reward_advantage_over_rubber",
+    "required_compute_reward_advantage_over_no_show",
+    "required_compute_reward_advantage_over_rubber",
+    "rubber_stamp_beats_no_show",
 ]
 
 from .closed_loop import (
@@ -203,4 +209,13 @@ from .jam_maintenance import (
     escalation_vector_change,
     one_validator_correction_gain,
     one_validator_scalability_gain,
+)
+
+from .jam_behavior_selection import (
+    AuditBehaviorPayoffs,
+    certified_exposure_lower_bound,
+    certified_required_reward_advantage_over_rubber,
+    required_compute_reward_advantage_over_no_show,
+    required_compute_reward_advantage_over_rubber,
+    rubber_stamp_beats_no_show,
 )
