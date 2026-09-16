@@ -60,14 +60,16 @@ theorem fungal_stable_iff_effective_gain_lt_one
   constructor
   · intro h
     unfold fungalMultiplier at h
-    have hmul : δ * (β * s) < δ * 1 := by
-      linarith
-    exact (mul_lt_mul_left hδ0).mp hmul
+    by_contra hnot
+    have hgain : 1 ≤ β * s := le_of_not_gt hnot
+    have hprod : 0 ≤ δ * (β * s - 1) := by
+      exact mul_nonneg (le_of_lt hδ0) (sub_nonneg.mpr hgain)
+    nlinarith
   · intro h
-    have hmul : δ * (β * s) < δ * 1 :=
-      (mul_lt_mul_left hδ0).mpr h
+    have hdiff : 0 < 1 - β * s := sub_pos.mpr h
+    have hprod : 0 < δ * (1 - β * s) := mul_pos hδ0 hdiff
     unfold fungalMultiplier
-    linarith
+    nlinarith
 
 theorem fungal_neutral_iff_effective_gain_eq_one
     {δ β s : ℝ}
@@ -94,13 +96,15 @@ theorem fungal_unstable_iff_effective_gain_gt_one
   unfold fungalMultiplier
   constructor
   · intro h
-    have hmul : δ * 1 < δ * (β * s) := by
-      linarith
-    exact (mul_lt_mul_left hδ0).mp hmul
+    by_contra hnot
+    have hgain : β * s ≤ 1 := le_of_not_gt hnot
+    have hprod : 0 ≤ δ * (1 - β * s) := by
+      exact mul_nonneg (le_of_lt hδ0) (sub_nonneg.mpr hgain)
+    nlinarith
   · intro h
-    have hmul : δ * 1 < δ * (β * s) :=
-      (mul_lt_mul_left hδ0).mpr h
-    linarith
+    have hdiff : 0 < β * s - 1 := sub_pos.mpr h
+    have hprod : 0 < δ * (β * s - 1) := mul_pos hδ0 hdiff
+    nlinarith
 
 noncomputable def fungalBackupShare
     (z : ℝ) : ℝ :=
