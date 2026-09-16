@@ -7,10 +7,13 @@ from distributed_commons.closed_loop import (
     _producer_response,
     basin_threshold,
     behavioural_equilibrium,
+    common_mode_finalization_floor,
+    critical_return_strength,
     effective_capture_gain,
     effective_effort_cost,
     equilibrium_damage,
     final_health,
+    hysteresis_ratio_upper_bound,
     hysteresis_window,
     loop_gain,
 )
@@ -118,6 +121,34 @@ class FoldTests(unittest.TestCase):
         self.assertAlmostEqual(w.collapse_damage, 0.1202, places=3)
         self.assertAlmostEqual(w.fold_damage, 0.2619, places=3)
         self.assertGreater(w.ratio, 2.0)
+
+    def test_closure_strength_thresholds(self):
+        base = ClosedLoopParameters(
+            baseline_funding=1.0,
+            reward_health_weight=0.0,
+        )
+        cost_threshold = critical_return_strength(
+            base, "cost_stress", hi=2.0, points=250
+        )
+        capture_threshold = critical_return_strength(
+            base, "capture_stress", hi=1.0, points=250
+        )
+        self.assertAlmostEqual(cost_threshold, 0.94, places=2)
+        self.assertAlmostEqual(capture_threshold, 0.55, places=2)
+
+    def test_common_mode_floor_bounds_hysteresis_ratio(self):
+        for rho in (0.05, 0.15, 0.30):
+            p = ClosedLoopParameters(
+                baseline_funding=0.05,
+                correlation=rho,
+            )
+            w = hysteresis_window(p, points=400)
+            assert w is not None
+            self.assertGreater(common_mode_finalization_floor(p), 0.0)
+            self.assertLessEqual(
+                w.ratio,
+                hysteresis_ratio_upper_bound(p) + 1e-12,
+            )
 
     def test_fold_survives_capture_gain_closure(self):
         p = ClosedLoopParameters(

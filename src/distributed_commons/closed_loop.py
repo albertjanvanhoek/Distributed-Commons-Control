@@ -29,9 +29,13 @@ location of folds for the concrete closures are numerical results.
 from __future__ import annotations
 
 from dataclasses import dataclass, replace
-from math import exp, isfinite
+from math import exp, inf, isfinite
 
-from .model import conditional_escape_probability, producer_target_bad_rate
+from .model import (
+    conditional_escape_probability,
+    producer_bad_attempt_floor,
+    producer_target_bad_rate,
+)
 
 
 @dataclass(frozen=True)
@@ -190,6 +194,77 @@ def loop_gain(
     p_hi = behavioural_equilibrium(hi, p).bad_finalization
     p_mid = behavioural_equilibrium(health, p).bad_finalization
     return -(1.0 - health) * (p_hi - p_lo) / (hi - lo) / p_mid
+
+
+def max_loop_gain(
+    p: ClosedLoopParameters, *, points: int = 400
+) -> tuple[float, float]:
+    """Maximum numerical loop gain and the health at which it occurs."""
+
+    if isinstance(points, bool) or not isinstance(points, int) or points < 2:
+        raise ValueError("points must be an integer >= 2")
+    xs = [0.999 * i / (points - 1) for i in range(points)]
+    values = [loop_gain(x, p) for x in xs]
+    i = max(range(points), key=values.__getitem__)
+    return values[i], xs[i]
+
+
+def critical_return_strength(
+    p: ClosedLoopParameters,
+    field: str,
+    *,
+    lo: float = 0.0,
+    hi: float,
+    points: int = 400,
+) -> float:
+    """Smallest tested closure strength whose maximum loop gain reaches one.
+
+    This is a numerical threshold for a one-parameter closure family, not a
+    theorem about arbitrary return paths. The field is restricted to the two
+    alternative closure-strength parameters used in Experiment 2.
+    """
+
+    if field not in {"cost_stress", "capture_stress"}:
+        raise ValueError("field must be cost_stress or capture_stress")
+    if not isfinite(lo) or not isfinite(hi) or lo < 0.0 or hi <= lo:
+        raise ValueError("require finite 0 <= lo < hi")
+
+    def peak(value: float) -> float:
+        gain, _ = max_loop_gain(replace(p, **{field: value}), points=points)
+        return gain
+
+    if peak(lo) >= 1.0:
+        return lo
+    if peak(hi) < 1.0:
+        raise ValueError("loop gain remains below one at the upper bracket")
+    for _ in range(50):
+        mid = 0.5 * (lo + hi)
+        if peak(mid) >= 1.0:
+            hi = mid
+        else:
+            lo = mid
+    return 0.5 * (lo + hi)
+
+
+def common_mode_finalization_floor(p: ClosedLoopParameters) -> float:
+    """State-independent lower bound inherited from common-mode failure."""
+
+    return p.correlation * producer_bad_attempt_floor(
+        p.correlation,
+        p.capture_gain,
+        p.detection_penalty,
+        p.producer_temperature,
+    )
+
+
+def hysteresis_ratio_upper_bound(p: ClosedLoopParameters) -> float:
+    """Upper bound on fold/collapse ratio from the common-mode floor."""
+
+    floor = common_mode_finalization_floor(p)
+    if floor == 0.0:
+        return inf
+    p0 = behavioural_equilibrium(0.0, p).bad_finalization
+    return p0 / floor
 
 
 @dataclass(frozen=True)

@@ -88,6 +88,22 @@ Let \(P'(X)\le0\) and define
 -(1-X)\frac{d\ln P^*}{dX}.
 \]
 
+Writing the commons deficit as \(D=1-X\), this is equivalently
+
+\[
+\boxed{
+\eta
+=
+\frac{d\ln P^*}{d\ln D}.
+}
+\]
+
+There is no additional minus sign: \(d\ln D/dX=-1/(1-X)\).
+Linear regeneration \(\gamma D\) has elasticity exactly one with respect to
+the deficit. Thus the fold criterion has a direct interpretation: failure
+pressure grows with the deficit faster than regeneration does when
+\(\eta>1\).
+
 The derivative of the reduced one-step map at an interior equilibrium is
 
 \[
@@ -118,6 +134,27 @@ This scope matters. For a completely general discrete-time regeneration law
 \(R(X)\), the local condition is
 \(|1+R'(X)-\delta P'(X)|<1\); a single comparison of logarithmic slopes is
 not by itself the full discrete-time stability criterion.
+
+The sign of the return path also matters. If a healthier commons improves
+protection, then \(P'(X)\le0\) and \(\eta\ge0\): this is the direction
+that can drive the multiplier upward to the saddle-node condition \(M=1\).
+If a healthier commons instead increases failure pressure, then
+\(P'(X)\ge0\) and \(\eta\le0\). Such an attractive/extractive return
+path moves the multiplier away from the fold condition \(M=1\). In discrete
+time this is not an unconditional stability result: sufficiently negative
+\(\eta\) could still produce a flip instability through \(M<-1\).
+
+Finally,
+
+\[
+\boxed{
+1-M=\gamma(1-\eta).
+}
+\]
+
+So the linear recovery gap vanishes as \(\eta\to1^-\). This is the
+critical-slowing-down quantity for the reduced map and connects the model to
+the established early-warning literature.
 
 ### 3.2 Collapsed boundary and hysteresis window
 
@@ -248,6 +285,28 @@ and at \(X=0\) from the collapsed start.
 The damage scales are not directly comparable across closures. The repeated
 result is the existence of a fold and coexisting attractors.
 
+The return-path strength matters. With constant reward and the default
+remaining parameters, bisection on \(\max_X\eta(X)=1\) gives approximate
+thresholds
+
+\[
+a_c\approx0.94
+\quad\text{for}\quad
+c(X)=c_0e^{a(1-X)},
+\]
+
+and
+
+\[
+s_c\approx0.55
+\quad\text{for}\quad
+g(X)=g_0+s(1-X).
+\]
+
+The stronger illustrative values \(a=3\) and \(s=1.2\) used above are
+therefore safely beyond the fold threshold rather than evidence that any weak
+state dependence suffices.
+
 The interpretation is therefore broader than commons-funded monitoring:
 
 \[
@@ -271,3 +330,7 @@ incentive, or another mechanism.
   linear-regeneration map and its algebraic core is machine-checked.
 - The closure functions are deliberately minimal and are not asserted to be
   realistic descriptions of JAM.
+- The next dynamic model should distinguish fast **effort** from a slower
+  **corrective-capacity stock** \(C\). The intended viability margin is then
+  \(M(X,C)\), not a function of current commons state alone. This is a model
+  requirement for the next stage, not yet an implemented state variable.

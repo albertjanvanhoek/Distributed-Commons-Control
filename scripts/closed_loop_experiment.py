@@ -19,7 +19,9 @@ from distributed_commons.closed_loop import (  # noqa: E402
     behavioural_equilibrium,
     bifurcation_curve,
     critical_baseline_funding,
+    critical_return_strength,
     final_health,
+    hysteresis_ratio_upper_bound,
     hysteresis_window,
 )
 
@@ -192,8 +194,21 @@ def main() -> None:
     args = parser.parse_args()
 
     base = ClosedLoopParameters()
+    constant_reward = ClosedLoopParameters(
+        baseline_funding=1.0,
+        reward_health_weight=0.0,
+    )
     results = {
         "critical_baseline_funding": critical_baseline_funding(base),
+        "critical_cost_stress": critical_return_strength(
+            constant_reward, "cost_stress", hi=2.0, points=250
+        ),
+        "critical_capture_stress": critical_return_strength(
+            constant_reward, "capture_stress", hi=1.0, points=250
+        ),
+        "hysteresis_ratio_bound_default": hysteresis_ratio_upper_bound(
+            replace(base, baseline_funding=0.05)
+        ),
         "kappa_sweep": kappa_sweep(base),
         "robustness_kappa_0.05": robustness(
             replace(base, baseline_funding=0.05)
