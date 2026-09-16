@@ -41,6 +41,8 @@ The Lean source checks only the algebraic core of the declared model. It does no
 | Independent-profile contribution \(\kappa C\rho(1-\rho)\) | `independent_profile_capacity_contribution` |
 | Zero reserve means zero access contribution | `zero_capacity_zero_access_contribution` |
 | Quiet capacity decay scales contribution | `quiet_decay_scales_access_contribution` |
+| Positive scalarization witness for mixed-sign vector | `positive_scalarization_witness` |
+| Negative scalarization witness for same vector | `negative_scalarization_witness` |
 | Attempt-rate floor implies harmful-finalization floor | `badFinalizationN_floor_from_attempt_floor` |
 
 Build with:
@@ -85,3 +87,7 @@ leastness hypothesis remains assumed in `selected_safety_iff_critical_cost`.
 ## State-dependent participant contribution
 
 `StateDependentContribution.lean` joins the heterogeneous failure-topology model to the slow-capacity model. It proves that a participant's contribution through this channel scales with both the topology change it causes and the current reserve-capacity state.
+
+## Vector-valued contribution
+
+`VectorContribution.lean` formalizes the Experiment 7 representation result: for a two-loop contribution vector with opposite signs, admissible positive scalarization weights can produce either sign. A scalar global contribution therefore requires an explicit aggregation rule.
