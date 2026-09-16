@@ -15,7 +15,7 @@ class JamMaintenanceOperatorTests(unittest.TestCase):
             validator_count=1023,
             adversarial_count=205,
             vulnerable_honest_count=119,
-            no_show_share=0.15,
+            no_show_prone_count=153,
         )
         self.assertAlmostEqual(
             one_validator_correction_gain(state),
@@ -27,7 +27,7 @@ class JamMaintenanceOperatorTests(unittest.TestCase):
             validator_count=1023,
             adversarial_count=205,
             vulnerable_honest_count=82,
-            no_show_share=0.15,
+            no_show_prone_count=153,
         )
         self.assertAlmostEqual(
             one_validator_scalability_gain(state),
@@ -39,7 +39,7 @@ class JamMaintenanceOperatorTests(unittest.TestCase):
             validator_count=1023,
             adversarial_count=205,
             vulnerable_honest_count=119,
-            no_show_share=0.15,
+            no_show_prone_count=153,
             s0=30.0,
             s_delta=2.0,
             collateral_share=0.05,
@@ -65,7 +65,7 @@ class JamMaintenanceOperatorTests(unittest.TestCase):
             validator_count=1023,
             adversarial_count=205,
             vulnerable_honest_count=82,
-            no_show_share=0.15,
+            no_show_prone_count=153,
             s_delta=2.0,
         )
         d_safety, d_scale = escalation_vector_change(state, 2.08)
@@ -77,17 +77,17 @@ class JamMaintenanceOperatorTests(unittest.TestCase):
             validator_count=1023,
             adversarial_count=205,
             vulnerable_honest_count=82,
-            no_show_share=0.15,
+            no_show_prone_count=153,
             s_delta=2.0,
         )
         after = state.with_escalation(2.08)
 
         self.assertAlmostEqual(state.correction_reproduction, 1.4389051808406648)
-        self.assertAlmostEqual(state.scalability_margin, 0.70)
+        self.assertAlmostEqual(state.scalability_margin, 0.7008797653958945)
         self.assertAlmostEqual(state.safety_log_margin, 1.7429220392040146)
 
         self.assertAlmostEqual(after.correction_reproduction, 1.4964613880742914)
-        self.assertAlmostEqual(after.scalability_margin, 0.688)
+        self.assertAlmostEqual(after.scalability_margin, 0.6889149560117303)
         self.assertAlmostEqual(after.safety_log_margin, 2.603090255069031)
 
     def test_more_escalation_is_not_a_weight_free_improvement(self):
@@ -95,7 +95,7 @@ class JamMaintenanceOperatorTests(unittest.TestCase):
             validator_count=1023,
             adversarial_count=205,
             vulnerable_honest_count=82,
-            no_show_share=0.15,
+            no_show_prone_count=153,
             s_delta=2.0,
         )
         d_safety, d_scale = escalation_vector_change(state, 2.08)
