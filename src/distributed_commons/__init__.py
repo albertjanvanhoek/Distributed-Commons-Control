@@ -53,6 +53,10 @@ __all__ = [
     "hysteresis_window",
     "loop_gain",
     "simulate_closed_loop",
+    "FailureCause",
+    "FailureTopology",
+    "Participant",
+    "two_cause_example",
 ]
 
 from .closed_loop import (
@@ -69,4 +73,11 @@ from .closed_loop import (
     hysteresis_window,
     loop_gain,
     simulate_closed_loop,
+)
+
+from .viability import (
+    FailureCause,
+    FailureTopology,
+    Participant,
+    two_cause_example,
 )
