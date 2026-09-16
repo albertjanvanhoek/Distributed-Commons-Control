@@ -44,6 +44,8 @@ jobs:
         run: python scripts/vector_contribution_experiment.py
       - name: Reproduce behavioral maintenance experiment
         run: python scripts/behavioral_maintenance_experiment.py --output results/behavioral_maintenance.csv
+      - name: Reproduce JAM maintenance operator experiment
+        run: python scripts/jam_maintenance_experiment.py --output results/jam_maintenance.csv
 
   lean:
     runs-on: ubuntu-latest
