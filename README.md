@@ -55,6 +55,7 @@ and hence \(\liminf P_{\mathrm{bad},t}\ge\rho m\). This turns the static floor i
 | [`docs/MODEL.md`](docs/MODEL.md) | Assumptions, equations, phase boundaries and dynamic extension |
 | [`docs/PHASE_BOUNDARY.md`](docs/PHASE_BOUNDARY.md) | Complete piecewise phase theorem and critical-cost boundary |
 | [`docs/PRIOR_ART.md`](docs/PRIOR_ART.md) | Prior-art calibration and current novelty boundary |
+| [`docs/CLOSED_LOOP.md`](docs/CLOSED_LOOP.md) | Experiment 2: closed commons loop, folds, hysteresis and recovery basins |
 | [`CLAIMS.md`](CLAIMS.md) | Claim ledger separating proofs, computations and hypotheses |
 | [`src/distributed_commons/`](src/distributed_commons/) | Dependency-free executable model |
 | [`scripts/run_experiment.py`](scripts/run_experiment.py) | Reproducible parameter sweep |
@@ -97,6 +98,20 @@ In the non-trivial attainable region \(b\rho\le\varepsilon<b\), selected monitor
 \]
 
 Equivalently, \(c\le c_{crit}=b(1-\rho)r/q_{suff}\). Increasing correlation therefore creates a double squeeze: it raises sufficient effort while lowering the private return to supplying it. The [full derivation](docs/PHASE_BOUNDARY.md) states all boundary cases.
+
+## Closed-loop commons control
+
+The next experiment closes the return path that was missing from the original adaptive model: commons condition now changes future control. Under commons-funded monitoring, the reduced equilibrium branch develops a fold and a coexistence region with both a healthy attractor and the clipped collapsed state. The same topology also appears in two alternative closures where degradation raises checking cost or capture gain.
+
+For the declared discrete-time linear-regeneration map, the local equilibrium multiplier can be written
+
+\[
+M=1-\gamma+\gamma\eta,
+\qquad
+\eta=-(1-X)\frac{d\ln P^*}{dX},
+\]
+
+so local linear stability is equivalent to \(\eta<1\). The algebraic equivalence is machine-checked in `formalization/ClosedLoopStability.lean`; concrete fold locations remain numerical. See [Experiment 2](docs/CLOSED_LOOP.md).
 
 ## Scientific boundary
 

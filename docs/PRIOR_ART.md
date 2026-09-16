@@ -51,7 +51,31 @@ These precedents mean that neither "rare faults select weak checking" nor
 "injecting detectable faults can support checking incentives" should be
 reported here as new.
 
-## 3. Current research boundary
+## 3. Bistability and hysteresis in commons are established
+
+Closing social and ecological feedback loops can produce multiple stable states,
+tipping and hysteresis in common-pool-resource models. Relevant examples
+include:
+
+- A. Richter, D. P. van Soest and J. Grasman (2013), *Contagious cooperation,
+  temptation, and ecosystem collapse*, Journal of Environmental Economics and
+  Management 66(1):141-158, DOI 10.1016/j.jeem.2013.04.004. Their coupled
+  resource/social-norm model generates endogenous erosion of cooperation,
+  alternative stable states and hysteresis.
+- S. Sarkar (2023), *Managing ecological thresholds of a risky commons*,
+  Royal Society Open Science 10:230969, DOI 10.1098/rsos.230969, which studies
+  monostability, bistability and tipping in a common-resource model.
+- Recent coupled cooperation-resource models likewise report bistability and
+  resource collapse under feedback between environmental state and behavior.
+
+Therefore the existence of a fold, alternative stable states, or hysteresis in
+Experiment 2 is not by itself a novelty claim. The question is whether the
+specific distributed-control composition here — costly verification,
+selected-versus-sufficient monitoring, common-mode failure, endogenous
+producer response and state-dependent corrective capacity — yields useful
+boundaries or observables not already contained in those literatures.
+
+## 4. Current research boundary
 
 The next question is not whether correlation leaves a floor at fixed harmful
 attempt rate \(b\). It is what happens when the attempted-harm rate is itself
@@ -77,7 +101,7 @@ is novel relative to inspection-game, security-game and reliability
 literatures remains a literature question; the repository does not currently
 claim priority.
 
-## 4. Why this distinction matters
+## 5. Why this distinction matters
 
 The intended research sequence is:
 

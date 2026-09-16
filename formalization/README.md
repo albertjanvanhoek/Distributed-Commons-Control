@@ -17,6 +17,10 @@ The Lean source checks only the algebraic core of the declared model. It does no
 | Common-mode cap on collective detection | `detectionN_le_commonModeCap` |
 | Producer-response floor under an antitone response | `response_floor_of_commonModeCap` |
 | Finite-time producer lower envelope under partial adjustment | `producerPath_lowerEnvelope` |
+| Closed-loop multiplier identity | `commonsMultiplier_eq_one_sub_gamma_add_gain` |
+| Loop-gain nonnegativity under protective response | `commonsLoopGain_nonneg` |
+| Local multiplier threshold iff loop gain < 1 | `abs_commonsMultiplier_lt_one_iff_loopGain_lt_one` |
+| Fold-neutral multiplier at loop gain = 1 | `commonsMultiplier_eq_one_of_loopGain_eq_one` |
 | Attempt-rate floor implies harmful-finalization floor | `badFinalizationN_floor_from_attempt_floor` |
 
 Build with:
@@ -41,3 +45,7 @@ leastness hypothesis remains assumed in `selected_safety_iff_critical_cost`.
 ## Endogenous producer floor
 
 `EndogenousFloor.lean` is also a default Lake build target. It keeps the producer response abstract and assumes only that it is antitone in collective detection. The executable logistic response is therefore one specialization rather than an extra axiom in the proof. The machine-checked result is the finite-time lower envelope; the liminf statement in the model documentation is its analytic corollary for strictly positive adjustment.
+
+## Closed-loop stability
+
+`ClosedLoopStability.lean` formalizes the algebraic core of Experiment 2 for the declared reduced discrete-time map. It does not formalize the numerical existence of a fold or the general theorem connecting a one-dimensional differentiable map to local asymptotic stability; it verifies that, under the model assumptions and the equilibrium relation, the usual multiplier condition `|M| < 1` is exactly equivalent to loop gain `eta < 1`.
