@@ -199,3 +199,21 @@ for compute to dominate no-show.
 
 See [JAM behavior selection](JAM_BEHAVIOR_SELECTION.md). The unresolved
 quantities are now explicit design inputs rather than hidden assumptions.
+
+
+## Maintenance observability
+
+Experiment 11 adds a second-order interface required by the Gray Paper's
+delegation of audit incentives.
+
+If (s) is the effective ability of the effort-information channel to
+distinguish actual computation from imitation and (W) is the available reward
+differential, then compute-selection against rubber-stamping requires
+
+[
+sW+bdL_Fge c.
+]
+
+The current specification does not provide numeric (s) or (W). The model
+therefore treats them as explicit higher-layer design inputs rather than JAM
+constants. See [JAM effort observability](JAM_EFFORT_OBSERVABILITY.md).

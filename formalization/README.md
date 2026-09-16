@@ -59,6 +59,11 @@ The Lean source checks only the algebraic core of the declared model. It does no
 | Lower exposure raises required compute reward advantage | `lower_exposure_raises_required_advantage` |
 | Zero exposure requires full compute-cost reward advantage | `zero_exposure_requires_full_cost` |
 | Zero invalid opportunity + equal rewards favors rubber-stamp | `zero_invalid_equal_reward_rubber_dominates` |
+| Effort-observability threshold iff selection margin closes | `observability_threshold_iff` |
+| Zero observability removes reward channel | `zero_observability_removes_reward_channel` |
+| Perfect observability may still be insufficient | `perfect_observability_insufficient` |
+| More effort observability improves selection | `higher_observability_improves_selection` |
+| Lower exposure raises observability requirement | `lower_exposure_raises_observability_threshold` |
 | Attempt-rate floor implies harmful-finalization floor | `badFinalizationN_floor_from_attempt_floor` |
 
 Build with:
@@ -119,3 +124,7 @@ leastness hypothesis remains assumed in `selected_safety_iff_critical_cost`.
 ## JAM audit behavior selection
 
 `JamBehaviorSelection.lean` formalizes Experiment 10's partially identified three-action game. It proves the exact compute-versus-rubber and compute-versus-no-show boundaries and the monotonic effect of exposure on the reward differential needed to select real computation. It deliberately leaves reward and fault-loss magnitudes as higher-layer parameters because the Gray Paper delegates them.
+
+## JAM effort observability
+
+`JamEffortObservability.lean` formalizes Experiment 11's second-order maintenance channel. It proves that selective reinforcement depends jointly on effort observability and returned reward, and that structural loss of false-positive exposure raises the observability burden needed to select real computation.
