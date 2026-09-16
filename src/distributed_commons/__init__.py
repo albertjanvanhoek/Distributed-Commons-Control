@@ -118,6 +118,17 @@ __all__ = [
     "effort_channel_can_close_gap",
     "maintenance_selection_margin",
     "required_effort_observability",
+    "FungalFlowParameters",
+    "backup_trajectory",
+    "effective_reinforcement_gain",
+    "iterate_route_share",
+    "local_flow_signal_share",
+    "preferred_maintenance_share",
+    "simulate_parameter_cases",
+    "symmetric_locally_stable",
+    "symmetric_multiplier",
+    "update_route_share",
+    "worst_case_backup_share",
 ]
 
 from .closed_loop import (
@@ -229,4 +240,18 @@ from .jam_effort_observability import (
     effort_channel_can_close_gap,
     maintenance_selection_margin,
     required_effort_observability,
+)
+
+from .fungal_flow_maintenance import (
+    FungalFlowParameters,
+    backup_trajectory,
+    effective_reinforcement_gain,
+    iterate_route_share,
+    local_flow_signal_share,
+    preferred_maintenance_share,
+    simulate_parameter_cases,
+    symmetric_locally_stable,
+    symmetric_multiplier,
+    update_route_share,
+    worst_case_backup_share,
 )
