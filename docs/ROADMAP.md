@@ -139,3 +139,16 @@ Only after the neutral theory is stable, map it to concrete substrates.
 At every phase, maintain separate ledgers for definitions, exact mathematical
 results, computational observations, substrate mappings, prior art, and
 speculative cross-domain hypotheses.
+
+
+## Phase 10 — Partially identified JAM behavior selection
+
+**Status:** Experiment 10 derives the staking-layer design boundary without inventing a reward function.
+
+- Actions: compute, rubber-stamp positive, announced no-show.
+- Compute vs rubber condition: (R_C-R_R+bdL_Fge c).
+- Compute vs no-show condition: (R_C-R_Nge c).
+- Structural exposure and private incentive are coupled through (d).
+- Full equilibrium remains intentionally unresolved until staking reward/fault/no-show economics are specified.
+
+**Exit criterion:** achieved for partial identification. Closing the game requires external staking/payoff parameters rather than further neutral modelling.

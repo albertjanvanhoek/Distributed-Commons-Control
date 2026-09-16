@@ -175,3 +175,27 @@ criticality.
 Increasing escalation strength improves the first correction channel while
 reducing the second margin when no-show-prone validators exist. The repository
 therefore does not assign a scalar global sign to "more correction."
+
+
+## Audit behavior selection boundary
+
+Experiment 10 does not assign a made-up reward function to JAM auditing.
+
+The core protocol identifies compute obligations, visible no-shows, judgments
+and faults, while the staking layer determines the economic reward/punishment
+magnitudes. The resulting partial-identification conditions are
+
+[
+R_C-R_R+bdL_Fge c
+]
+
+for compute to dominate rubber-stamping, and
+
+[
+R_C-R_Nge c
+]
+
+for compute to dominate no-show.
+
+See [JAM behavior selection](JAM_BEHAVIOR_SELECTION.md). The unresolved
+quantities are now explicit design inputs rather than hidden assumptions.
