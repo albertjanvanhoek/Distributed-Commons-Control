@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
-from math import exp, inf
+from math import exp, inf, expm1, log, isfinite
 
 
 def _probability(name: str, value: float) -> float:
@@ -21,7 +21,7 @@ def _probability(name: str, value: float) -> float:
 
 def _positive(name: str, value: float) -> float:
     value = float(value)
-    if value <= 0.0:
+    if not isfinite(value) or value <= 0.0:
         raise ValueError(f"{name} must be positive, got {value}")
     return value
 
@@ -107,6 +107,8 @@ def sufficient_effort(
 ) -> EffortRequirement:
     """Return minimum symmetric effort satisfying ``P_bad <= safety_target``.
 
+    Structural comparisons use exact floating-point ordering; tolerance is
+    retained for API compatibility but never relaxes the safety floor.
     ``effort=None`` marks structural unattainability under the current
     monitor count and common-mode mixture.
     """
@@ -116,13 +118,13 @@ def sufficient_effort(
     safety_target = _probability("safety_target", safety_target)
     if not isinstance(monitors, int) or monitors < 1:
         raise ValueError(f"monitors must be a positive integer, got {monitors!r}")
-    if tolerance < 0.0:
+    if not isfinite(tolerance) or tolerance < 0.0:
         raise ValueError("tolerance must be nonnegative")
 
     floor = bad_attempt_rate * correlation
-    if bad_attempt_rate == 0.0 or safety_target + tolerance >= bad_attempt_rate:
+    if bad_attempt_rate == 0.0 or safety_target >= bad_attempt_rate:
         return EffortRequirement(True, 0.0, floor, "target met without monitoring")
-    if safety_target + tolerance < floor:
+    if safety_target < floor:
         return EffortRequirement(
             False,
             None,
@@ -137,11 +139,14 @@ def sufficient_effort(
             "all failures are common-mode and the target is not already met",
         )
 
-    independent_escape = (
-        safety_target / bad_attempt_rate - correlation
-    ) / (1.0 - correlation)
+    independent_escape = (safety_target - floor) / (
+        bad_attempt_rate * (1.0 - correlation)
+    )
     independent_escape = min(1.0, max(0.0, independent_escape))
-    effort = 1.0 - independent_escape ** (1.0 / monitors)
+    effort = (
+        1.0 if independent_escape == 0.0
+        else -expm1(log(independent_escape) / monitors)
+    )
     return EffortRequirement(True, _clip_probability(effort), floor, "attainable")
 
 
@@ -256,7 +261,7 @@ def assess_control_phase(
 
     assert requirement.effort is not None
     required = requirement.effort
-    if required <= tolerance:
+    if safety_target >= bad_attempt_rate:
         return PhaseAssessment(
             phase=ControlPhase.NO_MONITORING_REQUIRED,
             selected_effort=chosen,
