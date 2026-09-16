@@ -170,3 +170,21 @@ The intended research sequence is:
 Recovering established results is useful evidence that the abstraction is
 well anchored. Novelty, if present, must come from what the coupled model adds
 beyond those baselines.
+
+
+## Behavioral maintenance is adjacent to established ecological feedback literatures
+
+Experiment 8 does not claim that organisms maintaining or modifying environmental conditions is new.
+
+Relevant antecedents include:
+
+- Jones, Lawton & Shachak (1994), *Organisms as ecosystem engineers*: organisms can create, modify and maintain habitats through non-trophic processes.
+- Niche-construction theory: organisms alter environmental states and thereby change subsequent ecological and evolutionary conditions.
+- Scholz et al. (2016), *Maintenance of Root Function in Tropical Woody Species During Droughts*: hydraulic redistribution, xylem repair and facilitation can preserve function during low water availability; redistributed water can become available to neighboring plants.
+- Fricker et al. (2007; 2017), work on mycelial networks: fungal networks adapt through growth, branching, fusion and regression in response to resources, damage and predation; resource routes can be selectively reinforced and redundant mycelium recycled.
+
+These literatures support the empirical plausibility of non-human state-dependent maintenance processes. They do **not** establish the repository's stronger proposed abstraction that signal preservation, correction, reinforcement, repair and maintenance inheritance form a common cross-substrate operator family.
+
+The term "behavior" is therefore operational in Experiment 8. It does not require intention or cognition, and it should be replaced with "participant process" in substrates where behavioral language would invite anthropomorphic inference.
+
+The novelty question, if any, lies in whether the same viability-margin formalism can distinguish when such operators are necessary, excessive, misdirected or counterproductive across substrates—not in the observation that organisms modify environments.
