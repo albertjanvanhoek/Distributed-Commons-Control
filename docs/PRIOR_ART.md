@@ -260,3 +260,32 @@ The Experiment-12 power-law allocation is therefore a deliberately minimal
 cross-substrate falsification model, not a proposed novel fungal mechanism.
 Its use here is to test whether the repository's maintenance abstractions
 survive when explicit agents, monitoring and economic rewards are absent.
+
+
+## Viability-conditioned constraints and biological normativity are established neighboring traditions
+
+The synthesis document `VIABILITY_OUGHT.md` does not claim novelty for the
+general move from a constraint set to admissible controls.
+
+- Aubin's viability theory and later work with Bayen and Saint-Pierre develop
+  viability kernels, invariance and regulation for systems constrained to
+  remain in prescribed regions.
+- Di Paolo (2005), *Autopoiesis, adaptivity, teleology, agency*, DOI
+  10.1007/s11097-005-9002-y, develops adaptivity as regulation relative to
+  conditions of viability and connects this to organismic value/normativity.
+- Moreno & Mossio (2015), *Biological Autonomy*, develop an organizational
+  account based on mutually maintaining constraints.
+- Bolton & Sustar (2022), *Regulation and the Normativity Problem*, DOI
+  10.1080/02698595.2022.2149050, explicitly discusses normativity through
+  biological regulation.
+- Cusimano & Sterner (2020), *The Objectivity of Organizational Functions*,
+  DOI 10.1007/s10441-019-09365-9, provides an important critique of
+  organizational-function accounts and the risk of arbitrary redescription.
+- Decentralized control and multi-agent systems already study preservation of
+  network connectivity and collective constraints.
+
+The repository's open question is therefore not whether viability constraints
+or biological normativity exist. It is whether a common, falsifiable
+decomposition of **distributed maintenance processes** remains useful across
+engineered, biological and eventually social substrates without smuggling in
+agent-specific concepts.
