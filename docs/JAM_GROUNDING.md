@@ -234,7 +234,194 @@ that cost without an additional economic mapping.
 The remaining protection is then the probability of detection/final rejection,
 evaluated per exploitable bug.
 
-## 6. Relation to the neutral viability theory
+## 6. Dispute-layer correlated-fault extension
+
+The shared-client extension above concerns whether a negative judgment is found.
+JAM has a second layer after detection: the Gray Paper dispute/verdict rules.
+
+**[GP]** For a verdict validator-set size \(N\), define
+
+\[
+K=\left\lfloor\frac{2N}{3}\right\rfloor+1,
+\qquad
+W=\left\lfloor\frac{N}{3}\right\rfloor.
+\]
+
+Each verdict contains exactly \(K\) judgments. It is:
+
+- good when all \(K\) are positive;
+- bad when zero are positive;
+- wonky when exactly \(W\) are positive.
+
+Bad and wonky verdicts are non-positive and remove the report from the
+availability path. The ordinary culprit/fault offense paths refer to good or
+bad reports; a wonky report is recorded in the wonky set but does not, through
+those rules, add guarantors or judges to the punish set. Whether an external
+staking layer separately acts on a wonky record is **[absent]** from this
+audited Gray Paper layer.
+
+### 6.1 Exact verdict feasibility
+
+Let \(P\) be the number of validators that would judge the crafted invalid
+report as valid. Then a verdict of each type can be assembled iff:
+
+\[
+\boxed{\text{bad possible}\iff N-P\ge K,}
+\]
+
+\[
+\boxed{\text{good possible}\iff P\ge K,}
+\]
+
+and
+
+\[
+\boxed{
+\text{wonky possible}
+\iff
+P\ge W
+\ \land\
+N-P\ge K-W.
+}
+\]
+
+For \(N=1023\),
+
+\[
+K=683,\qquad W=341,\qquad K-W=342.
+\]
+
+Hence bad is possible for \(P\le340\), wonky for
+\(341\le P\le681\), and good for \(P\ge683\).
+
+Under the literal three-count rule, \(P=682\) is a one-vote edge case for
+which no 683-judgment subset has an allowed positive count. This is a
+specification question, not a claimed protocol flaw.
+
+### 6.2 Robust bad-verdict attribution under a shared fault
+
+**[extension]** Let
+
+- \(A\) validators be adversarial;
+- \(B_x\) otherwise-honest validators share fault \(x\) and judge the invalid
+  report as valid;
+- \(C_x=N-A-B_x\) independently judge it as invalid.
+
+If the adversary votes positive, the maximum positive population is
+\(A+B_x\). A bad verdict remains constructible regardless of adversarial
+voting iff
+
+\[
+\boxed{C_x\ge K.}
+\]
+
+Writing
+
+\[
+\gamma=A/N,
+\qquad
+f_x=B_x/(N-A),
+\]
+
+the maximum wrong-positive share is
+
+\[
+p_x=\gamma+(1-\gamma)f_x.
+\]
+
+For large \(N\), robust availability of the bad-verdict/offender-attribution
+path therefore requires
+
+\[
+\boxed{
+\gamma+(1-\gamma)f_x<\frac13.
+}
+\]
+
+Equivalently,
+
+\[
+\boxed{
+f_x<
+\frac{1/3-\gamma}{1-\gamma}.
+}
+\]
+
+At \(\gamma=0.20\), this is approximately
+
+\[
+f_x<1/6\approx0.167.
+\]
+
+This boundary binds before the \(F=2\) branching threshold
+\(f_{\rm crit}=0.375\).
+
+### 6.3 Three large-population boundaries for \(F=2\)
+
+The same wrong-positive share \(p_x\) appears in three distinct conditions:
+
+\[
+\boxed{
+\begin{array}{rcl}
+p_x<1/3
+&:&
+\text{bad-verdict attribution robust to adversarial voting},
+\\[2pt]
+p_x<1/2
+&:&
+\text{fault-specific ELVES escalation supercritical for }F=2,
+\\[2pt]
+p_x<2/3
+&:&
+\text{false-good verdict not yet eligible}.
+\end{array}}
+\]
+
+Thus attribution can disappear while audit escalation is still
+supercritical.
+
+### 6.4 Wonky is not the same as economic impunity
+
+When the adversarial and buggy-positive bloc is large enough to prevent a bad
+verdict but not large enough to form a good verdict, a wonky verdict may remain
+constructible. The report is stopped, but the Gray Paper's ordinary
+culprit/fault paths do not create offender records from that wonky verdict.
+
+This does **not** establish that an attacker has zero total cost. A staking
+subsystem could act on wonky records. The precise claim is only:
+
+\[
+\boxed{
+\text{report rejection}
+\neq
+\text{ordinary offender attribution}.
+}
+\]
+
+### 6.5 Offline extension
+
+If \(o\) is a disjoint offline fraction and \(f_x\) is the buggy share among
+the remaining non-adversarial online validators, the independently correct
+online share is
+
+\[
+(1-\gamma-o)(1-f_x).
+\]
+
+Robust bad-verdict attribution requires
+
+\[
+\boxed{
+(1-\gamma-o)(1-f_x)\ge K/N,
+}
+\]
+
+approaching \(>2/3\) for large \(N\).
+
+This is distinct from ELVES no-shows: a validator that never announces is not
+the same event as an announced auditor failing to judge.
+
+## 7. Relation to the neutral viability theory
 
 The neutral Experiment 3 remains unchanged.
 
@@ -263,7 +450,7 @@ This already indicates that a faithful JAM contribution measure is
 multi-component: safety and liveness/scalability need not move in the same
 direction.
 
-## 7. Candidate grounded feedback loop
+## 8. Candidate grounded feedback loop
 
 ELVES treats \(\alpha\) and \(\beta\) as exogenous adversarial budgets.
 A later **[extension]** may ask what happens if ordinary load also causes
