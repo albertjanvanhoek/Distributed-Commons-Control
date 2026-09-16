@@ -18,7 +18,7 @@ A producer can obtain a local benefit from proposing harmful work. Monitoring is
 
 The project was prompted by the architecture of the [Join-Accumulate Machine (JAM)](https://graypaper.com/) and by the broader *Evolution by Emergence* programme. It is not an implementation, security audit or official analysis of JAM. JAM is used first as an engineered system in which proposal, checking, availability and commitment are explicit enough to study. Ecological interpretations are treated as hypotheses to be earned after the generic model works.
 
-## First exact result: correlated capture floor
+## Baseline exact result: correlated capture floor
 
 Let \(b\) be the probability that harmful work is attempted, \(q\) each monitor's detection effort, \(n\) the number of monitors and \(\rho\) the probability of a common-mode blind spot. The probability that harmful work escapes all monitors is
 
@@ -32,7 +32,21 @@ so the harmful-finalization probability is \(P_{\mathrm{bad}}=bE_n(q,\rho)\). Ev
 P_{\mathrm{bad}}(q=1)=b\rho.
 \]
 
-Therefore a safety target \(\varepsilon<b\rho\) is structurally unattainable by adding effort or same-mode monitors. The architecture must reduce correlated failure. This is the first clean sense in which **distribution of control is not the same as independence of control**.
+Therefore a safety target \(\varepsilon<b\rho\) is structurally unattainable by adding effort or same-mode monitors. The architecture must reduce correlated failure. This is a useful calibration of the model, not a novelty claim: common-cause limits on redundancy are established in reliability engineering and in work on dependent failures in multiversion software. See [the prior-art boundary](docs/PRIOR_ART.md).
+
+The first coupled extension goes one step further. Because the common-mode branch also caps collective detection at \(1-\rho\), the adaptive producer response cannot drive the harmful-attempt target below
+
+\[
+m(\rho)=\sigma\!\left(\frac{g-\ell(1-\rho)}{T}\right).
+\]
+
+For producer adjustment \(0<\alpha_b\le1\),
+
+\[
+\boxed{b_t\ge m+(1-\alpha_b)^t(b_0-m)}
+\]
+
+and hence \(\liminf P_{\mathrm{bad},t}\ge\rho m\). This turns the static floor into an **endogenous floor**: common-mode weakness changes the producer response that determines the floor itself. The finite-time theorem is machine-checked in `formalization/EndogenousFloor.lean`.
 
 ## Repository map
 
@@ -40,6 +54,7 @@ Therefore a safety target \(\varepsilon<b\rho\) is structurally unattainable by 
 |---|---|
 | [`docs/MODEL.md`](docs/MODEL.md) | Assumptions, equations, phase boundaries and dynamic extension |
 | [`docs/PHASE_BOUNDARY.md`](docs/PHASE_BOUNDARY.md) | Complete piecewise phase theorem and critical-cost boundary |
+| [`docs/PRIOR_ART.md`](docs/PRIOR_ART.md) | Prior-art calibration and current novelty boundary |
 | [`CLAIMS.md`](CLAIMS.md) | Claim ledger separating proofs, computations and hypotheses |
 | [`src/distributed_commons/`](src/distributed_commons/) | Dependency-free executable model |
 | [`scripts/run_experiment.py`](scripts/run_experiment.py) | Reproducible parameter sweep |
@@ -91,7 +106,7 @@ Those stronger statements require additional theory or evidence. The purpose of 
 
 ## Relationship to Evolution by Emergence
 
-This project is an out-of-domain test of the abstractions developed in [Evolution by Emergence](https://github.com/albertjanvanhoek/Evolution-by-Emergence), especially sufficient alignment, selected-versus-sufficient control and maintenance debt. Its contribution must be more than vocabulary transfer: the distributed-computation substrate must yield new, testable phase structure. The common-mode capture floor is the first such result.
+This project is an out-of-domain test of the abstractions developed in [Evolution by Emergence](https://github.com/albertjanvanhoek/Evolution-by-Emergence), especially sufficient alignment, selected-versus-sufficient control and maintenance debt. Its contribution must be more than vocabulary transfer: the distributed-computation substrate must yield new, testable phase structure. The common-mode capture floor is treated as a known calibration result; the endogenous producer-floor result is the first coupled phase constraint produced by the adaptive model. The repository does not yet claim literature priority for that theorem.
 
 ## Licensing
 

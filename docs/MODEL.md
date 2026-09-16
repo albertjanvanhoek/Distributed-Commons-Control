@@ -97,6 +97,71 @@ q_t^*=\operatorname{clip}_{[0,1]}\left(\frac{b_t(1-\rho)r}{c}\right).
 
 Adjustment parameters create finite response times rather than instantaneous equilibrium.
 
+### 4.1 Endogenous common-mode floor
+
+The common-mode mixture also caps collective detection. Since
+
+\[
+d_t=1-E_n(q_t,\rho)\le 1-\rho,
+\]
+
+and the producer target decreases as detection increases,
+
+\[
+b_t^*
+\ge
+\sigma\!\left(
+\frac{g-\ell(1-\rho)}{T}
+\right)
+\equiv m(\rho).
+\]
+
+Let the producer adjustment rate be \(\alpha_b\in(0,1]\), so before the
+numerically redundant probability clipping,
+
+\[
+b_{t+1}
+=
+b_t+\alpha_b(b_t^*-b_t).
+\]
+
+If every target obeys \(b_t^*\ge m\), repeated partial adjustment gives the
+finite-time lower envelope
+
+\[
+\boxed{
+b_t\ge
+m+(1-\alpha_b)^t(b_0-m).
+}
+\]
+
+Therefore
+
+\[
+\liminf_{t\to\infty} b_t\ge m,
+\qquad
+\liminf_{t\to\infty}P_{bad,t}\ge \rho m.
+\]
+
+For the default response parameters \(g=0.8\), \(\ell=1.8\),
+\(T=0.25\) and the 3% sweep target, \(\rho=0.30\) gives
+
+\[
+m\approx0.1370513,
+\qquad
+\rho m\approx0.0411154>0.03.
+\]
+
+Thus the entire \(\rho=0.30\) block is asymptotically unsafe even with
+arbitrarily many same-mode monitors and arbitrarily cheap monitoring. This is
+stronger than treating \(b\rho\) as a floor at externally fixed \(b\):
+the producer response sustains a positive \(b\) endogenously.
+
+The finite-time adjustment theorem and the detection-cap argument are
+machine-checked in `formalization/EndogenousFloor.lean`. The Lean theorem is
+stated for any producer response antitone in detection; the logistic response
+above is the executable model's specialization.
+
 Commons condition evolves as
 
 \[
