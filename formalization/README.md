@@ -27,6 +27,10 @@ The Lean source checks only the algebraic core of the declared model. It does no
 | Independent failure profile raises uncapped viability margin | `independent_profile_increases_margin` |
 | Exact viability-margin gain from independent profile | `independent_profile_margin_gain` |
 | Margin ratio is 1/rho in the uncapped regime | `independent_profile_margin_ratio` |
+| Shared-reward two-participant fixed point | `twoSelectedEffort_fixedPoint` |
+| Positive frozen/direct participant contribution | `direct_addition_positive` |
+| Exact selected-contribution identity | `selected_addition_identity` |
+| Direct-positive selected-negative reversal | `selected_addition_negative` |
 | Attempt-rate floor implies harmful-finalization floor | `badFinalizationN_floor_from_attempt_floor` |
 
 Build with:
@@ -59,3 +63,7 @@ leastness hypothesis remains assumed in `selected_safety_iff_critical_cost`.
 ## Viability contribution
 
 `ViabilityContribution.lean` formalizes the algebraic core of Experiment 3. The executable Python model supports arbitrary small failure topologies and coalition attribution; the Lean file isolates the exact two-cause result so the topology effect is separated from numerical enumeration and from any substrate-specific interpretation.
+
+## Selected viability reversal
+
+`SelectedViability.lean` formalizes the minimal Experiment 4 counterexample: adding a participant improves viability at frozen effort but can reduce realized viability after shared-reward re-equilibration. The formal theorem uses the exact polynomial reversal condition (z^2+4z-4>0); the equivalent square-root threshold is reported by the executable model.
