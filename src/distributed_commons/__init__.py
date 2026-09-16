@@ -64,6 +64,15 @@ __all__ = [
     "honest_reproduction",
     "max_client_bug_share_for_target",
     "required_collateral_share",
+    "REVERSAL_THRESHOLD",
+    "critical_cost_ratio",
+    "direct_addition_contribution",
+    "induced_response_effect",
+    "one_selected_margin",
+    "selected_addition_contribution",
+    "two_frozen_margin",
+    "two_participant_effort",
+    "two_selected_margin",
 ]
 
 from .closed_loop import (
@@ -97,4 +106,16 @@ from .jam_elves import (
     honest_reproduction,
     max_client_bug_share_for_target,
     required_collateral_share,
+)
+
+from .selected_viability import (
+    REVERSAL_THRESHOLD,
+    critical_cost_ratio,
+    direct_addition_contribution,
+    induced_response_effect,
+    one_selected_margin,
+    selected_addition_contribution,
+    two_frozen_margin,
+    two_participant_effort,
+    two_selected_margin,
 )
