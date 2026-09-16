@@ -23,10 +23,12 @@ This ledger prevents mathematical results, simulation behavior and cross-domain 
 | C17 | Recovery depends on monitor mobilisation as well as commons health: with detection-funded monitors initialized at their private optimum, quiet histories require substantially more initial commons health to recover than high-attack histories in the reported runs. | Computational result, parameter dependent | `docs/CLOSED_LOOP.md` §5; basin tests |
 | C18 | In the reward-funded closure at \(\kappa=0.05\), increasing common-mode correlation from 0 to 0.3 lowers the computed fold-damage threshold by about a factor of three. | Computational observation at one parameter slice | `docs/CLOSED_LOOP.md` §4.2 |
 | C19 | The fold and bistability are not specific to reward funding: they also occur in the tested alternative closures where degraded commons health raises checking cost exponentially or raises capture gain. | Computational cross-closure robustness result | `docs/CLOSED_LOOP.md` §6; alternative-closure tests |
+| C20 | In the two-cause heterogeneous-participant model, adding a participant with an independent failure profile changes structural escape from \(\rho\) to \(\rho^2\); in the uncapped viability-margin regime this multiplies the margin by \(1/\rho\). | Exact theorem; machine checked | Lean: `ViabilityContribution.lean`; Python exact-topology tests |
+| C21 | Leave-one-out, Shapley and Harsanyi attribution answer different questions on the same viability-margin set function: Shapley values exhaust the total margin gain by construction, while higher-order Harsanyi terms retain non-additive interactions explicitly. | Established attribution identities instantiated in the model | `viability.py`; `docs/VIABILITY_CONTRIBUTION.md`; tests |
 
 ## Prior-art calibration
 
-C2-C4 recover the familiar fact that redundancy cannot eliminate a common-cause failure component. They are retained because recovering a known limit is a useful calibration of the abstraction, not because the repository claims that floor as novel. The research contribution must come from coupled phase structure beyond that baseline.
+C2-C4 recover the familiar fact that redundancy cannot eliminate a common-cause failure component. C20 is likewise closely related to established common-cause reliability and response-diversity ideas: an independent failure profile can be disproportionately valuable. These are retained as calibration results, not novelty claims. Shapley values and Harsanyi dividends in C21 are established cooperative-game-theory tools. The research contribution must come from how these pieces are tied to a declared viability margin and later to endogenous behavioral and capacity dynamics.
 
 ## Explicit non-claims
 
