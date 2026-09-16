@@ -8,7 +8,10 @@ from distributed_commons import (
     assess_control_phase,
     bad_finalization_probability,
     conditional_escape_probability,
+    endogenous_bad_finalization_floor,
     monitor_objective,
+    producer_bad_attempt_floor,
+    producer_floor_envelope,
     selected_control_is_sufficient,
     selected_effort,
     simulate,
@@ -162,6 +165,53 @@ class DynamicModelTests(unittest.TestCase):
             self.assertGreaterEqual(row.bad_attempt_rate, 0.0)
             self.assertLessEqual(row.bad_attempt_rate, 1.0)
             self.assertGreaterEqual(row.verification_debt, 0.0)
+
+    def test_endogenous_common_mode_floor_matches_default_parameters(self) -> None:
+        floor_b = producer_bad_attempt_floor(
+            correlation=0.30,
+            capture_gain=0.8,
+            detection_penalty=1.8,
+            producer_temperature=0.25,
+        )
+        floor_bad = endogenous_bad_finalization_floor(
+            correlation=0.30,
+            capture_gain=0.8,
+            detection_penalty=1.8,
+            producer_temperature=0.25,
+        )
+        self.assertAlmostEqual(floor_b, 0.13705129257545967)
+        self.assertAlmostEqual(floor_bad, 0.0411153877726379)
+        self.assertGreater(floor_bad, 0.03)
+
+    def test_producer_attempt_rate_respects_finite_time_floor_envelope(self) -> None:
+        p = DynamicsParameters(
+            monitors=500,
+            correlation=0.30,
+            safety_target=0.03,
+            effort_cost=0.01,
+        )
+        floor_b = producer_bad_attempt_floor(
+            p.correlation,
+            p.capture_gain,
+            p.detection_penalty,
+            p.producer_temperature,
+        )
+        rows = simulate(p, 300)
+        for row in rows:
+            lower = producer_floor_envelope(
+                p.initial_bad_attempt_rate,
+                p.producer_adjustment,
+                floor_b,
+                row.round,
+            )
+            self.assertGreaterEqual(row.bad_attempt_rate + 1e-14, lower)
+
+        self.assertAlmostEqual(rows[-1].bad_attempt_rate, floor_b, places=10)
+        self.assertAlmostEqual(
+            rows[-1].bad_finalization_probability,
+            p.correlation * floor_b,
+            places=10,
+        )
 
     def test_higher_common_mode_failure_worsens_outcome(self) -> None:
         base = DynamicsParameters(effort_cost=0.5)
