@@ -1,6 +1,6 @@
 name = "distributed_commons_control"
 version = "0.1.0"
-defaultTargets = ["DistributedCommons", "RootSafety", "DynamicSafety", "EndogenousFloor", "ClosedLoopStability"]
+defaultTargets = ["DistributedCommons", "RootSafety", "DynamicSafety", "EndogenousFloor", "ClosedLoopStability", "ViabilityContribution"]
 
 [[require]]
 name = "mathlib"
@@ -21,3 +21,6 @@ name = "EndogenousFloor"
 
 [[lean_lib]]
 name = "ClosedLoopStability"
+
+[[lean_lib]]
+name = "ViabilityContribution"

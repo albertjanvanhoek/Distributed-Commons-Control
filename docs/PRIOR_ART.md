@@ -95,7 +95,39 @@ quantity. It also clarifies a limitation: slowing down in the current commons
 state detects nearness to the local fold, but does not by itself measure a
 separate stock of dormant corrective capacity.
 
-## 5. Current research boundary
+## 5. Participant heterogeneity and dynamic contribution have prior art
+
+Ecology already contains several close conceptual antecedents to Experiment 3:
+
+- Yachi and Loreau (1999), *Biodiversity and ecosystem productivity in a
+  fluctuating environment: the insurance hypothesis*, PNAS 96:1463-1468,
+  emphasized buffering of ecosystem functioning under environmental
+  variability rather than only average function.
+- Elmqvist et al. (2003), *Response diversity, ecosystem change, and
+  resilience*, Frontiers in Ecology and the Environment 1:488-494, DOI
+  10.1890/1540-9295(2003)001[0488:RDECAR]2.0.CO;2, defined response diversity
+  as different responses to environmental change among species contributing
+  to the same ecosystem function.
+- Ardichvili et al. (2026), *Beyond Biomass: How Interactions Shape Species'
+  Contribution to Ecosystem Functioning*, Ecology Letters 29:e70370, DOI
+  10.1111/ele.70370, explicitly distinguish a species' static contribution
+  from its dynamic contribution after interactions propagate through the
+  community.
+
+These precedents mean that neither "different failure profiles improve
+resilience" nor "removal effects should include the response of the remaining
+network" is claimed as new here.
+
+Shapley values and Harsanyi/Möbius interaction decompositions are likewise
+standard cooperative-game-theory tools. Experiment 3 uses them to keep three
+questions separate: current-network necessity, average marginal attribution,
+and explicit non-additivity.
+
+The narrower research object is contribution to a **declared viability
+margin** under a specified disturbance/failure architecture, which can later
+be conditioned on state and behavior.
+
+## 6. Current research boundary
 
 The next question is not whether correlation leaves a floor at fixed harmful
 attempt rate \(b\). It is what happens when the attempted-harm rate is itself
@@ -121,7 +153,7 @@ is novel relative to inspection-game, security-game and reliability
 literatures remains a literature question; the repository does not currently
 claim priority.
 
-## 6. Why this distinction matters
+## 7. Why this distinction matters
 
 The intended research sequence is:
 
