@@ -1,0 +1,86 @@
+\section{Corollaries and design questions}
+\label{sec:implications}
+
+The three main results are analytical. The following items are consequences or engineering questions, not recommendations established by the model.
+
+\subsection{Slashable collateral is not necessarily attacker-attributable collateral}
+
+ELVES's rational-adversary argument makes invalid acceptance prohibitively expensive by charging collateral to the attack path \citep{burdges2024}. In a conventional attack, the parties signing or backing an invalid result can be economically aligned with the attacker.
+
+A shared implementation bug changes that mapping. If otherwise-honest guarantors compute the same wrong result and sign it, a later bad verdict can place \emph{their} signatures in the culprit path. The protocol may destroy collateral, yet the actor that selected the crafted input may not bear that loss.
+
+The distinction is:
+\[
+\boxed{
+\text{slashable collateral}
+\neq
+\text{attacker-attributable collateral}.
+}
+\]
+
+This does not prove that exploiting the bug is cost-free. It means that the specific expected-profit argument needs an additional mapping from protocol offender to economic beneficiary when honest common-mode faults are admitted.
+
+The wonky region strengthens the issue: the current Gray Paper does not create ordinary culprit/fault offender records for wonky reports. Whether the staking layer imposes a cost on a wonky report is therefore a first-order question for the protocol authors.
+
+\subsection{Guarantor diversity as a design hypothesis}
+
+Every active core has three assigned guarantors and a guarantee carries two or three credentials. If a single fault domain occupies population share \(r\), the probability that at least two of three randomly assigned guarantors belong to that domain is
+\[
+\Prb(\ge2)=3r^2(1-r)+r^3.
+\]
+At \(r=0.2\), this is \(0.104\). Across 341 cores, the expectation is approximately 35.5 core assignments per rotation with at least two guarantors from that domain.
+
+This number does \emph{not} establish that an attacker can route a crafted package to one of those cores. It quantifies the frequency of favorable assignments if exploitation opportunities can be targeted or waited for.
+
+One possible mitigation is to require the credential set for a guarantee to span declared implementation/fault-domain classes. This could prevent a single honest client bug from supplying both signatures. But the idea has unresolved issues:
+\begin{itemize}
+\item implementation identity may be self-declared and therefore gameable;
+\item nominally distinct clients can share deeper components;
+\item diversity constraints may reduce liveness when one implementation class is unavailable;
+\item an adversarial validator can lie about identity, although doing so may force its own signature onto the report.
+\end{itemize}
+Hence guarantor diversity is a hypothesis to analyse, not a proposed protocol change in this paper.
+
+\subsection{Fault-domain exposure metrics}
+
+The quantity that matters for an unknown future bug cannot be measured directly: by definition we do not know which validators will be wrong on an input not yet discovered.
+
+What can be measured is \emph{exposure} to shared components. Examples include validator share by:
+\begin{itemize}
+\item client implementation;
+\item execution VM;
+\item compiler/toolchain;
+\item cryptographic or erasure-coding library;
+\item major shared dependencies;
+\item copied or common code paths.
+\end{itemize}
+
+These are upper bounds or proxies for possible fault-domain concentration, not measurements of \(f_x\) for an unknown bug. A useful operational question is therefore whether the largest identifiable shared-component exposure leaves adequate margin below the attribution and escalation boundaries.
+
+\subsection{Announcement shortfall as an early-warning statistic}
+
+JAM's later tranches respond to unmatched announcements. A validator that is offline before announcing is different: it simply reduces the number of initial auditors that appear.
+
+Aggregate announcement counts per report can therefore serve as a statistical early-warning signal for loss of available corrective capacity. The expected count is known from validator count and active-core configuration. A sustained shortfall can indicate that the online population is smaller than the nominal population.
+
+This is not a deterministic fault detector. Audit assignment is random, observations are local before information propagates, and the current formal validator-statistics tuple does not directly expose a finalized audit-count metric. The proposal is simply to monitor the discrepancy between expected and observed audit participation.
+
+\subsection{Rubber-stamping remains an open interface}
+
+The Gray Paper notes that auditing activity is difficult to track directly and delegates validator rewards to a staking subsystem; peer voting on impressions of validator effort is described as the available oracle mechanism \citep{wood2026}.
+
+That leaves a classic verifier's-dilemma-style question \citep{luu2015}: how strongly does the reward signal discriminate actual re-execution from a validator that produces the expected positive judgment without paying the full computation cost?
+
+The present paper does not claim that rubber-stamping is selected in JAM. The reward function and effort-observability mechanism are not sufficiently specified to close that game numerically. Candidate approaches such as verifiable execution artifacts, occasional test reports, or other proof-of-effort mechanisms should therefore be evaluated only after the actual staking design is specified.
+
+\subsection{Load-dependent no-shows are a separate future model}
+
+ELVES treats the no-show/fault share used in its committee-size analysis as exogenous. In a real implementation, no-show probability could rise with audit load. If
+\[
+u=u(L),
+\]
+and load \(L\) grows with the final committee size, then
+\[
+ s_f\approx\frac{s_0}{1-Fu(s_f)}
+\]
+becomes a feedback equation. This could amplify load under stress, but no claim of a JAM overload transition is made without empirical measurements of \(u(L)\). A testnet stress experiment measuring deadline misses against concurrent audit load would be the appropriate next step.
