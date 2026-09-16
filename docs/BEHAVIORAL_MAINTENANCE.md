@@ -626,7 +626,38 @@ vector rather than assuming the operator is beneficial.
 
 ---
 
-## 17. Research boundary
+## 17. Substrate-derived refinement: maintenance observability
+
+The JAM return test adds one candidate operator that Experiment 8 did not
+separate explicitly:
+
+\[
+\boxed{\text{maintenance observability}}
+\]
+
+A decentralized system may need not only to sense the commons state but also
+to distinguish whether costly maintenance was actually performed rather than
+cheaply imitated.
+
+The JAM analysis suggests the candidate maintenance conditions
+
+\[
+\boxed{
+\text{capacity}
++
+\text{state observability}
++
+\text{maintenance observability}
++
+\text{return-loop closure}.
+}
+\]
+
+This is **not yet promoted to a universal theorem**. It is a substrate-derived
+refinement that should be challenged in another domain before being folded into
+the neutral primitive operator list.
+
+## 18. Research boundary
 
 Experiment 8 does **not** establish that ethics is reducible to network
 maintenance.
