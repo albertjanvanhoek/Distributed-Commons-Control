@@ -60,6 +60,7 @@ and hence \(\liminf P_{\mathrm{bad},t}\ge\rho m\). This turns the static floor i
 | [`docs/SELECTED_VIABILITY.md`](docs/SELECTED_VIABILITY.md) | Experiment 4: direct-positive but selected-negative participant contribution |
 | [`docs/CORRECTIVE_CAPACITY.md`](docs/CORRECTIVE_CAPACITY.md) | Experiment 5: current shared state versus slow corrective capacity |
 | [`docs/STATE_DEPENDENT_CONTRIBUTION.md`](docs/STATE_DEPENDENT_CONTRIBUTION.md) | Experiment 6: participant contribution to access of stored capacity |
+| [`docs/VECTOR_CONTRIBUTION.md`](docs/VECTOR_CONTRIBUTION.md) | Experiment 7: vector-valued contribution across viability loops |
 | [`CLAIMS.md`](CLAIMS.md) | Claim ledger separating proofs, computations and hypotheses |
 | [`src/distributed_commons/`](src/distributed_commons/) | Dependency-free executable model |
 | [`scripts/run_experiment.py`](scripts/run_experiment.py) | Reproducible parameter sweep |
