@@ -114,6 +114,10 @@ __all__ = [
     "required_compute_reward_advantage_over_no_show",
     "required_compute_reward_advantage_over_rubber",
     "rubber_stamp_beats_no_show",
+    "certified_required_effort_observability",
+    "effort_channel_can_close_gap",
+    "maintenance_selection_margin",
+    "required_effort_observability",
 ]
 
 from .closed_loop import (
@@ -218,4 +222,11 @@ from .jam_behavior_selection import (
     required_compute_reward_advantage_over_no_show,
     required_compute_reward_advantage_over_rubber,
     rubber_stamp_beats_no_show,
+)
+
+from .jam_effort_observability import (
+    certified_required_effort_observability,
+    effort_channel_can_close_gap,
+    maintenance_selection_margin,
+    required_effort_observability,
 )
