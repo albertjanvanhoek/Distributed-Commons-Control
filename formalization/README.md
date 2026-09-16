@@ -50,6 +50,10 @@ The Lean source checks only the algebraic core of the declared model. It does no
 | Low-fidelity signal reverses correction | `low_fidelity_reverses_correction` |
 | Reinforcement can be net harmful | `reinforcement_can_be_harmful` |
 | Conditional repair inequality | `repair_nonnegative_iff` |
+| One-validator client-diversification gain \(s_\delta/n\) | `one_validator_diversification_gain` |
+| One-validator reliability gain \(s_\delta/n\) | `one_validator_reliability_gain` |
+| Escalation raises correction reproduction | `escalation_improves_correction` |
+| Escalation lowers scalability margin | `escalation_harms_scalability` |
 | Attempt-rate floor implies harmful-finalization floor | `badFinalizationN_floor_from_attempt_floor` |
 
 Build with:
@@ -102,3 +106,7 @@ leastness hypothesis remains assumed in `selected_safety_iff_critical_cost`.
 ## Behavioral maintenance operators
 
 `BehavioralMaintenance.lean` formalizes Experiment 8's falsification layer. It proves the exact replacement-gap condition, a passive-renewal counterexample to universal active-maintenance necessity, an overcorrection instability boundary, sign reversal under low signal fidelity, a harmful-reinforcement region, and the conditional repair criterion. The model uses "behavior" operationally and does not assume cognition or moral agency.
+
+## JAM maintenance operators
+
+`JamMaintenance.lean` formalizes the count-based substrate identities used in Experiment 9. It proves the exact one-validator correction/reliability increments and the opposite-signed effect of stronger escalation on correction reproduction versus scalability margin. It does not formalize the ELVES extinction-probability theorem itself; safety-certificate changes from that theorem remain executable calculations in Python.
