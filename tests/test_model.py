@@ -3,7 +3,9 @@ import unittest
 from dataclasses import replace
 
 from distributed_commons import (
+    ControlPhase,
     DynamicsParameters,
+    assess_control_phase,
     bad_finalization_probability,
     conditional_escape_probability,
     monitor_objective,
@@ -72,6 +74,73 @@ class StaticModelTests(unittest.TestCase):
                 effort_cost=1.0,
             )
         )
+
+    def test_complete_phase_classification(self) -> None:
+        common = dict(
+            bad_attempt_rate=0.2,
+            monitors=3,
+            monitor_reward=1.0,
+            effort_cost=0.25,
+        )
+        trivial = assess_control_phase(
+            **common, correlation=0.1, safety_target=0.2
+        )
+        impossible = assess_control_phase(
+            **common, correlation=0.2, safety_target=0.03
+        )
+        sufficient = assess_control_phase(
+            **common, correlation=0.0, safety_target=0.03
+        )
+        underprovided = assess_control_phase(
+            **{**common, "effort_cost": 2.0},
+            correlation=0.0,
+            safety_target=0.03,
+        )
+        self.assertEqual(trivial.phase, ControlPhase.NO_MONITORING_REQUIRED)
+        self.assertEqual(impossible.phase, ControlPhase.STRUCTURALLY_UNATTAINABLE)
+        self.assertEqual(sufficient.phase, ControlPhase.SUFFICIENT_SELECTED_CONTROL)
+        self.assertEqual(underprovided.phase, ControlPhase.UNDERPROVIDED_CONTROL)
+
+    def test_critical_cost_is_exact_boundary(self) -> None:
+        parameters = dict(
+            bad_attempt_rate=0.2,
+            monitors=5,
+            correlation=0.05,
+            safety_target=0.03,
+            monitor_reward=1.0,
+        )
+        probe = assess_control_phase(**parameters, effort_cost=1.0)
+        assert probe.critical_effort_cost is not None
+        boundary = probe.critical_effort_cost
+        at_boundary = assess_control_phase(**parameters, effort_cost=boundary)
+        above_boundary = assess_control_phase(
+            **parameters, effort_cost=boundary * 1.001
+        )
+        self.assertEqual(
+            at_boundary.phase, ControlPhase.SUFFICIENT_SELECTED_CONTROL
+        )
+        self.assertAlmostEqual(at_boundary.effort_margin or 0.0, 0.0)
+        self.assertEqual(
+            above_boundary.phase, ControlPhase.UNDERPROVIDED_CONTROL
+        )
+
+    def test_correlation_double_squeeze(self) -> None:
+        common = dict(
+            bad_attempt_rate=0.2,
+            monitors=5,
+            safety_target=0.04,
+            monitor_reward=1.0,
+            effort_cost=0.25,
+        )
+        low = assess_control_phase(**common, correlation=0.0)
+        high = assess_control_phase(**common, correlation=0.15)
+        assert low.required_effort is not None
+        assert high.required_effort is not None
+        assert low.critical_effort_cost is not None
+        assert high.critical_effort_cost is not None
+        self.assertGreater(high.required_effort, low.required_effort)
+        self.assertLess(high.selected_effort, low.selected_effort)
+        self.assertLess(high.critical_effort_cost, low.critical_effort_cost)
 
     def test_invalid_probability_is_rejected(self) -> None:
         with self.assertRaises(ValueError):
