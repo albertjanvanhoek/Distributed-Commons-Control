@@ -83,6 +83,10 @@ __all__ = [
     "shock_is_viable",
     "shock_margin",
     "uncapped_shock_margin",
+    "certified_access_margin",
+    "certified_participant_contribution",
+    "expected_access_margin",
+    "expected_participant_contribution",
 ]
 
 from .closed_loop import (
@@ -141,4 +145,11 @@ from .corrective_capacity import (
     shock_is_viable,
     shock_margin,
     uncapped_shock_margin,
+)
+
+from .state_dependent_contribution import (
+    certified_access_margin,
+    certified_participant_contribution,
+    expected_access_margin,
+    expected_participant_contribution,
 )
