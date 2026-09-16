@@ -36,6 +36,11 @@ The Lean source checks only the algebraic core of the declared model. It does no
 | Higher capacity raises finite-shock margin | `higher_capacity_higher_margin` |
 | Full shared state fixed during quiet period | `quietSharedStep_full` |
 | Quiet capacity decay lowers shock margin | `quiet_capacity_erodes_margin_at_full_state` |
+| Access-mediated participant contribution identity | `access_contribution_identity` |
+| Positive contribution from lower all-disabled probability | `access_contribution_positive` |
+| Independent-profile contribution \(\kappa C\rho(1-\rho)\) | `independent_profile_capacity_contribution` |
+| Zero reserve means zero access contribution | `zero_capacity_zero_access_contribution` |
+| Quiet capacity decay scales contribution | `quiet_decay_scales_access_contribution` |
 | Attempt-rate floor implies harmful-finalization floor | `badFinalizationN_floor_from_attempt_floor` |
 
 Build with:
@@ -76,3 +81,7 @@ leastness hypothesis remains assumed in `selected_safety_iff_critical_cost`.
 ## Corrective capacity
 
 `CorrectiveCapacity.lean` formalizes the minimal Experiment 5 separation between current shared condition and a slower corrective-capacity stock. The key result is that the shared state can remain exactly at its quiet fixed point while capacity decay strictly lowers the derived finite-shock viability margin.
+
+## State-dependent participant contribution
+
+`StateDependentContribution.lean` joins the heterogeneous failure-topology model to the slow-capacity model. It proves that a participant's contribution through this channel scales with both the topology change it causes and the current reserve-capacity state.
