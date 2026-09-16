@@ -123,13 +123,26 @@ we have \(q_{suff}=1-x^{1/n}\). Increasing \(n\) lowers the required effort per 
 
 ## 5. Verification status
 
-The Python implementation classifies all four regimes and directly checks the boundary. The Lean formalization proves for arbitrary \(n\):
+`formalization/RootSafety.lean` defines the nonnegative root explicitly as
+`Real.rpow x ((n : ℝ)⁻¹)`. The machine-checked chain includes:
 
-- the common-mode floor;
-- impossibility below that floor;
-- exact arrival at \(\varepsilon\) for any root satisfying the normalized boundary equation;
-- the quadratic selected optimum;
-- invariance of the sufficiency boundary under probability clipping;
-- equivalence between sufficient selected effort and \(c\le c_{crit}\).
+- `nthRoot_pow`: the constructed root has nth power equal to its argument;
+- `nthRoot_unique`: uniqueness among nonnegative roots;
+- `nthRoot_monotone`: monotonicity in the argument;
+- `sufficientEffortN_bounds`: the threshold lies in (0,1] in the non-trivial attainable region;
+- `sufficientEffortN_hits_target`: the explicit threshold reaches epsilon exactly;
+- `safety_iff_sufficientEffortN`: actual safety holds exactly at or above this threshold;
+- `selected_safety_iff_critical_cost`: actual safety at clipped selected effort holds exactly when cost is at most the explicit critical cost.
 
-Lean does not yet prove existence, uniqueness or monotonicity of the real \(n\)-th root. Those analytic facts remain outside the machine-checked core and are not needed for the finite Python classifier.
+These theorems apply for every positive natural monitor count. The earlier
+root-substitution lemma remains as a component of the proof, but its root
+hypothesis is now discharged by the constructed real root.
+
+This verifies the conditional mathematics, not the suitability of the failure
+mixture or reward assumptions for a real protocol. The Python implementation
+uses floating-point arithmetic: structural floor comparisons are not relaxed,
+and effort equality uses only a relative tolerance (no absolute tolerance).
+`expm1(log(x)/n)` avoids cancellation in small positive effort requirements.
+The model parameter `correlation` is a common-mode mixture weight, not generally
+a Pearson correlation coefficient. The cost here is per monitor; increasing n
+also increases potential total monitoring costs and reward expenditure.

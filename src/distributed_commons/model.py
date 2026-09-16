@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
-from math import exp, inf, expm1, log, isfinite
+from math import exp, inf, expm1, log, isfinite, isclose
 
 
 def _probability(name: str, value: float) -> float:
@@ -209,9 +209,12 @@ def selected_control_is_sufficient(
     if not requirement.attainable:
         return False
     assert requirement.effort is not None
-    return selected_effort(
+    chosen = selected_effort(
         bad_attempt_rate, monitor_reward, effort_cost, correlation
-    ) + 1e-12 >= requirement.effort
+    )
+    return chosen >= requirement.effort or isclose(
+        chosen, requirement.effort, rel_tol=1e-12, abs_tol=0.0
+    )
 
 
 def assess_control_phase(
@@ -279,7 +282,9 @@ def assess_control_phase(
     effort_margin = chosen - required
     phase = (
         ControlPhase.SUFFICIENT_SELECTED_CONTROL
-        if effort_margin + tolerance >= 0.0
+        if chosen >= required or isclose(
+            chosen, required, rel_tol=tolerance, abs_tol=0.0
+        )
         else ControlPhase.UNDERPROVIDED_CONTROL
     )
     return PhaseAssessment(

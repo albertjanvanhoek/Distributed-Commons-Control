@@ -69,7 +69,7 @@ lake exe cache get
 lake build
 ```
 
-The same checks run in GitHub Actions.
+The same checks run in GitHub Actions. The real-root formula is now connected end-to-end to actual safety by `RootSafety.lean`, including construction, uniqueness and leastness; see the [verification record](formalization/VERIFICATION.md).
 
 ## Complete phase boundary
 
