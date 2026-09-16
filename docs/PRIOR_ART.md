@@ -188,3 +188,42 @@ These literatures support the empirical plausibility of non-human state-dependen
 The term "behavior" is therefore operational in Experiment 8. It does not require intention or cognition, and it should be replaced with "participant process" in substrates where behavioral language would invite anthropomorphic inference.
 
 The novelty question, if any, lies in whether the same viability-margin formalism can distinguish when such operators are necessary, excessive, misdirected or counterproductive across substrates—not in the observation that organisms modify environments.
+
+
+## Monitoring cooperation, reputation and second-order incentives are established fields
+
+Experiment 11's claim is **not** that monitoring costly cooperative behavior or
+conditioning rewards on reputation is new.
+
+Relevant prior art includes:
+
+- Panchanathan & Boyd (2004), *Indirect reciprocity can stabilize cooperation
+  without the second-order free rider problem*, Nature 432:499–502, DOI
+  10.1038/nature02978. The paper links costly collective action to reputation
+  and future inclusion.
+- Fowler (2005), *Human cooperation: second-order free-riding problem solved?*,
+  Nature 437:E8, DOI 10.1038/nature04201, challenges whether such reputation
+  mechanisms fully eliminate second-order free riding.
+- Carpenter, Kariv & Schotter (2012), *Network architecture, cooperation and
+  punishment in public good experiments*, Review of Economic Design 16:93–118,
+  DOI 10.1007/s10058-012-0120-z, shows that who can monitor and punish whom is
+  itself a network-architecture question.
+- Bruggeman, Sprik & Quax (2021), *Spontaneous cooperation for public goods*,
+  Journal of Mathematical Sociology, DOI 10.1080/0022250X.2020.1756285,
+  discusses monitoring, reputation maintenance and costly incentives as
+  classic solutions to public-goods cooperation.
+- Recent work also shows that reputation/indirect reciprocity can fail across
+  conflicting group scales, reinforcing the need to declare which viability
+  loop a reputation signal is meant to maintain.
+
+The narrower contribution of Experiments 10–11 is therefore not reputation or
+monitoring per se. It is the integration of:
+
+1. a grounded JAM correction architecture;
+2. a declared viability vector;
+3. explicit compute-versus-imitation selection boundaries;
+4. a recursive maintenance interpretation in which the process that maintains
+   the commons may itself require sensing and return-loop maintenance.
+
+Whether that recursive framing adds scientific value beyond established
+monitoring/reputation theory remains a cross-substrate research question.
