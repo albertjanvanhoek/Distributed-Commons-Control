@@ -2,6 +2,8 @@ name: Model and Formalization Checks
 
 on:
   push:
+    branches:
+      - main
   pull_request:
 
 permissions:
@@ -23,6 +25,9 @@ jobs:
         run: python scripts/run_experiment.py --output results/phase_sweep.csv
       - name: Reproduce exact phase boundary
         run: python scripts/phase_boundary.py --output results/static_phase_boundary.csv
+
+      - name: Reproduce dynamic feedback experiment
+        run: python scripts/feedback_experiment.py --output results/feedback.csv
 
   lean:
     runs-on: ubuntu-latest
