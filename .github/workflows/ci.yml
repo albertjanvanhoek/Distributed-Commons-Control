@@ -28,6 +28,8 @@ jobs:
 
       - name: Reproduce dynamic feedback experiment
         run: python scripts/feedback_experiment.py --output results/feedback.csv
+      - name: Reproduce closed-loop commons experiment
+        run: python scripts/closed_loop_experiment.py --output-dir results
 
   lean:
     runs-on: ubuntu-latest
