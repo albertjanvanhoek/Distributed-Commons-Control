@@ -48,6 +48,141 @@ For producer adjustment \(0<\alpha_b\le1\),
 
 and hence \(\liminf P_{\mathrm{bad},t}\ge\rho m\). This turns the static floor into an **endogenous floor**: common-mode weakness changes the producer response that determines the floor itself. The finite-time theorem is machine-checked in `formalization/EndogenousFloor.lean`.
 
+## JAM / ELVES correlated honest failure
+
+The current protocol-facing result of the repository is the technical paper
+[`papers/correlated-honest-failure/`](papers/correlated-honest-failure/):
+
+> **Correlated Honest Failure in JAM/ELVES: Fault-Domain Concentration, Sampling Dilution, and Attribution Boundaries**
+
+The paper asks what changes when a validator is honest in the protocol/game-theoretic
+sense but shares an implementation fault that makes one particular invalid report look
+valid. The relevant quantity is therefore not raw client count but
+**fault-specific independently corrective capacity**.
+
+Three results are kept separate because they rely on different assumptions.
+
+### 1. Gray Paper verdict-attribution boundary
+
+Let \(N\) be the validator set used for a verdict and
+
+\[
+K=\left\lfloor\frac{2N}{3}\right\rfloor+1.
+\]
+
+For one fault \(x\), split validators into adversarial \(A\), otherwise-honest
+but buggy-positive \(B_x\), and independently correct \(C_x=N-A-B_x\).
+A bad verdict remains constructible regardless of adversarial voting iff
+
+\[
+\boxed{C_x\ge K.}
+\]
+
+In large-population share notation, with adversarial share \(\gamma\) and
+fault-domain share \(f_x\) among otherwise-honest validators,
+
+\[
+\boxed{
+\gamma+(1-\gamma)f_x<\frac13.
+}
+\]
+
+This is a consequence of the current Gray Paper verdict rules plus the declared
+correlated-fault scenario; it does not depend on the ELVES adaptive-crash model.
+
+### 2. Fault-specific ELVES escalation
+
+Extending ELVES so that only independently correct validators contribute useful
+corrective offspring gives
+
+\[
+\boxed{
+\lambda_x
+=
+F\frac{C_x}{N}
+=
+F(1-\gamma)(1-f_x).
+}
+\]
+
+Supercritical correction requires \(\lambda_x>1\), hence
+
+\[
+\boxed{
+f_x
+<
+1-\frac{1}{(1-\gamma)F}.
+}
+\]
+
+For JAM's current \(F=2\), the large-population wrong-positive boundaries are
+
+\[
+\boxed{
+\frac13\;\text{(robust bad-verdict attribution)}
+<
+\frac12\;\text{(audit escalation)}
+<
+\frac23\;\text{(false-good eligibility)}.
+}
+\]
+
+The branching result is an **extension of ELVES**, not an ELVES theorem, and is
+explicitly presented for review by the ELVES/JAM authors.
+
+### 3. Sampling dilution
+
+The count form
+
+\[
+\lambda_x=F\frac{C_x}{N}
+\]
+
+also shows that sampled correction is not structurally monotone under all
+honest additions. Holding the independently correct count \(C_x\) fixed, adding
+honest validators that share the same fault increases \(N\) and strictly lowers
+\(\lambda_x\). No behavioral response is required.
+
+The paper reports both:
+
+- a fixed initial-sample case, which isolates dilution; and
+- a fixed-341-core JAM case, where the expected initial sample grows with the
+  validator population and partly offsets, but does not remove, the effect in
+  the reported parameter slice.
+
+This is why claim C22 is now explicitly scoped to the earlier
+**all-participant** structural model rather than sampled/capacity-limited
+correction.
+
+### Economic and engineering boundary
+
+The paper also separates
+
+\[
+\boxed{
+\text{honest stake}
+\neq
+\text{independently corrective stake}
+\neq
+\text{attacker-attributable stake}.
+}
+\]
+
+A shared bug can make honest guarantors or judges sign the wrong result. The
+Gray Paper can therefore still reject a report while ordinary culprit/fault
+attribution changes. In particular, a wonky verdict stops the report but does
+not, through the current culprit/fault paths, create the ordinary offender
+record. Whether an external staking layer separately penalizes wonky outcomes
+is intentionally left as an open protocol question.
+
+Guarantor diversity, fault-domain exposure metrics, announcement shortfall,
+audit-effort observability and load-dependent no-shows are treated as
+**design questions and future tests**, not as established fixes.
+
+The protocol-specific assumptions and exact finite-\(N\) verdict derivation are
+documented in [`docs/JAM_GROUNDING.md`](docs/JAM_GROUNDING.md), and the full
+claim-status boundary is maintained in [`CLAIMS.md`](CLAIMS.md).
+
 ## Repository map
 
 | Path | Purpose |
