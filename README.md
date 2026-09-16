@@ -65,6 +65,7 @@ and hence \(\liminf P_{\mathrm{bad},t}\ge\rho m\). This turns the static floor i
 | [`docs/JAM_MAINTENANCE_OPERATORS.md`](docs/JAM_MAINTENANCE_OPERATORS.md) | Experiment 9: grounded JAM operator audit and viability-vector perturbations |
 | [`docs/JAM_BEHAVIOR_SELECTION.md`](docs/JAM_BEHAVIOR_SELECTION.md) | Experiment 10: partially identified compute/rubber-stamp/no-show selection boundaries |
 | [`docs/JAM_EFFORT_OBSERVABILITY.md`](docs/JAM_EFFORT_OBSERVABILITY.md) | Experiment 11: maintenance observability and return-loop closure |
+| [`docs/FUNGAL_FLOW_MAINTENANCE.md`](docs/FUNGAL_FLOW_MAINTENANCE.md) | Experiment 12: fungal flow-coupled maintenance and redundancy boundary |
 | [`CLAIMS.md`](CLAIMS.md) | Claim ledger separating proofs, computations and hypotheses |
 | [`src/distributed_commons/`](src/distributed_commons/) | Dependency-free executable model |
 | [`scripts/run_experiment.py`](scripts/run_experiment.py) | Reproducible parameter sweep |
