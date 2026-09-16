@@ -68,6 +68,8 @@ The Lean source checks only the algebraic core of the declared model. It does no
 | Unit fungal effective gain is neutral | `fungal_neutral_iff_effective_gain_eq_one` |
 | Superunit fungal effective gain is unstable | `fungal_unstable_iff_effective_gain_gt_one` |
 | Equal route allocation maximizes worst-case backup | `fungal_backup_share_le_half`, `fungal_backup_share_at_half` |
+| JAM escalation feasible iff failure share < corrective share | `jam_escalation_feasible_iff_failure_lt_correction` |
+| Feasible JAM escalation implies failure share < corrective share | `jam_feasible_implies_failure_lt_correction` |
 | Attempt-rate floor implies harmful-finalization floor | `badFinalizationN_floor_from_attempt_floor` |
 
 Build with:
@@ -136,3 +138,7 @@ leastness hypothesis remains assumed in `selected_safety_iff_critical_cost`.
 ## Fungal flow-coupled maintenance
 
 `FungalFlowMaintenance.lean` formalizes Experiment 12's two-route local stability boundary. The nonlinear flow-reinforcement rule is a falsification model extension motivated by empirical fungal flow/cord-growth coupling; the file does not claim that this exact power-law is fungal physiology.
+
+## Viability-conditioned ought synthesis
+
+`ViabilityOught.lean` formalizes one exact structural synthesis result: the grounded JAM correction/failure branching requirements admit a common positive escalation strength iff the effective failure-amplifying share is smaller than the effective corrective share. The philosophical interpretation of such admissible regions as "viability-conditioned oughts" is kept outside the theorem.
