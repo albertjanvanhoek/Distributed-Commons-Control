@@ -63,6 +63,8 @@ This ledger prevents mathematical results, simulation behavior and cross-domain 
 | C57 | For unit total route allocation, worst-case backup \(B(z)=\min(z,1-z)\) is maximized at equal redundancy \(z=1/2\). | Exact theorem; machine checked | Lean: `fungal_backup_share_le_half`, `fungal_backup_share_at_half` |
 | C58 | The fungal substrate shows that a separate maintenance-observation layer is not structurally necessary: experimentally grounded flow can itself provide local information about a cord's network role while being coupled to future cord growth. | Cross-substrate interpretation grounded in Heaton et al. 2010; not a universal theorem | `docs/FUNGAL_FLOW_MAINTENANCE.md`; prior-art references |
 | C59 | The local unit of distributed maintenance need not be an autonomous individual; in the fungal mapping it can be a cord/hyphal region or local transport/growth process. | Cross-substrate representation result | `docs/FUNGAL_FLOW_MAINTENANCE.md` |
+| C60 | In the grounded JAM branching abstraction, if effective corrective share is (h>0) and failure-amplifying share is (u\ge0), there exists an escalation strength (s>0) with (hs>1) and (us<1) iff (u<h). A constructive feasible choice is (s=2/(h+u)). | Exact cross-substrate synthesis theorem; machine checked | Lean: `jam_escalation_feasible_iff_failure_lt_correction`; `docs/VIABILITY_OUGHT.md` |
+| C61 | "Viability-conditioned ought" is used only as a conditional interpretation: given a declared viability property, model parameters/policies must lie in its admissible region for that property to persist. It is not a categorical moral theorem. | Conceptual synthesis / scope guard | `docs/VIABILITY_OUGHT.md`; viability-theory prior art |
 
 ## Prior-art calibration
 
