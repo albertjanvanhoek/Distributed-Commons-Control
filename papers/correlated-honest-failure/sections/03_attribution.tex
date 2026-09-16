@@ -1,0 +1,194 @@
+\section{Result 1: fault-domain concentration creates an attribution boundary}
+\label{sec:attribution}
+
+This result uses only the Gray Paper verdict composition rules plus the fault-domain model in \Cref{sec:model}. It does not use the ELVES adaptive-crash branching approximation.
+
+\subsection{Exact finite-population verdict conditions}
+
+Suppose enough judgments eventually exist to construct a verdict. Let \(P\) be the number of validators that would issue a positive judgment for the invalid report and \(N-P\) the number issuing a negative judgment.
+
+A bad verdict can be constructed if and only if at least \(K\) negative judgments are available:
+\[
+\boxed{
+N-P\ge K.
+}
+\]
+A good verdict can be constructed if and only if
+\[
+\boxed{
+P\ge K.
+}
+\]
+A wonky verdict can be constructed if and only if at least \(W\) positive and \(K-W\) negative judgments are available:
+\[
+\boxed{
+P\ge W
+\quad\text{and}\quad
+N-P\ge K-W.
+}
+\]
+These are selection conditions: a block author can choose the required \(K\) signed judgments from the available pool.
+
+For JAM's current \(N=1023\),
+\[
+K=683,
+\qquad
+W=341,
+\qquad
+K-W=342.
+\]
+Therefore:
+\begin{itemize}
+\item a bad verdict is possible for \(P\le340\);
+\item a wonky verdict is possible for \(341\le P\le681\);
+\item a good verdict is possible for \(P\ge683\).
+\end{itemize}
+
+Under the literal current rule, \(P=682\) is a one-vote edge case in which none of the three allowed positive counts can be selected from a 683-judgment verdict: there are only 341 negatives, too few for the wonky composition, but only 682 positives, too few for a good verdict. We treat this as a specification question for the JAM authors rather than silently smoothing it away.
+
+\subsection{Robust bad-verdict attribution}
+
+Under correlated honest failure, honest buggy validators contribute positive judgments, honest independent validators contribute negative judgments, and adversarial validators may choose either sign.
+
+To prevent a bad verdict, the adversary's best choice is to vote positive. The maximum positive population is then
+\[
+P_{\max}=A+B_x,
+\]
+and the remaining negative population is \(C_x\).
+
+Hence a bad verdict remains available regardless of adversarial voting if and only if
+\[
+\boxed{
+C_x\ge K.
+}
+\]
+Equivalently,
+\[
+A+B_x\le N-K.
+\]
+
+Writing
+\[
+p_x=\frac{A+B_x}{N}=\gamma+(1-\gamma)f_x,
+\]
+the large-\(N\) form is
+\[
+\boxed{p_x<\frac13.}
+\]
+Solving for \(f_x\) gives
+\[
+\boxed{
+ f_x<\frac{1/3-\gamma}{1-\gamma},
+}
+\]
+when \(\gamma<1/3\).
+
+At \(\gamma=0.2\), the asymptotic limit is
+\[
+f_x<\frac{1/3-0.2}{0.8}=\frac16\approx0.167.
+\]
+Thus a shared fault affecting roughly one-sixth of the honest population can consume the entire remaining one-third attribution budget when the adversarial share is 20\%.
+
+The interpretation is narrow but important. Below this boundary, independently correct honest validators alone supply enough negative judgments for a bad verdict. Above it, the adversary can prevent a bad verdict simply by joining the buggy positive bloc.
+
+\subsection{The wonky region}
+
+Suppose
+\[
+A+B_x\ge W
+\]
+but independently correct negative validators are still numerous enough for the wonky composition:
+\[
+C_x\ge K-W.
+\]
+Then an adversary voting positive can make a wonky verdict constructible while preventing a bad verdict.
+
+Under the current Gray Paper, a wonky verdict is non-positive and therefore stops the report from proceeding, but the culprit/fault rules do not create ordinary offender records for wonky reports. Thus the system can remain \emph{safety preserving at the report level} while losing the ordinary attribution path.
+
+This is the first important separation:
+\[
+\boxed{
+\text{report rejection}
+\neq
+\text{offender attribution}.
+}
+\]
+
+It is deliberately not stated as “the attacker pays nothing.” The staking layer may define additional consequences for wonky records. The Gray Paper does not specify such a rule, so whether wonky is economically cost-free is an explicit question for the JAM/Polkadot staking design.
+
+\subsection{Strategic choice inside the intermediate region}
+
+There is a second asymmetry. If the honest buggy population by itself is still small enough that
+\[
+B_x\le N-K,
+\]
+the adversary can instead vote negative. Then at least \(K\) negative judgments may be available, making a bad verdict constructible. In that branch the honest buggy validators' positive judgments contradict the bad verdict and their guarantor/judgment signatures may become offender evidence, whereas adversarial validators that voted negative do not contradict it.
+
+Thus in part of the intermediate region the adversary can choose between two qualitatively different protocol outcomes:
+\begin{enumerate}[label=(\alph*)]
+\item vote positive, preventing a bad verdict and steering toward wonky; or
+\item vote negative, permitting a bad verdict whose fault attribution can fall on honest buggy validators.
+\end{enumerate}
+
+This does not prove an attacker can always avoid all economic loss, because entering the pipeline may itself require attacker-controlled signatures or other costs. It shows that the verdict layer does not by itself force the collateral cost to fall on the party exploiting the shared fault.
+
+\subsection{False-good eligibility}
+
+If
+\[
+A+B_x\ge K,
+\]
+then a good verdict becomes constructible when the adversarial and buggy-positive blocs align. Asymptotically,
+\[
+\boxed{p_x>\frac23.}
+\]
+For \(\gamma=0.2\), this occurs at approximately
+\[
+f_x>\frac{2/3-0.2}{0.8}\approx0.583.
+\]
+At that point the dispute layer itself can accept the invalid report as good under the fault model, and correct negative judges fall on the dissenting side of the protocol verdict.
+
+\subsection{Threshold ordering}
+
+For JAM's \(F=2\), \Cref{sec:escalation} will show that the ELVES corrective branching process loses supercriticality at
+\[
+p_x=1-\frac1F=\frac12.
+\]
+The three large-population boundaries are therefore ordered as
+\[
+\boxed{
+\frac13
+<
+\frac12
+<
+\frac23.
+}
+\]
+
+\begin{figure}[htbp]
+\centering
+\input{figures/thresholds.tex}
+\caption{Large-population fault-domain regimes for JAM's current \(F=2\). The first boundary concerns robust availability of a bad verdict and the ordinary offender-attribution path. The second is the ELVES-extension branching threshold. The third is eligibility for a good verdict under aligned adversarial and buggy-positive judgments. Exact finite-\(N\) rules use \(K=\floor{2N/3}+1\) and \(W=\floor{N/3}\).}
+\label{fig:thresholds}
+\end{figure}
+
+At \(\gamma=0.2\), expressed as buggy share among otherwise-honest validators, these correspond approximately to 16.7\%, 37.5\%, and 58.3\% respectively.
+
+\subsection{Offline validators tighten the attribution condition}
+
+The verdict rule depends on available signed judgments, not only nominal validator identities. Let \(O\) validators be offline and unable to judge, disjoint from the adversarial and correlated-fault classes for this extension. Let \(f_x\) now denote the buggy share among the remaining non-adversarial online validators. The independently correct online share is
+\[
+\frac{C_x}{N}=(1-\gamma-o)(1-f_x),
+\qquad o=\frac{O}{N}.
+\]
+A bad verdict robust to adversarial positive voting requires
+\[
+\boxed{
+(1-\gamma-o)(1-f_x)\ge\frac{K}{N},
+}
+\]
+which approaches
+\[
+(1-\gamma-o)(1-f_x)>\frac23.
+\]
+Offline capacity therefore consumes the same finite pool of negative judgments needed for attribution. This extension should not be conflated with ELVES no-shows: a validator that never announces an audit is not the same event as an announced auditor failing to return a judgment.
