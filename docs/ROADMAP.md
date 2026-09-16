@@ -152,3 +152,16 @@ speculative cross-domain hypotheses.
 - Full equilibrium remains intentionally unresolved until staking reward/fault/no-show economics are specified.
 
 **Exit criterion:** achieved for partial identification. Closing the game requires external staking/payoff parameters rather than further neutral modelling.
+
+
+## Phase 11 — Maintenance observability and return-loop closure
+
+**Status:** Experiment 11 establishes the second-order selection interface.
+
+- Let (s) denote effective observability/discrimination of actual compute versus imitation.
+- Let (W) denote the maximum reward differential available through the higher layer.
+- Compute-selection margin is (sW+bdL_F-c).
+- Reward without observability and observability without sufficient return are both insufficient.
+- Structural correction changes the observability threshold through false-positive exposure.
+
+**Exit criterion:** achieved for the partial interface. The values of (s) and (W) remain empirical/staking-layer quantities and are not invented.
