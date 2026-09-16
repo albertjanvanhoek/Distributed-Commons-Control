@@ -14,6 +14,10 @@ The Lean source checks only the algebraic core of the declared model. It does no
 | Selected-versus-required boundary | `selectedEffort_meets_requirement_iff`; `selectedEffort_underprovides` |
 | Probability clipping preserves the sufficiency test | `feasibleSelectedEffort_meets_iff` |
 | Exact critical-cost phase boundary | `feasibleSelectedEffort_meets_iff_cost_le_critical` |
+| Common-mode cap on collective detection | `detectionN_le_commonModeCap` |
+| Producer-response floor under an antitone response | `response_floor_of_commonModeCap` |
+| Finite-time producer lower envelope under partial adjustment | `producerPath_lowerEnvelope` |
+| Attempt-rate floor implies harmful-finalization floor | `badFinalizationN_floor_from_attempt_floor` |
 
 Build with:
 
@@ -33,3 +37,7 @@ threshold feasibility, exact target attainment, least sufficient effort and the
 selected-safety/critical-cost equivalence. Every declaration prints its axioms.
 See `docs/PHASE_BOUNDARY.md` for the exact claim map. No root existence or
 leastness hypothesis remains assumed in `selected_safety_iff_critical_cost`.
+
+## Endogenous producer floor
+
+`EndogenousFloor.lean` is also a default Lake build target. It keeps the producer response abstract and assumes only that it is antitone in collective detection. The executable logistic response is therefore one specialization rather than an extra axiom in the proof. The machine-checked result is the finite-time lower envelope; the liminf statement in the model documentation is its analytic corollary for strictly positive adjustment.
