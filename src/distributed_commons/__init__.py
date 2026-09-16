@@ -57,6 +57,13 @@ __all__ = [
     "FailureTopology",
     "Participant",
     "two_cause_example",
+    "attack_success_bound",
+    "critical_client_bug_share",
+    "economic_soundness_threshold",
+    "expected_committee_bound",
+    "honest_reproduction",
+    "max_client_bug_share_for_target",
+    "required_collateral_share",
 ]
 
 from .closed_loop import (
@@ -80,4 +87,14 @@ from .viability import (
     FailureTopology,
     Participant,
     two_cause_example,
+)
+
+from .jam_elves import (
+    attack_success_bound,
+    critical_client_bug_share,
+    economic_soundness_threshold,
+    expected_committee_bound,
+    honest_reproduction,
+    max_client_bug_share_for_target,
+    required_collateral_share,
 )
