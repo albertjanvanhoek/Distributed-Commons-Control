@@ -54,6 +54,11 @@ The Lean source checks only the algebraic core of the declared model. It does no
 | One-validator reliability gain \(s_\delta/n\) | `one_validator_reliability_gain` |
 | Escalation raises correction reproduction | `escalation_improves_correction` |
 | Escalation lowers scalability margin | `escalation_harms_scalability` |
+| Compute dominates rubber iff incentive gap closes | `compute_dominates_rubber_iff` |
+| Compute dominates no-show iff reward gap covers cost | `compute_dominates_noshow_iff` |
+| Lower exposure raises required compute reward advantage | `lower_exposure_raises_required_advantage` |
+| Zero exposure requires full compute-cost reward advantage | `zero_exposure_requires_full_cost` |
+| Zero invalid opportunity + equal rewards favors rubber-stamp | `zero_invalid_equal_reward_rubber_dominates` |
 | Attempt-rate floor implies harmful-finalization floor | `badFinalizationN_floor_from_attempt_floor` |
 
 Build with:
@@ -110,3 +115,7 @@ leastness hypothesis remains assumed in `selected_safety_iff_critical_cost`.
 ## JAM maintenance operators
 
 `JamMaintenance.lean` formalizes the count-based substrate identities used in Experiment 9. It proves the exact one-validator correction/reliability increments and the opposite-signed effect of stronger escalation on correction reproduction versus scalability margin. It does not formalize the ELVES extinction-probability theorem itself; safety-certificate changes from that theorem remain executable calculations in Python.
+
+## JAM audit behavior selection
+
+`JamBehaviorSelection.lean` formalizes Experiment 10's partially identified three-action game. It proves the exact compute-versus-rubber and compute-versus-no-show boundaries and the monotonic effect of exposure on the reward differential needed to select real computation. It deliberately leaves reward and fault-loss magnitudes as higher-layer parameters because the Gray Paper delegates them.
