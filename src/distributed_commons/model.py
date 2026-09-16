@@ -369,6 +369,90 @@ def _logistic(value: float) -> float:
     return z / (1.0 + z)
 
 
+def producer_target_bad_rate(
+    detection_probability: float,
+    capture_gain: float,
+    detection_penalty: float,
+    producer_temperature: float,
+) -> float:
+    """Producer best-response target under the declared logistic response."""
+
+    detection_probability = _probability(
+        "detection_probability", detection_probability
+    )
+    if not isfinite(capture_gain) or capture_gain < 0.0:
+        raise ValueError("capture_gain must be finite and nonnegative")
+    if not isfinite(detection_penalty) or detection_penalty < 0.0:
+        raise ValueError("detection_penalty must be finite and nonnegative")
+    producer_temperature = _positive(
+        "producer_temperature", producer_temperature
+    )
+    return _logistic(
+        (capture_gain - detection_penalty * detection_probability)
+        / producer_temperature
+    )
+
+
+def producer_bad_attempt_floor(
+    correlation: float,
+    capture_gain: float,
+    detection_penalty: float,
+    producer_temperature: float,
+) -> float:
+    """Lowest producer target attainable under the common-mode detection cap.
+
+    Since collective detection cannot exceed `1-correlation`, the producer
+    target cannot fall below its response at that maximal detection level.
+    """
+
+    correlation = _probability("correlation", correlation)
+    return producer_target_bad_rate(
+        1.0 - correlation,
+        capture_gain,
+        detection_penalty,
+        producer_temperature,
+    )
+
+
+def endogenous_bad_finalization_floor(
+    correlation: float,
+    capture_gain: float,
+    detection_penalty: float,
+    producer_temperature: float,
+) -> float:
+    """Asymptotic lower bound implied by producer response plus common mode."""
+
+    correlation = _probability("correlation", correlation)
+    return correlation * producer_bad_attempt_floor(
+        correlation,
+        capture_gain,
+        detection_penalty,
+        producer_temperature,
+    )
+
+
+def producer_floor_envelope(
+    initial_bad_attempt_rate: float,
+    producer_adjustment: float,
+    target_floor: float,
+    steps: int,
+) -> float:
+    """Finite-time lower envelope under partial adjustment toward targets >= floor."""
+
+    initial_bad_attempt_rate = _probability(
+        "initial_bad_attempt_rate", initial_bad_attempt_rate
+    )
+    producer_adjustment = _probability(
+        "producer_adjustment", producer_adjustment
+    )
+    target_floor = _probability("target_floor", target_floor)
+    if isinstance(steps, bool) or not isinstance(steps, int) or steps < 0:
+        raise ValueError("steps must be a nonnegative integer")
+    return target_floor + (1.0 - producer_adjustment) ** steps * (
+        initial_bad_attempt_rate - target_floor
+    )
+
+
 def simulate(parameters: DynamicsParameters, steps: int = 250) -> list[RoundRecord]:
     """Simulate delayed local responses and their effect on shared state."""
 
@@ -417,9 +501,11 @@ def simulate(parameters: DynamicsParameters, steps: int = 250) -> list[RoundReco
             )
         )
 
-        target_bad_rate = _logistic(
-            (p.capture_gain - p.detection_penalty * detection)
-            / p.producer_temperature
+        target_bad_rate = producer_target_bad_rate(
+            detection,
+            p.capture_gain,
+            p.detection_penalty,
+            p.producer_temperature,
         )
         target_effort = selected_effort(
             bad_rate, p.monitor_reward, p.effort_cost, p.correlation
