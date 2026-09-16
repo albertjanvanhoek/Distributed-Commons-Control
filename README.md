@@ -56,6 +56,7 @@ and hence \(\liminf P_{\mathrm{bad},t}\ge\rho m\). This turns the static floor i
 | [`docs/PHASE_BOUNDARY.md`](docs/PHASE_BOUNDARY.md) | Complete piecewise phase theorem and critical-cost boundary |
 | [`docs/PRIOR_ART.md`](docs/PRIOR_ART.md) | Prior-art calibration and current novelty boundary |
 | [`docs/CLOSED_LOOP.md`](docs/CLOSED_LOOP.md) | Experiment 2: closed commons loop, folds, hysteresis and recovery basins |
+| [`docs/VIABILITY_CONTRIBUTION.md`](docs/VIABILITY_CONTRIBUTION.md) | Experiment 3: neutral participant contribution to a declared viability margin |
 | [`CLAIMS.md`](CLAIMS.md) | Claim ledger separating proofs, computations and hypotheses |
 | [`src/distributed_commons/`](src/distributed_commons/) | Dependency-free executable model |
 | [`scripts/run_experiment.py`](scripts/run_experiment.py) | Reproducible parameter sweep |
@@ -112,6 +113,28 @@ M=1-\gamma+\gamma\eta,
 \]
 
 so local linear stability is equivalent to \(\eta<1\). The algebraic equivalence is machine-checked in `formalization/ClosedLoopStability.lean`; concrete fold locations remain numerical. See [Experiment 2](docs/CLOSED_LOOP.md).
+
+## Participant contribution to viability
+
+Experiment 3 moves from anonymous same-mode monitors to heterogeneous
+participants with different failure profiles. For a coalition (S), define
+(pi(S)) as the probability that every participant is disabled, and define
+the viability margin
+
+[
+M(S)=sup{bin[0,1]:bpi(S)learepsilon}.
+]
+
+The first exact example has two participants sharing failure cause (A) and a
+third participant vulnerable only to independent cause (B). Adding the third
+participant changes structural escape from (ho) to (ho^2), and in the
+uncapped regime multiplies the viability margin by (1/ho). At
+(ho=0.05), that is a twentyfold increase.
+
+The model is deliberately substrate-neutral. Leave-one-out contribution,
+Shapley attribution and higher-order interaction terms are all computed from
+the same declared margin; no participant is assigned a globally positive or
+negative role. See [Experiment 3](docs/VIABILITY_CONTRIBUTION.md).
 
 ## Scientific boundary
 
