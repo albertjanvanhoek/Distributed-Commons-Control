@@ -70,9 +70,11 @@ theorem delayed_envelope (b : ℕ → ℝ) (v : ℝ)
   induction k with
   | zero => simp
   | succ k ih =>
-    have hs := hstep (t+k)
-    simp only [Nat.add_succ, Nat.cast_add, Nat.cast_one] at *
-    nlinarith
+    have hs := hstep (t + k)
+    simp only [Nat.succ_eq_add_one]
+    rw [show t + (k + 1) = t + k + 1 by omega]
+    push_cast
+    linarith
 
 /-- Safety and feasible effort persist under repeated feedback, provided the
 load-envelope, structural and capacity conditions hold at every transition. -/
