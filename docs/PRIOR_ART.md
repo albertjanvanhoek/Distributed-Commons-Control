@@ -75,7 +75,27 @@ selected-versus-sufficient monitoring, common-mode failure, endogenous
 producer response and state-dependent corrective capacity — yields useful
 boundaries or observables not already contained in those literatures.
 
-## 4. Current research boundary
+## 4. Critical slowing down is established early-warning theory
+
+As a fold is approached, recovery from small perturbations slows because the
+dominant local multiplier approaches one. Scheffer et al. (2009), *Early-warning
+signals for critical transitions*, Nature 461:53-59, DOI 10.1038/nature08227,
+reviewed critical slowing down and associated early-warning signals across
+complex systems.
+
+Experiment 2 therefore does not claim critical slowing down as new. Its exact
+model-specific identity
+
+\[
+1-M=\gamma(1-\eta)
+\]
+
+shows how the distributed-control loop gain maps onto that established
+quantity. It also clarifies a limitation: slowing down in the current commons
+state detects nearness to the local fold, but does not by itself measure a
+separate stock of dormant corrective capacity.
+
+## 5. Current research boundary
 
 The next question is not whether correlation leaves a floor at fixed harmful
 attempt rate \(b\). It is what happens when the attempted-harm rate is itself
@@ -101,7 +121,7 @@ is novel relative to inspection-game, security-game and reliability
 literatures remains a literature question; the repository does not currently
 claim priority.
 
-## 5. Why this distinction matters
+## 6. Why this distinction matters
 
 The intended research sequence is:
 
