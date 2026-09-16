@@ -2,6 +2,8 @@ name: Model and Formalization Checks
 
 on:
   push:
+    branches:
+      - main
   pull_request:
 
 permissions:
