@@ -21,6 +21,12 @@
 | E3 | Slow maintenance viability does not imply event-level supercritical correction for a particular fault. | Machine-checked separation witness | Witness uses a strong slow loop but `f=3/4`, giving `lambda_x=1/2` at `F=2, gamma=0`. |
 | E4 | All four cells of the two-threshold phase structure are jointly inhabitable in the declared model. | Machine-checked witnesses | This is logical/model non-equivalence, not an empirical statement about JAM deployment. |
 | E5 | A system can therefore be correctable in the current audit while the modeled capacity supporting future correction is below replacement, or operationally persistent while fault-specific correction is subcritical. | Interpretation of E2–E4 | Requires empirical/protocol mapping before any claim about actual JAM long-run dynamics. |
+| F1 | Under the declared state update `C' = r_C C + k_RC R` and fast coupling `lambda = F C`, next reproduction satisfies `lambda' = r_C lambda + F k_RC R`. | Machine-checked exact identity | `C`, `R`, and their update coefficients are declared slow-state variables, not Gray Paper variables. |
+| F2 | At current criticality `lambda=1`, next reproduction is at least critical iff `F k_RC R >= 1-r_C`. | Machine-checked exact equivalence | Local one-step maintenance-return boundary; not a general stability theorem for the full three-dimensional loop. |
+| F3 | At current criticality, strict return shortfall makes the next audit subcritical; strict return surplus makes it supercritical. | Machine-checked corollaries of F2 | Same declared state model. |
+| F4 | In the reduced path `lambda_t=m^t lambda_0`, the correction margin obeys `mu_{t+1}=m mu_t-(1-m)`. | Machine-checked identity | `m` is a reduced net cross-audit multiplier and is not identified with the three-process loop ratio `R_M`. |
+| F5 | The same current supercritical reproduction number can correspond to different finite-horizon threshold status: with `lambda_0=3/2`, `m=1` remains supercritical at step 5 whereas `m=9/10` is subcritical. | Machine-checked counterexample | Numerical witness demonstrates non-identifiability; it is not a calibrated JAM forecast. |
+| F6 | Current `lambda_x` is therefore not a sufficient statistic for finite-horizon corrective resilience in the declared dynamic model. | Interpretation of F4–F5 | Forecasting actual JAM resilience requires empirical identification of slow-state dynamics. |
 
 ## Explicit non-claims
 
@@ -34,4 +40,6 @@ The paper does not claim:
 - that the Gray Paper already specifies numerical coefficients for the slow `C -> O -> R -> C` maintenance loop;
 - that `lambda_x > 1` guarantees preservation of corrective capacity across future audits;
 - that persistence of a validator/economic ecosystem guarantees independent correction for every correlated fault;
-- novelty for the underlying positive-systems, spectral-radius, or reproduction-number threshold mathematics used to motivate the slow-loop abstraction.
+- that the reduced multiplier `m=9/10` or any other numerical slow-dynamics parameter is an estimate for JAM;
+- that a single current observation of `lambda_x` is sufficient to estimate a future failure probability;
+- novelty for the underlying positive-systems, spectral-radius, reproduction-number, or geometric-decay mathematics used in the declared slow models.
