@@ -1,53 +1,44 @@
-\section{Limitations and questions for the ELVES/JAM authors}
-\label{sec:limitations}
+\section{Limitations and claim boundaries}
 
-The purpose of this paper is to expose assumptions, not to claim a complete security analysis. Several issues require author or implementation review.
+This paper combines one direct protocol-rule derivation with several declared model extensions. The distinction is essential.
 
-\subsection{Correlated honest failure is outside the ELVES proof model}
+\paragraph{Correlated fault domains are hypothetical inputs, not observed JAM failures.}
+The paper does not establish that a currently deployed or planned JAM client contains a fault shared by any particular validator fraction. The fault-domain model asks what follows if such a dependency exists.
 
-The branching extension assumes that a buggy honest auditor behaves like an auditor that cannot produce a useful negative judgment for fault \(x\). This is a natural substitution in the reproduction mean, but it is not proved by ELVES. The exact coupling to adaptive crashes, tranche timing, and the paper's stronger committee-size concentration bounds should be checked by the ELVES authors.
+\paragraph{The ELVES branching substitution is an extension.}
+Replacing the original independently honest corrective share by the fault-specific independently correct share $h_x$ is analytically transparent, but it is outside the assumptions under which the published ELVES result was derived. Its interpretation therefore requires review by the ELVES authors.
 
-\subsection{The verdict analysis assumes enough judgments become available}
+\paragraph{The pessimistic branching process is not an exact protocol simulator.}
+The reproduction number and extinction expressions are inherited from a branching approximation. They identify structural thresholds under that approximation; they do not constitute an exact JAM attack probability.
 
-The finite-population verdict conditions in \Cref{sec:attribution} concern which signed judgment compositions can be assembled. If too many validators are offline, a verdict may fail to reach \(K\) total judgments at all. That is a distinct liveness failure.
+\paragraph{Fault domains are not equivalent to client labels.}
+Two validators running the same nominal client may differ in version, dependencies, configuration, hardware, or execution environment. Conversely, nominally different clients may share libraries, compilers, specifications, or conceptual defects. The relevant object is fault-specific correlated response, not a client-name count.
 
-\subsection{What does the staking layer do with wonky?}
+\paragraph{The slow maintenance state is declared rather than protocol-native.}
+The variables $C_t$, $O_t$, and $R_t$ and coefficients $r_C,r_O,r_R,k_{CO},k_{OR},k_{RC}$ are analytical state variables introduced to expose a cross-audit maintenance question. They are not claimed to be Gray Paper state variables, and the paper does not currently estimate them from a JAM deployment or testnet.
 
-This is the highest-priority clarification.
+\paragraph{The recurrent product threshold is not claimed as new mathematics.}
+The three-process replacement inequality is a finite positive-systems/reproduction-number structure. The contribution claimed here is its explicit separation from the event-level ELVES correction condition and the resulting JAM-facing systems question, not the product threshold itself.
 
-The Gray Paper records wonky reports in a dedicated set and removes non-positive reports from the availability path. Its ordinary culprit/fault rules refer to good or bad reports, and its punish set is populated by those offense extrinsics. However, the chain's validator rewards and higher-level economic policy are delegated.
+\paragraph{The dynamic return theorem is local.}
+The equivalence
+\[
+\lambda_{t+1}\ge1
+\iff
+Fk_{RC}R_t\ge1-r_C
+\]
+is proved at current criticality under the declared one-step state update. It is not a general stability theorem for the full three-dimensional maintenance system, nor does it establish that the system converges to a particular equilibrium.
 
-Therefore the paper's narrow claim is:
-\begin{quote}
-A wonky verdict does not create the ordinary Gray-Paper culprit/fault offender record.
-\end{quote}
-It does \emph{not} follow that a production staking system must impose zero cost. If the staking layer explicitly penalizes guarantors or judges associated with wonky, the economic attribution gap narrows.
+\paragraph{The reduced multiplier is diagnostic, not calibrated.}
+The reduced path $\lambda_t=m^t\lambda_0$ is used to prove that current reproduction alone does not identify finite-horizon resilience. The witness $m=9/10$ is deliberately transparent and is not an estimate of JAM attrition, client turnover, or any protocol parameter. A deployment forecast would require empirical identification of the slow dynamics and uncertainty around them.
 
-\subsection{The one-vote finite-population gap}
+\paragraph{Current supercriticality is not equivalent to guaranteed audit success.}
+The condition $\lambda_x>1$ is a supercritical branching condition in the declared ELVES extension. The paper does not equate it with certainty of correct resolution for a particular audit, and the dynamic sections therefore discuss preservation of the reproduction condition rather than guaranteed outcomes.
 
-At \(N=1023\), a global composition of 682 positive and 341 negative judgments does not appear to contain a valid 683-judgment subset with any of the three permitted positive counts \(683\), \(341\), or \(0\). This may be resolved elsewhere in the intended protocol semantics, or it may be an unreachable/irrelevant edge case under assumptions not represented in our abstraction. It should be confirmed rather than silently approximated by the continuous \(2/3\) boundary.
+\paragraph{Client-diversity incentives do not automatically close the maintenance loop.}
+Existing work shows that client identity can in principle be made verifiable and minority implementations can be differentially rewarded. Such mechanisms may instantiate part of the observability/resource-return pathway, but this paper does not assume that they are sufficient to maintain fault-specific independent corrective capacity. That sufficiency is itself an empirical systems question.
 
-\subsection{Strategic entry is not established}
+\paragraph{Protocol and ecosystem boundaries remain partly delegated.}
+Operator economics, staking consequences, implementation development, software maintenance and deployment choices span layers beyond execution auditing. The model deliberately exposes this boundary rather than attributing every slow-loop coefficient to the JAM protocol itself.
 
-The probability that at least two of three guarantors share a fault does not imply an attacker can freely choose such a core. Strategic exploitation requires a mapping from attacker-controlled work submission to core assignment and timing. The manuscript therefore separates:
-\begin{itemize}
-\item \emph{accidental correlated failure}, where assignment probabilities enter the event probability; and
-\item \emph{strategic exploitation}, where an attacker conditions on known favorable assignments only if the protocol gives it sufficient choice.
-\end{itemize}
-
-\subsection{Client identity is not fault identity}
-
-A client-diversity rule can miss shared dependencies and can be gamed when identity is self-declared. Conversely, two versions of the same client might not share a particular bug. The model's fundamental variable is fault-domain membership, which is generally latent until a fault is discovered.
-
-\subsection{Questions to send with the paper}
-
-We would ask the ELVES and JAM authors five concrete questions:
-\begin{enumerate}[label=Q\arabic*.]
-\item Is replacing the honest offspring share \((1-\gamma)\) by a fault-specific independently correct share \(h_x\) valid under the ELVES adaptive-crash proof, or does another part of the proof change?
-\item Under the current JAM dispute semantics, is our reading correct that a wonky verdict creates no culprit/fault offender records? Does the intended staking layer nevertheless act on the wonky set?
-\item Is the \(N=1023\), 682-positive/341-negative verdict composition handled by another rule, or is the literal three-count verdict restriction intentional?
-\item When validator count changes while the 341-core constant remains fixed, is the expected initial audit count per report intended to scale as \(10N/341\) once all cores are active?
-\item Are implementation/fault-domain diversity constraints considered anywhere in guarantor assignment, validator selection, or staking beyond the ecosystem-level encouragement of multiple clients?
-\end{enumerate}
-
-A negative answer to any of these can change the conclusions. That is precisely why the results are presented as a reviewable extension rather than a vulnerability claim.
+These limitations are not secondary caveats. They define the intended claim hierarchy: direct Gray Paper verdict arithmetic first; ELVES-based fault-domain extension second; recurrent-maintenance and dynamic-resilience models third; empirical grounding and protocol design conclusions only after those mappings survive expert review and measurement.
