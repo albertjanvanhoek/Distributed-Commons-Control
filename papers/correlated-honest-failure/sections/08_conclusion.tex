@@ -2,7 +2,7 @@
 
 The standard honest/adversarial partition is sufficient only when ``honest'' also means ``independently correct for the fault being exploited.'' Correlated implementation failure separates those concepts.
 
-The resulting JAM/ELVES analysis now has three nested event-level boundaries plus one orthogonal cross-time maintenance condition.
+The resulting JAM/ELVES analysis has three nested event-level boundaries, an orthogonal cross-time maintenance condition, and a dynamic bridge between them.
 
 First, the dispute layer has an attribution boundary. If the combined adversarial-plus-buggy-positive bloc exceeds roughly one third of the validator population, independently correct validators no longer suffice by themselves to construct a bad verdict. The report can still be stopped through a wonky outcome, but the ordinary Gray Paper offender-attribution path changes. This is a protocol-rule result, not a branching-model result.
 
@@ -24,11 +24,35 @@ k_{CO}k_{OR}k_{RC}\ge(1-r_C)(1-r_O)(1-r_R).
 \]
 Machine-checked counterexamples show that this maintenance condition and \(\lambda_x>1\) imply neither one another. The maintenance condition should therefore not be read as a fourth point on the earlier one-third/one-half/two-thirds sequence. It is an orthogonal timescale.
 
-This separation exposes two distinct failure modes. A system can be correctable now while selecting against, failing to observe, or failing to resource the capacities required to remain correctable later. Conversely, a validator and staking ecosystem can remain operationally self-maintaining while excessive common-mode implementation concentration makes correction subcritical for a particular fault.
+Fifth, once the slow corrective-capacity state is allowed to feed the next audit, the separation becomes a dynamic resilience condition. Under
+\[
+C_{t+1}=r_CC_t+k_{RC}R_t,
+\qquad
+\lambda_{x,t}=FC_t,
+\]
+we obtain
+\[
+\lambda_{x,t+1}=r_C\lambda_{x,t}+Fk_{RC}R_t.
+\]
+At current criticality this gives the exact machine-checked boundary
+\[
+\boxed{
+\lambda_{x,t+1}\ge1
+\quad\Longleftrightarrow\quad
+Fk_{RC}R_t\ge1-r_C.
+}
+\]
+The difference
+\[
+M_t=Fk_{RC}R_t-(1-r_C)
+\]
+is therefore a candidate local maintenance-return margin: its sign tells whether a currently critical corrective state crosses below, stays at, or moves above the fast audit threshold on the next slow update.
 
-Together these results suggest that a useful security variable is not raw validator count or raw client count but fault-specific independent corrective capacity, together with the architecture that preserves that capacity over time. Because future faults are unknown, operators cannot observe fault-specific independent correction directly. They can only monitor exposure to plausible common components and examine whether the surrounding protocol, staking and client ecosystem maintain diversity, useful checking and the return paths that support them.
+This dynamic bridge exposes a stronger failure mode than static insufficiency. A system can remain on the supercritical side of its current audit condition while its corrective margin is predictably decaying toward subcriticality. The Lean formalization demonstrates this by constructing two systems with the same current \(\lambda_0=3/2\) but opposite five-step threshold status under different reduced maintenance multipliers. Current audit reproduction is therefore not, within the declared model, a sufficient statistic for finite-horizon corrective resilience.
 
-The most concise summary is therefore:
+Together these results suggest that the relevant security object is not raw validator count, raw client count, or even current \(\lambda_x\) alone. It is a pair consisting of fault-specific independent corrective capacity and the maintenance dynamics that replenish or erode that capacity. Because future faults are unknown, this object cannot be observed perfectly. But implementation exposure, useful audit effort, client/operator turnover, diversity-aware rewards, development resources and other return flows can in principle provide measurable proxies.
+
+The most concise hierarchy is therefore:
 \[
 \boxed{
 \text{honest stake}
@@ -38,15 +62,19 @@ The most concise summary is therefore:
 \text{attacker-attributable stake},
 }
 \]
-with the additional cross-time distinction
+followed by
 \[
 \boxed{
 \text{corrective reproduction now}
 \neq
-\text{reproduction of corrective capacity over time}.
+\text{reproduction of corrective capacity over time}
+\neq
+\text{finite-horizon corrective resilience}.
 }
 \]
 
-The first distinction matters for auditing and economics. The second matters for long-run robustness. The Gray Paper and ELVES already provide a strong framework for reasoning about adversarial and availability failures; correlated honest failure asks where shared implementation dependencies enter that framework, while the recurrent-maintenance extension asks what additional architecture is required to keep the independently corrective part of the system from eroding between audits.
+The first distinction matters for auditing and economics. The second separates an event-level success condition from a cross-time maintenance condition. The third makes that maintenance condition operational by asking whether the observed return flows are sufficient to keep the fast corrective threshold from being crossed in the future.
 
-The next external step remains review by the ELVES and JAM authors, especially on the wonky-verdict economics and the substitution of \(h_x\) into the branching proof. The recurrent-maintenance result adds a separate question for that review: which protocol, staking, operator and client-ecosystem mechanisms actually close the slow return loop, and which coefficients could in principle be measured rather than assumed? If the event-level mappings are accepted, fault-domain exposure becomes a quantitatively defined protocol margin. If the slow-loop mapping can also be grounded, the analysis can move from current corrective capacity to the conditions under which that capacity persists.
+This also clarifies the relationship to existing client-diversity work. Demonstrating or rewarding minority implementations can improve the observability and resource-return parts of the loop, but it does not by itself establish that fault-specific independent corrective capacity is above replacement. The additional question is whether the resulting return process is strong and fast enough relative to attrition to preserve future correction.
+
+External review by the ELVES and JAM authors remains essential, especially on the wonky-verdict economics, the substitution of \(h_x\) into the branching proof, and the mapping from protocol/ecosystem mechanisms to the declared slow state. The strongest next empirical test is correspondingly concrete: determine whether a JAM deployment or testnet can estimate both a current fault-domain correction margin and an independent maintenance-return margin, then test whether the latter predicts changes in the former before event-level correction becomes subcritical.
