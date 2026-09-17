@@ -1,0 +1,135 @@
+\section{Result 4: correction reproduction is not maintenance reproduction}
+\label{sec:recurrent-maintenance}
+
+The preceding results concern what happens \emph{within} an audit or dispute episode. A distinct question is whether the system preserves the capacity required to remain corrective across future episodes. The two questions should not be identified.
+
+\subsection{Two timescales}
+
+For a fault $x$, the event-level corrective reproduction mean in the correlated-honest-failure extension is
+\[
+\lambda_x=F(1-\gamma)(1-f_x).
+\]
+The condition
+\[
+\lambda_x>1
+\]
+means that independently correct checking is supercritical for the declared audit process. It does not state that the resources, observability or implementation diversity required for such checking will persist across time.
+
+To make that second problem explicit, introduce three slow capacities:
+\[
+C_t=\text{independently corrective capacity},
+\]
+\[
+O_t=\text{capacity to observe or attribute genuine maintenance},
+\]
+\[
+R_t=\text{resources returned to preserve future corrective capacity}.
+\]
+These variables are a model extension rather than Gray Paper state variables. The simplest directed return loop is
+\[
+C\longrightarrow O\longrightarrow R\longrightarrow C.
+\]
+Write $r_C,r_O,r_R$ for autonomous one-step retention factors and $k_{CO},k_{OR},k_{RC}$ for the three directed coupling gains. The canonical finite-cycle replacement condition is
+\[
+\boxed{
+ k_{CO}k_{OR}k_{RC}
+ \ge
+ (1-r_C)(1-r_O)(1-r_R).
+}
+\]
+For convenience define the dimensionless loop ratio
+\[
+\mathcal R_M
+=
+\frac{k_{CO}k_{OR}k_{RC}}
+{(1-r_C)(1-r_O)(1-r_R)}
+\]
+when the denominator is positive. Then the canonical replacement boundary is $\mathcal R_M\ge1$.
+
+The underlying product/spectral threshold mathematics is standard positive-systems and reproduction-number structure; no novelty is claimed for that mathematics. The point here is the separation of this slower maintenance threshold from the ELVES event-level reproduction threshold.
+
+\subsection{The thresholds are logically independent}
+
+The repository now machine-checks explicit witnesses in Lean.
+
+First, current correction may be supercritical while recurrent maintenance is subcritical. Set
+\[
+F=2,\qquad \gamma=0,\qquad f_x=0.
+\]
+Then
+\[
+\lambda_x=2>1.
+\]
+But if
+\[
+r_C=r_O=r_R=0,
+\qquad
+k_{CO}=k_{OR}=k_{RC}=\frac12,
+\]
+then the maintenance deficit product is $1$ while the loop gain is $1/8$. Hence the slow loop is below replacement.
+
+Second, a viable maintenance loop does not imply fault-specific correction for the current audit. Set
+\[
+r_C=r_O=r_R=\frac12,
+\qquad
+k_{CO}=k_{OR}=k_{RC}=1.
+\]
+Then the maintenance loop gain is $1$ against deficit product $1/8$, so it is above the canonical replacement boundary. But with
+\[
+F=2,\qquad \gamma=0,\qquad f_x=\frac34,
+\]
+we obtain
+\[
+\lambda_x=\frac12<1.
+\]
+Thus an economically and operationally persistent validator ecosystem can still be insufficiently independently corrective for a particular correlated fault.
+
+These two counterexamples establish
+\[
+\boxed{
+\lambda_x>1
+\not\Rightarrow
+\mathcal R_M\ge1,
+}
+\]
+and
+\[
+\boxed{
+\mathcal R_M\ge1
+\not\Rightarrow
+\lambda_x>1.
+}
+The Lean module also explicitly inhabits the jointly viable and jointly non-viable cells, so the two predicates form a genuine two-dimensional phase structure in this declared model.
+
+\subsection{Two-timescale phase structure}
+
+The resulting interpretation is:
+
+\begin{center}
+\begin{tabularx}{\textwidth}{lXX}
+\toprule
+& recurrent maintenance above replacement & recurrent maintenance below replacement \\
+\midrule
+$\lambda_x>1$ & current correction is supercritical and the modeled maintenance loop is viable & current correction is supercritical now, but the modeled capacity that supports future correction is eroding \\
+$\lambda_x\le1$ & maintenance resources/processes persist, but independent correction is insufficient for fault $x$ & neither condition is met \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+The upper-right cell is the main new systems question. A protocol can satisfy its current audit-reproduction condition while selecting against, failing to observe, or failing to resource the costly capacities on which that condition depends in the future.
+
+The lower-left cell is the complementary failure mode. Persistence of validators, rewards and monitoring infrastructure is not equivalent to preservation of fault-specific independent correction. A homogeneous but well-funded implementation ecosystem can remain operational while losing the diversity needed for one shared fault.
+
+\subsection{Relation to the Gray Paper and ELVES}
+
+This result does not claim that JAM currently has a closed $C\!\to O\!\to R\!\to C$ loop with known coefficients. Rather, the Gray Paper and the preceding repository experiments expose interfaces corresponding to the three functions:
+
+\begin{itemize}
+\item useful audit computation supplies independently corrective capacity;
+\item effort and judgment information can make maintenance observable or attributable;
+\item staking, operator economics and implementation ecosystems determine whether resources are returned to preserve that capacity.
+\end{itemize}
+
+Some of these mechanisms are explicitly delegated outside the audited assurance layer. That delegation is precisely why event-level correction and cross-time maintenance should be represented by different conditions rather than by one reproduction number.
+
+The falsifiable design question is therefore not merely whether $\lambda_x>1$ today. It is whether the surrounding protocol, staking and client ecosystem jointly close a return loop that keeps independently corrective capacity available across future audits.
