@@ -22,6 +22,10 @@ F k_{RC}R_t\ge1-r_C.
 
 The same formalization gives two systems with identical current `lambda_0 = 3/2` but opposite five-step threshold status under different reduced maintenance multipliers. This is the paper's central dynamic claim: current audit reproduction is not a sufficient statistic for future corrective resilience in the declared model.
 
+## Literature boundary
+
+The paper does **not** claim novelty for the proposition that blockchain client diversity matters, nor for rewarding minority clients. Existing work has proposed verifiable client identification and diversity-aware economic rewards, and longitudinal Ethereum work has documented time-varying participation and concentration. The narrower proposed contribution here is to connect fault-specific sampled-audit reproduction to a separately maintained corrective-capacity state, derive an exact return-gap boundary at fast criticality, and make the current-versus-future correction distinction machine checkable.
+
 ## Files
 
 - `main.tex` — manuscript entry point.
