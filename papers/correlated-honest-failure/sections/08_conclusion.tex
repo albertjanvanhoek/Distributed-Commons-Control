@@ -1,8 +1,8 @@
 \section{Discussion and conclusion}
 
-The standard honest/adversarial partition is sufficient only when “honest” also means “independently correct for the fault being exploited.” Correlated implementation failure separates those concepts.
+The standard honest/adversarial partition is sufficient only when ``honest'' also means ``independently correct for the fault being exploited.'' Correlated implementation failure separates those concepts.
 
-The resulting JAM/ELVES analysis has three nested boundaries.
+The resulting JAM/ELVES analysis now has three nested event-level boundaries plus one orthogonal cross-time maintenance condition.
 
 First, the dispute layer has an attribution boundary. If the combined adversarial-plus-buggy-positive bloc exceeds roughly one third of the validator population, independently correct validators no longer suffice by themselves to construct a bad verdict. The report can still be stopped through a wonky outcome, but the ordinary Gray Paper offender-attribution path changes. This is a protocol-rule result, not a branching-model result.
 
@@ -18,7 +18,15 @@ Third, sampled correction introduces dilution. With
 \]
 validator growth can reduce corrective reproduction when new validators do not increase the independently correct set for the relevant fault. This can occur even if every entrant is honest and the adversarial fraction falls.
 
-Together these results suggest that a useful security variable is not raw validator count or raw client count but fault-specific independent corrective capacity. Because future faults are unknown, operators cannot observe that capacity directly. They can only monitor exposure to plausible common components and preserve diversity margins across multiple layers.
+Fourth, event-level correction is not the same as preserving the capacity to remain corrective across future audits. The declared slow maintenance model separates independently corrective capacity, maintenance observability or attribution, and returned resources. Its canonical three-cycle threshold is
+\[
+k_{CO}k_{OR}k_{RC}\ge(1-r_C)(1-r_O)(1-r_R).
+\]
+Machine-checked counterexamples show that this maintenance condition and \(\lambda_x>1\) imply neither one another. The maintenance condition should therefore not be read as a fourth point on the earlier one-third/one-half/two-thirds sequence. It is an orthogonal timescale.
+
+This separation exposes two distinct failure modes. A system can be correctable now while selecting against, failing to observe, or failing to resource the capacities required to remain correctable later. Conversely, a validator and staking ecosystem can remain operationally self-maintaining while excessive common-mode implementation concentration makes correction subcritical for a particular fault.
+
+Together these results suggest that a useful security variable is not raw validator count or raw client count but fault-specific independent corrective capacity, together with the architecture that preserves that capacity over time. Because future faults are unknown, operators cannot observe fault-specific independent correction directly. They can only monitor exposure to plausible common components and examine whether the surrounding protocol, staking and client ecosystem maintain diversity, useful checking and the return paths that support them.
 
 The most concise summary is therefore:
 \[
@@ -27,10 +35,18 @@ The most concise summary is therefore:
 \neq
 \text{independently corrective stake}
 \neq
-\text{attacker-attributable stake}.
+\text{attacker-attributable stake},
+}
+\]
+with the additional cross-time distinction
+\[
+\boxed{
+\text{corrective reproduction now}
+\neq
+\text{reproduction of corrective capacity over time}.
 }
 \]
 
-The first inequality matters for auditing. The second matters for economics. The Gray Paper and ELVES already provide a strong framework for reasoning about adversarial and availability failures; correlated honest failure asks where shared implementation dependencies enter that framework.
+The first distinction matters for auditing and economics. The second matters for long-run robustness. The Gray Paper and ELVES already provide a strong framework for reasoning about adversarial and availability failures; correlated honest failure asks where shared implementation dependencies enter that framework, while the recurrent-maintenance extension asks what additional architecture is required to keep the independently corrective part of the system from eroding between audits.
 
-The immediate next step is not another model extension. It is review by the ELVES and JAM authors, especially on the wonky-verdict economics and the substitution of \(h_x\) into the branching proof. If those mappings are accepted, fault-domain exposure becomes a quantitatively defined protocol margin rather than only a qualitative argument for client diversity. If they are rejected, the reasons will identify exactly which additional mechanism closes the gap.
+The next external step remains review by the ELVES and JAM authors, especially on the wonky-verdict economics and the substitution of \(h_x\) into the branching proof. The recurrent-maintenance result adds a separate question for that review: which protocol, staking, operator and client-ecosystem mechanisms actually close the slow return loop, and which coefficients could in principle be measured rather than assumed? If the event-level mappings are accepted, fault-domain exposure becomes a quantitatively defined protocol margin. If the slow-loop mapping can also be grounded, the analysis can move from current corrective capacity to the conditions under which that capacity persists.
