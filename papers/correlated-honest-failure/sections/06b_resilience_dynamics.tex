@@ -32,7 +32,7 @@ This identity is machine checked in the repository.
 
 \subsection{An exact maintenance-return boundary}
 
-The most useful case is the fast critical boundary. Suppose
+The most useful local case is the fast critical boundary. Suppose
 \[
 \lambda_{x,t}=1.
 \]
@@ -56,11 +56,49 @@ M_t=F k_{RC}R_t-(1-r_C)
 \]
 acts as a local maintenance-return margin at the audit critical boundary. A negative margin implies that a system sitting exactly at current criticality crosses below it on the next cross-audit update; a positive margin moves it above criticality.
 
-This result is deliberately narrower than a general stability theorem for the full three-dimensional system. Its advantage is interpretability: the left side is the familiar event-level audit threshold, while the right side states exactly how much effective returned resource is required to replace attrition in the corrective coordinate.
+This one-step boundary is deliberately local. Its advantage is interpretability: the left side is the familiar event-level audit threshold, while the right side states exactly how much effective returned resource is required to replace attrition in the corrective coordinate.
+
+\subsection{From the closed maintenance threshold to persistent correction}
+
+The static product threshold from Result 4 can also be connected directly to the full slow dynamics, without introducing a reduced multiplier. Define the canonical maintenance state
+\begin{align}
+C^*&=(1-r_O)(1-r_R),\\
+O^*&=k_{CO}(1-r_R),\\
+R^*&=k_{CO}k_{OR}.
+\end{align}
+At this state, the $O$ and $R$ coordinates are exactly at replacement. The $C$ coordinate is at or above replacement exactly when
+\[
+\boxed{
+(1-r_C)(1-r_O)(1-r_R)
+\le
+k_{CO}k_{OR}k_{RC}.
+}
+\]
+This is the same three-process maintenance threshold used in Result 4, now expressed on the time-indexed state system.
+
+Under nonnegative retention and coupling coefficients, the Lean formalization proves a stronger statement: the entire coordinatewise cone above $(C^*,O^*,R^*)$ is forward invariant whenever the product threshold is met. A trajectory initialized at the canonical state therefore remains at or above that state at every future cross-audit time.
+
+This yields the direct persistence theorem. If
+\[
+F C^*>1,
+\]
+then
+\[
+\boxed{
+\lambda_{x,t}>1\quad\text{for every }t\ge0
+}
+\]
+for the canonical maintenance trajectory. Thus the slow maintenance threshold is not merely a static feasibility condition: together with a sufficiently large canonical corrective coordinate, it supplies an explicit invariant region that preserves fast audit supercriticality indefinitely in the declared model.
+
+The converse failure mechanism is equally transparent. Deleting the immediate return edge $R\to C$ sets $k_{RC}=0$. If $r_C<1$ and $C_t>0$, then
+\[
+C_{t+1}=r_C C_t<C_t.
+\]
+Breaking the return path can therefore erode the very state variable that determines the next audit reproduction number.
 
 \subsection{Latent resilience loss}
 
-The critical-boundary theorem already shows why a snapshot of $\lambda_x$ is incomplete. A system can have a positive current corrective margin and nevertheless lose that margin if its maintenance return is insufficient.
+The full-state theorem shows how a closed loop can preserve correction. The complementary question is how an apparently healthy current audit can conceal future erosion.
 
 To expose this without pretending that the full slow coefficients are empirically known, define a reduced cross-audit multiplier $m$ for the effective reproduction coordinate:
 \[
@@ -80,9 +118,9 @@ Then the one-step margin identity is
 \mu_{t+1}=m\mu_t-(1-m).
 }
 \]
-For $m<1$, even a positive margin is therefore subject to both multiplicative shrinkage and an additive replacement drag created by the fixed critical boundary at one.
+For $m<1$, even a positive margin is therefore subject to both multiplicative shrinkage and an additive replacement drag created by the fixed critical boundary at one. More generally, the Lean proof shows that any finite $\lambda_0$ with $0\le m<1$ eventually crosses below the fast threshold.
 
-The Lean formalization includes the following counterexample. Take two systems with the same observed current reproduction number
+The formalization also includes a matched-current-state counterexample. Take two systems with the same observed current reproduction number
 \[
 \lambda_0=\frac32.
 \]
@@ -102,6 +140,12 @@ The systems are indistinguishable if one observes only the present value $\lambd
 
 A second full-state witness starts with $F=2$ and $C_t=3/4$, so $\lambda_{x,t}=3/2>1$. If only half of $C_t$ is retained and the immediate returned-resource contribution to $C_{t+1}$ is zero, the next reproduction number is $3/4<1$. Current supercriticality alone therefore supplies no invariant preventing a future threshold crossing.
 
+\subsection{Relation to prior resilience and incentive dynamics}
+
+None of the individual ingredients above is claimed to be new in isolation. Software fault-tolerance research has long studied design diversity, environmental diversity, proactive recovery and rejuvenation as ways to prevent present operation from degrading into future failure \citep{trivedi2024}. Blockchain research has likewise studied dynamic incentive compliance \citep{karakostas2023}, payment schemes that balance participation and decentralization \citep{kiayias2024}, longitudinal validator concentration \citep{grandjean2023}, and mechanisms that identify and reward minority client implementations \citep{ron2026}.
+
+The narrower contribution proposed here is their composition at the JAM/ELVES audit interface. The model starts from a fault-specific sampled-audit reproduction number, introduces a separately maintained stock of independently corrective capacity, derives an exact return-gap boundary for the next audit, and then proves both a full-state persistence region and counterexamples in which the same current audit reproduction implies different future resilience. The positive-systems and geometric-decay mathematics is prior art; the claim is that applying it to the reproduction of \emph{corrective capacity itself} exposes a protocol-design variable that is not visible in a current audit snapshot.
+
 \subsection{What would make this operational?}
 
 The formal result shifts the empirical question. Measuring current client shares or current audit success is not enough to estimate persistence of correction. A deployment would need evidence about at least:
@@ -112,6 +156,6 @@ The formal result shifts the empirical question. Measuring current client shares
 \item whether those return flows close the measured replacement gap before the fast margin is exhausted.
 \end{itemize}
 
-This is related to, but distinct from, proposals to prove client identity and reward minority implementations \citep{ron2026}. Such mechanisms can instantiate part of the $O\to R$ pathway. The present model asks an additional systems question: whether the resulting return loop is strong enough, relative to attrition, to preserve the fault-specific corrective capacity on which the audit process relies.
+Mechanisms that prove client identity and reward minority implementations \citep{ron2026} can instantiate part of the $O\to R$ pathway. The present model asks the additional systems question: whether the resulting return loop is strong enough, relative to attrition, to preserve the fault-specific corrective capacity on which the audit process relies.
 
 Longitudinal measurements are therefore central. Ethereum evidence already shows that validator participation and concentration are time-dependent and can be affected by major clients and operators \citep{grandjean2023}. For JAM, the corresponding resilience object would be a time-dependent pair: the current fault-specific audit reproduction margin together with an empirically grounded maintenance-return margin.
