@@ -163,6 +163,35 @@ theorem jamReducedCorrection_strictly_declines
     mul_pos (sub_pos.mpr hm) hlambda
   nlinarith
 
+/-- A nonnegative subunit reduced maintenance multiplier drives every finite
+initial reproduction number to zero, hence eventually below the fast critical
+threshold. This is the general reduced-model erosion theorem behind the finite
+counterexample below. -/
+theorem jamReducedCorrection_eventually_subcritical
+    {lambda0 m : ℝ}
+    (hm0 : 0 ≤ m)
+    (hm1 : m < 1) :
+    ∀ᶠ n : ℕ in Filter.atTop,
+      jamReducedCorrectionPath lambda0 m n < 1 := by
+  have hpow :
+      Filter.Tendsto (fun n : ℕ => m ^ n) Filter.atTop (𝓝 0) :=
+    tendsto_pow_atTop_nhds_zero_of_lt_one hm0 hm1
+  have hpath :
+      Filter.Tendsto
+        (fun n : ℕ => jamReducedCorrectionPath lambda0 m n)
+        Filter.atTop (𝓝 0) := by
+    simpa [jamReducedCorrectionPath] using hpow.mul_const lambda0
+  exact (tendsto_order.1 hpath).2 1 (by norm_num)
+
+/-- In particular, some finite cross-audit horizon lies below criticality for
+any nonnegative reduced multiplier strictly below one. -/
+theorem jamReducedCorrection_eventually_crosses_threshold
+    {lambda0 m : ℝ}
+    (hm0 : 0 ≤ m)
+    (hm1 : m < 1) :
+    ∃ n : ℕ, jamReducedCorrectionPath lambda0 m n < 1 := by
+  exact (jamReducedCorrection_eventually_subcritical hm0 hm1).exists
+
 /-- Finite-horizon resilience in the reduced path. -/
 def jamHorizonSupercritical
     (lambda0 m : ℝ) (T : ℕ) : Prop :=
@@ -205,6 +234,8 @@ theorem current_supercritical_can_cross_subcritical_next_round :
 #print axioms jamReducedCorrectionPath_succ
 #print axioms jamCorrectionMargin_step
 #print axioms jamReducedCorrection_strictly_declines
+#print axioms jamReducedCorrection_eventually_subcritical
+#print axioms jamReducedCorrection_eventually_crosses_threshold
 #print axioms event_level_success_not_sufficient_statistic_for_five_step_resilience
 #print axioms current_supercritical_can_cross_subcritical_next_round
 
