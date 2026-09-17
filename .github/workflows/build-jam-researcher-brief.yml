@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "docs/JAM_RESEARCHER_BRIEF.tex"
+      - ".github/workflows/build-jam-researcher-brief.yml"
   workflow_dispatch:
 
 permissions:
@@ -45,7 +46,8 @@ jobs:
 
       - name: Commit generated PDF when changed
         run: |
-          if git diff --quiet -- docs/JAM_RESEARCHER_BRIEF.pdf; then
+          if git ls-files --error-unmatch docs/JAM_RESEARCHER_BRIEF.pdf >/dev/null 2>&1 \
+             && git diff --quiet -- docs/JAM_RESEARCHER_BRIEF.pdf; then
             echo "Generated PDF is unchanged."
             exit 0
           fi
