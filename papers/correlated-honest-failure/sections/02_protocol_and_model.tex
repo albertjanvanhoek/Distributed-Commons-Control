@@ -1,115 +1,106 @@
-\section{Protocol elements and model}
+\section{Protocol and model}
 \label{sec:model}
 
-\subsection{JAM auditing and disputes}
+\subsection{JAM/ELVES audit structure}
 
-The current Gray Paper states that JAM's auditing and judging system is theoretically equivalent to ELVES \citep{wood2026,burdges2024}. Each validator initially audits a random deterministic selection of up to ten active cores. If an announced auditor fails to produce a positive judgment, later tranches recruit additional auditors. The Gray Paper sets the audit bias factor to
-\[
-F=2,
-\]
-meaning that one unmatched announcement induces an expected two additional auditors in the next tranche. A negative judgment instead causes broad re-auditing and opens the dispute path.
+The present paper treats ELVES as the execution-auditing abstraction and the JAM Gray Paper as the protocol-facing specialization. The key architectural feature is sampled re-execution with escalation: a small initial set checks a report, and unresolved disagreement recruits further checking capacity. The exact JAM verdict layer then aggregates judgments into good, bad or wonky outcomes.
 
-The dispute rules are central to our first result. Let
-\[
-K=\floor{\frac{2N}{3}}+1
-\]
-be the number of judgments carried by a verdict and
-\[
-W=\floor{\frac{N}{3}}
-\]
-the number of positive judgments required for a wonky verdict. Under the current Gray Paper rule, a verdict is:
+We keep three levels separate throughout:
+\begin{enumerate}[leftmargin=*]
+\item the \emph{verdict rule}: which collections of judgments permit a good, bad or wonky verdict;
+\item the \emph{audit branching model}: how independently correct checking reproduces during escalation;
+\item the \emph{cross-audit maintenance model}: how the capacity supplying independent correction is retained, observed and resourced across time.
+\end{enumerate}
+
+Only the first is a direct Gray Paper rule. The second is inherited from ELVES and extended by a correlated-fault partition. The third is introduced in Results 4--5 as a declared systems model.
+
+\subsection{Fault-specific validator classes}
+
+Fix one invalid report and one fault family $x$. Partition the validator set into:
 \begin{itemize}
-\item \textbf{good} if all \(K\) included judgments are positive;
-\item \textbf{bad} if all \(K\) included judgments are negative;
-\item \textbf{wonky} if exactly \(W\) of the \(K\) judgments are positive.
+\item $A$: adversarial validators;
+\item $B_x$: otherwise-honest validators whose shared fault causes the report to be judged valid;
+\item $C_x$: validators that independently judge the report invalid.
 \end{itemize}
-
-Bad and wonky verdicts remove the availability assignment. The Gray Paper's ordinary offense paths are tied to good or bad reports: guarantors of a bad report can be included as culprits, and judges contradicting an established good/bad verdict can be included as faults. A wonky report is recorded in the wonky set, but the current specification does not place its guarantors or judges in the punish set through those culprit/fault rules \citep{wood2026}.
-
-This paper therefore uses the precise phrase \emph{protocol-defined offender attribution path} rather than equating a wonky verdict with zero economic consequences. A staking subsystem could in principle react to the wonky record; the Gray Paper leaves validator rewards and much of the higher-level economics outside the JAM chain itself.
-
-\subsection{ELVES branching quantities}
-
-ELVES models the audit-tranche process with a pessimistic adaptive-crash adversary. Let \(s_0\) be the expected initial audit committee and let \(F\) be the expected number of auditors recruited per unmatched prior auditor. If a fraction \(\gamma\) of the validator population is adversarial, the mean number of useful honest offspring in the branching approximation is
-\[
-\lambda=(1-\gamma)F.
-\]
-If \(q\) is the extinction probability of the corresponding Poisson Galton--Watson process, then
-\[
-q=\exp[-\lambda(1-q)],
-\]
-and the ELVES soundness analysis yields the pessimistic acceptance bound
-\[
-\boxed{
-P_{\rm accept}\le q^{s_0/F}.
-}
-\]
-Useful escalation requires \(\lambda>1\).
-
-The same architecture has a no-show/scalability side. If \(u\) is the fraction represented in the no-show/fault-amplification term, the reproduction number is \(uF\), so the static expected-final-committee bound has the form
-\[
-\boxed{
- s_f\le\frac{s_0}{1-uF},
- \qquad uF<1.
-}
-\]
-ELVES reports a continuous-model optimum near \(F=2.0794\) under its stated assumptions; the Gray Paper uses \(F=2\).
-
-\subsection{Correlated honest fault domain}
-
-For one crafted invalid report and one fault class \(x\), partition the verdict population into:
-\begin{align*}
-A &: \text{adversarial validators},\\
-B_x &: \text{otherwise-honest validators that judge the invalid report as valid},\\
-C_x &: \text{otherwise-honest validators that independently judge it as invalid}.
-\end{align*}
 Thus
 \[
 N=A+B_x+C_x.
 \]
+The adjective \emph{independently correct} is fault-specific. It does not imply globally independent software, nor does membership in $B_x$ imply that a validator is generally unreliable.
 
-The central distinction is:
-\[
-\boxed{
-\text{honest validator count}
-\neq
-\text{fault-specific independently corrective validator count}.
-}
-\]
-
-When convenient we write
+Define
 \[
 \gamma=\frac{A}{N},
 \qquad
 f_x=\frac{B_x}{N-A},
+\qquad
+h_x=\frac{C_x}{N}=(1-\gamma)(1-f_x),
 \]
-so
+and
 \[
-\frac{C_x}{N}=(1-\gamma)(1-f_x).
+p_x=1-h_x=\gamma+(1-\gamma)f_x.
 \]
-The parameter \(f_x\) should not be interpreted as a universal client market share. It is the exposure of honest validators to fault \(x\). A client implementation is one possible fault domain, but shared libraries, compilers, virtual machines, cryptographic code, erasure-coding implementations, or copied specification logic can couple nominally distinct clients.
+Here $p_x$ is the maximum share that can return a wrong positive judgment for the declared report if adversarial validators coordinate with the shared fault.
 
-\subsection{Claim-status map}
+\subsection{Verdict threshold}
 
-\begin{table}[htbp]
-\centering
-\small
-\caption{Status of the main claims. Extension means derived after changing an ELVES/JAM assumption; it is not attributed to the original authors.}
-\label{tab:claims}
-\begin{tabularx}{\textwidth}{@{}p{0.05\textwidth}X p{0.23\textwidth}@{}}
-\toprule
-ID & Claim & Status \\
-\midrule
-A1 & A bad verdict remains constructible against adversarial positive voting iff \(C_x\ge K\). & Exact consequence of Gray Paper verdict rule + declared fault model \\
-A2 & A good verdict becomes constructible if \(A+B_x\ge K\). & Exact consequence of Gray Paper verdict rule + declared fault model \\
-A3 & For large \(N\), robust bad-verdict attribution requires \(\gamma+(1-\gamma)f_x<1/3\). & Asymptotic form of A1 \\
-B1 & Correlated honest failure changes the ELVES corrective mean to \(\lambda_x=F C_x/N\). & ELVES extension \\
-B2 & Supercritical correction requires \(f_x<1-1/[(1-\gamma)F]\). & Exact consequence of B1 \\
-B3 & Increasing \(F\) raises fault-domain tolerance while worsening the static no-show committee bound. & ELVES extension / comparative result \\
-C1 & Holding \(C_x\) fixed, adding validators outside the independently correct set strictly lowers \(\lambda_x=FC_x/N\). & Exact sampling identity \\
-C2 & In the declared baseline, the pessimistic acceptance bound worsens under such additions both for fixed \(s_0=30\) and fixed 341 cores. & Computational specialization \\
-D1 & Slashable collateral need not be attacker-attributable collateral under an honest shared bug. & Economic mapping observation; not a theorem of JAM \\
-D2 & Guarantor diversity, effort proofs, announcement monitoring and load feedback are design questions, not established fixes. & Hypotheses / future work \\
-\bottomrule
-\end{tabularx}
-\end{table}
+For verdict-set size $N$, write
+\[
+K=\floor{\frac{2N}{3}}+1.
+\]
+The analysis uses the Gray Paper verdict composition rules exactly as stated in the protocol snapshot cited in this repository. A bad verdict requires a qualifying set containing no positive judgments. Therefore independently correct negative judgments can construct a bad verdict against adversarial positive voting iff
+\[
+C_x\ge K.
+\]
+This result is independent of the ELVES branching approximation.
+
+\subsection{Fault-specific audit reproduction}
+
+For the ELVES-style escalation extension, let $F$ denote the tranche/escalation factor. Replacing the independently honest share by the fault-specific independently correct share yields the declared reproduction mean
+\[
+\lambda_x=Fh_x=F\frac{C_x}{N}=F(1-\gamma)(1-f_x).
+\]
+The supercritical condition is
+\[
+\lambda_x>1.
+\]
+This substitution is a model extension and is not presented as a theorem from the original ELVES paper.
+
+\subsection{Slow corrective-capacity state}
+
+Results 4--5 add a separate cross-audit state. To avoid confusing a count with a normalized state variable, write
+\[
+c_{x,t}\in\mathbb R
+\]
+for the model's normalized fault-specific independently corrective coordinate at slow time $t$. In the simplest mapping to the static partition, $c_{x,t}$ corresponds to an effective independently correct share like $C_{x,t}/N_t$, but the dynamic model leaves empirical construction of this quantity open.
+
+The remaining coordinates are
+\[
+o_t=\text{maintenance observability/attribution capacity},
+\qquad
+r_t=\text{returned-resource capacity}.
+\]
+For readability, the later dynamic sections denote these three coordinates by capital letters $(C_t,O_t,R_t)$; there $C_t$ is a normalized slow-state coordinate, not the earlier validator count $C_x$.
+
+The declared linear update is
+\begin{align}
+C_{t+1}&=r_C C_t+k_{RC}R_t,\\
+O_{t+1}&=r_O O_t+k_{CO}C_t,\\
+R_{t+1}&=r_R R_t+k_{OR}O_t.
+\end{align}
+Coupling the slow corrective coordinate to the next audit gives
+\[
+\lambda_{x,t}=F C_t.
+\]
+No claim is made that the Gray Paper already contains these state variables or linear coefficients. They are introduced to expose which additional empirical quantities are required if current audit correction is to be translated into a claim about persistence of correction.
+
+\subsection{Claim hierarchy}
+
+The model therefore has an explicit hierarchy:
+\begin{enumerate}[leftmargin=*]
+\item exact verdict arithmetic under the Gray Paper rules and declared fault partition;
+\item ELVES-style branching consequences under the substitution $h_x=C_x/N$;
+\item slow maintenance replacement consequences under declared $C\to O\to R\to C$ dynamics;
+\item finite-horizon implications after coupling $C_t$ back to $\lambda_{x,t}$.
+\end{enumerate}
+The claim ledger records these levels separately so that a failure of a higher-level mapping does not invalidate lower-level protocol arithmetic.
