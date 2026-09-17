@@ -175,12 +175,12 @@ theorem jamReducedCorrection_eventually_subcritical
     ∀ᶠ n : ℕ in Filter.atTop,
       jamReducedCorrectionPath lambda0 m n < 1 := by
   have hpow :
-      Filter.Tendsto (fun n : ℕ => m ^ n) Filter.atTop (Filter.nhds 0) :=
+      Filter.Tendsto (fun n : ℕ => m ^ n) Filter.atTop (nhds 0) :=
     tendsto_pow_atTop_nhds_zero_of_lt_one hm0 hm1
   have hpath :
       Filter.Tendsto
         (fun n : ℕ => jamReducedCorrectionPath lambda0 m n)
-        Filter.atTop (Filter.nhds 0) := by
+        Filter.atTop (nhds 0) := by
     simpa [jamReducedCorrectionPath] using hpow.mul_const lambda0
   exact (tendsto_order.1 hpath).2 1 (by norm_num)
 
