@@ -1,1 +1,0 @@
-This branch adds a machine-checkable distinction between event-level correction and cross-time maintenance of corrective capacity.
