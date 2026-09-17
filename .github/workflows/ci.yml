@@ -27,7 +27,7 @@ jobs:
         run: python scripts/phase_boundary.py --output results/static_phase_boundary.csv
 
       - name: Reproduce dynamic feedback experiment
-        run: python scripts/feedback_experiment.py --output-dir results
+        run: python scripts/feedback_experiment.py --output results/feedback.csv
       - name: Reproduce closed-loop commons experiment
         run: python scripts/closed_loop_experiment.py --output-dir results
       - name: Reproduce viability contribution experiment
