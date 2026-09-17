@@ -1,0 +1,1 @@
+Acceptance criterion: the new `JamRecurrentMaintenance` target must compile in pull-request CI before merge.
