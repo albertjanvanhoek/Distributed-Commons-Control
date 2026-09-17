@@ -1,0 +1,129 @@
+\section{Result 4: corrective reproduction is not maintenance reproduction}
+\label{sec:recurrent-maintenance}
+
+The preceding results concern a fast timescale: given a report and a validator population, can independently correct checking reproduce strongly enough during the resulting audit process?  The fault-specific quantity is
+\[
+\lambda_x=F\frac{C_x}{N}.
+\]
+When \(\lambda_x>1\), the declared branching extension is supercritical for that audit.
+
+That condition does not answer a slower question:
+\begin{quote}
+Does the surrounding system reproduce the capacity required to remain independently corrective across future audits?
+\end{quote}
+
+The distinction matters because the Gray Paper assurance layer delegates important parts of validator reward, operator provisioning, implementation maintenance, and protocol revision to other layers.  A current audit can therefore be well supplied even when the processes that preserve future corrective capacity are privately or operationally eroding.
+
+\subsection{A minimal slow maintenance loop}
+
+We introduce three abstract slow variables:
+\[
+C_t=\text{future independently corrective capacity},
+\]
+\[
+O_t=\text{capacity to observe or discriminate genuine maintenance},
+\]
+\[
+R_t=\text{resources returned to preserve future corrective capacity}.
+\]
+They are intentionally interface variables rather than claimed on-chain JAM state variables.  The minimal directed return loop is
+\[
+C\longrightarrow O\longrightarrow R\longrightarrow C.
+\]
+A linear replacement model is
+\[
+\begin{aligned}
+C_{t+1}&=r_C C_t+k_{RC}R_t,\\
+O_{t+1}&=r_O O_t+k_{CO}C_t,\\
+R_{t+1}&=r_R R_t+k_{OR}O_t,
+\end{aligned}
+\]
+where \(r_i\) are autonomous retention factors and the \(k\)'s are cross-process couplings.  Define maintenance deficits
+\[
+d_i=1-r_i.
+\]
+For the canonical three-process witness, replacement is possible exactly when
+\[
+\boxed{
+d_Cd_Od_R\le k_{CO}k_{OR}k_{RC}.}
+\]
+The strict slow-maintenance condition is therefore
+\[
+\boxed{
+\mathcal R_M
+=\frac{k_{CO}k_{OR}k_{RC}}{d_Cd_Od_R}>1
+}
+\]
+when the deficits are positive.
+
+The product threshold itself is not presented as novel mathematics.  It is the finite directed-cycle specialization of classical positive-system/reproduction-number reasoning.  The contribution here is the separation of this slow cross-audit condition from ELVES's event-level branching condition and its use to expose an additional JAM-facing assumption boundary.
+
+The repository's Lean file \texttt{JamRecurrentMaintenance.lean} checks the exact canonical replacement equivalence.  Under nonnegative update coefficients, the coordinatewise cone above the canonical witness is forward invariant once the replacement threshold is met.  Under positive deficits/couplings and the strict threshold, all three maintained capacities remain positive for every time step.
+
+\subsection{The two reproduction conditions are logically independent}
+
+The fast and slow conditions concern different mechanisms:
+\[
+\boxed{\lambda_x>1}
+\qquad\text{versus}\qquad
+\boxed{\mathcal R_M>1}.
+\]
+Neither implies the other.
+
+First, current correction can be supercritical while slow maintenance is not.  For example, take any audit configuration with \(\lambda_x>1\) and remove the slow return path from resources to future corrective capacity, \(k_{RC}=0\), while the maintenance deficits remain positive.  The audit can still correct the present report, but the declared slow loop cannot replace all three capacities.
+
+Second, a maintenance architecture can reproduce itself while remaining insufficiently independent for one particular fault.  The slow loop can satisfy \(\mathcal R_M>1\) while fault-domain concentration makes
+\[
+F\frac{C_x}{N}\le1.
+\]
+Economic or operational persistence therefore does not imply fault-specific correctness.
+
+Concrete witnesses for both directions are machine-checked.  The Lean formalization also verifies that all four cells of the resulting phase diagram are inhabited:
+
+\begin{center}
+\begin{tabular}{p{0.23\linewidth}p{0.31\linewidth}p{0.31\linewidth}}
+\toprule
+ & \(\mathcal R_M>1\) & \(\mathcal R_M\le1\) \\
+\midrule
+\(\lambda_x>1\) & current correction supercritical and corrective capacity maintained & current correction supercritical, but slow corrective capacity can erode \\
+\addlinespace
+\(\lambda_x\le1\) & maintenance persists, but the relevant fault lacks enough independent correction & neither condition is satisfied \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The upper-right cell is the main new warning.  A protocol can satisfy the event-level correction condition today while selecting away, underfunding, or otherwise failing to reproduce the capacity needed to satisfy it later.
+
+\subsection{Relation to effort observability}
+
+The repository's earlier effort-selection extension derived the local margin
+\[
+\Phi=sW+bdL_F-c,
+\]
+where \(s\) is effective discrimination of genuine checking, \(W\) is the available reward differential, and the remaining term captures expected fault deterrence.  Closing \(\Phi\ge0\) can make real checking selected in the local game.
+
+That still does not imply \(\mathcal R_M>1\).  The Lean development contains an explicit witness in which current corrective reproduction is supercritical and the local compute-selection margin is nonnegative while the slow maintenance loop remains subcritical.  Local incentive sufficiency and recurrent capacity maintenance are therefore separate claims.
+
+The intended interpretation of the three slow edges is only functional:
+\begin{itemize}
+\item \(C\to O\): genuine corrective work must produce enough usable evidence of contribution;
+\item \(O\to R\): that evidence must produce sufficiently selective return, suppression, or resource allocation;
+\item \(R\to C\): returned resources must actually preserve independent implementations, compute, operator participation, and other future corrective capacity.
+\end{itemize}
+The current Gray Paper does not numerically identify these three coefficients.  The threshold is therefore an interface condition for future staking/operator/ecosystem specification, not a measured JAM parameter.
+
+\subsection{What this adds to the correlated-failure result}
+
+Correlated honest failure now exposes two distinct concentration problems.  The first is instantaneous: a large fault domain lowers \(C_x/N\) and therefore lowers \(\lambda_x\).  The second is intertemporal: if the architecture does not return enough value to independently corrective capacity, the future \(C_x\) itself can shrink even when today's audit succeeds.
+
+The resulting hierarchy is
+\[
+\boxed{
+\text{verdict composition}
+\;\longrightarrow\;
+\text{event-level corrective reproduction}
+\;\longrightarrow\;
+\text{cross-time reproduction of corrective capacity}.
+}
+\]
+The three layers should not be collapsed into one security number.  They answer different questions and can cross their boundaries independently.
