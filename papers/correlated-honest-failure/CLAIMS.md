@@ -16,6 +16,11 @@
 | D1 | Slashable collateral need not equal attacker-attributable collateral when honest buggy guarantors sign the invalid report. | Economic mapping observation | Does not prove attacker has zero cost. |
 | D2 | Wonky has no ordinary Gray Paper culprit/fault offender record. | Gray Paper rule interpretation | Staking layer may add consequences; requires author confirmation. |
 | D3 | Guarantor diversity, announcement monitoring, effort proofs and load-feedback controls are design hypotheses. | Future work | No protocol recommendation is claimed. |
+| E1 | The slow three-process model `C -> O -> R -> C` meets its canonical replacement condition when `k_CO k_OR k_RC >= (1-r_C)(1-r_O)(1-r_R)`. | Declared maintenance-loop model; algebraic threshold | The variables and couplings are not claimed to be current Gray Paper state variables. General product/spectral threshold mathematics is prior art. |
+| E2 | Event-level supercritical correction (`lambda_x > 1`) does not imply slow maintenance viability. | Machine-checked separation witness | Witness uses `F=2, gamma=f=0` and a subcritical slow loop. |
+| E3 | Slow maintenance viability does not imply event-level supercritical correction for a particular fault. | Machine-checked separation witness | Witness uses a strong slow loop but `f=3/4`, giving `lambda_x=1/2` at `F=2, gamma=0`. |
+| E4 | All four cells of the two-threshold phase structure are jointly inhabitable in the declared model. | Machine-checked witnesses | This is logical/model non-equivalence, not an empirical statement about JAM deployment. |
+| E5 | A system can therefore be correctable in the current audit while the modeled capacity supporting future correction is below replacement, or operationally persistent while fault-specific correction is subcritical. | Interpretation of E2–E4 | Requires empirical/protocol mapping before any claim about actual JAM long-run dynamics. |
 
 ## Explicit non-claims
 
@@ -25,4 +30,8 @@ The paper does not claim:
 - that the attacker can freely choose a favorable core assignment;
 - that a wonky verdict is economically cost-free in a production staking layer;
 - that client count equals fault-domain diversity;
-- that F=2 is incorrectly chosen without a complete re-optimization under the revised threat model.
+- that F=2 is incorrectly chosen without a complete re-optimization under the revised threat model;
+- that the Gray Paper already specifies numerical coefficients for the slow `C -> O -> R -> C` maintenance loop;
+- that `lambda_x > 1` guarantees preservation of corrective capacity across future audits;
+- that persistence of a validator/economic ecosystem guarantees independent correction for every correlated fault;
+- novelty for the underlying positive-systems, spectral-radius, or reproduction-number threshold mathematics used to motivate the slow-loop abstraction.
