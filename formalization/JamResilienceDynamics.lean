@@ -6,12 +6,12 @@ namespace DistributedCommons
 # JAM: dynamic corrective resilience
 
 `JamRecurrentMaintenance.lean` separates within-audit corrective reproduction
-from cross-audit maintenance viability.  This module couples the two timescales.
+from cross-audit maintenance viability. This module couples the two timescales.
 
 The slow state has three coordinates:
 
-* `corrective` -- the fault-specific independently-correct share/capacity that
-  feeds the next audit's corrective reproduction number;
+* `corrective` -- the normalized, fault-specific independently-correct share
+  that feeds the next audit's corrective reproduction number;
 * `observability` -- capacity to observe or attribute genuine maintenance;
 * `resources` -- resources returned to preserve future corrective capacity.
 
@@ -22,19 +22,20 @@ The declared linear update is
   R' = rR R + kOR O.
 
 For a fixed audit escalation factor `F`, the next audit's fast reproduction
-number is `F * C`.  The main exact bridge proved here is therefore local and
+number is `F * C`. The main exact bridge proved here is therefore local and
 measurable: at the fast critical boundary `F*C = 1`, the next audit remains at
 or above criticality exactly when returned resources close the current
 corrective-capacity replacement gap.
 
 A reduced one-parameter path is also used to prove an identification result:
 the same current reproduction number can imply different finite-horizon
-resilience depending on the cross-audit maintenance multiplier.  This is a
+resilience depending on the cross-audit maintenance multiplier. This is a
 model theorem, not a claim that JAM currently has any particular slow-state
 coefficients or multiplier.
 -/
 
-/-- Slow state supporting future independently-correct auditing. -/
+/-- Slow state supporting future independently-correct auditing. `corrective`
+is normalized to the validator population relevant to the fast audit model. -/
 structure JamCorrectiveState where
   corrective : ℝ
   observability : ℝ
@@ -61,7 +62,7 @@ def jamStateCorrectionSupercritical
   1 < jamStateCorrectionReproduction F x
 
 /-- Exact bridge from the slow state update to the next audit reproduction
-number.  The observability and resource equations matter for later rounds, but
+number. The observability and resource equations matter for later rounds, but
 the immediate next-audit bridge enters through the returned-resource term in
 `C'`. -/
 theorem jam_next_reproduction_identity
@@ -75,7 +76,7 @@ theorem jam_next_reproduction_identity
   unfold jamStateCorrectionReproduction jamCorrectiveStateStep
   ring
 
-/-- **Maintenance-return boundary.**  If the current fast audit is exactly at
+/-- **Maintenance-return boundary.** If the current fast audit is exactly at
 criticality, then the next audit stays at or above criticality iff returned
 resources close the autonomous loss of corrective capacity.
 
@@ -141,7 +142,7 @@ theorem jamReducedCorrectionPath_succ
 noncomputable def jamCorrectionMargin (lambda : ℝ) : ℝ :=
   lambda - 1
 
-/-- Exact margin recursion.  Because the fast threshold remains fixed at one,
+/-- Exact margin recursion. Because the fast threshold remains fixed at one,
 a maintenance multiplier below one creates both multiplicative shrinkage of
 existing margin and an additive replacement drag. -/
 theorem jamCorrectionMargin_step
@@ -168,7 +169,7 @@ def jamHorizonSupercritical
   1 < jamReducedCorrectionPath lambda0 m T
 
 /-- **Current audit success is not a sufficient statistic for horizon
-resilience.**  Two systems can have exactly the same current supercritical
+resilience.** Two systems can have exactly the same current supercritical
 reproduction number and different five-step status solely because their
 cross-audit maintenance multipliers differ.
 
