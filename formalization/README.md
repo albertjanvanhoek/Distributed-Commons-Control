@@ -75,8 +75,13 @@ The Lean source checks only the algebraic core of the declared model. It does no
 | Reduced cross-audit recurrence | `jamReducedCorrectionPath_succ` |
 | Exact correction-margin recursion | `jamCorrectionMargin_step` |
 | Subunit maintenance multiplier strictly erodes positive reproduction | `jamReducedCorrection_strictly_declines` |
+| Subunit nonnegative multiplier eventually becomes subcritical | `jamReducedCorrection_eventually_subcritical`; `jamReducedCorrection_eventually_crosses_threshold` |
 | Same current reproduction can imply opposite five-step resilience | `event_level_success_not_sufficient_statistic_for_five_step_resilience` |
 | Current supercritical state can cross below threshold next round | `current_supercritical_can_cross_subcritical_next_round` |
+| Canonical full-state maintenance threshold | `jam_canonical_threshold_iff` |
+| Canonical maintenance cone is forward invariant | `jam_step_preserves_canonical_lower_bound`; `jam_canonical_trajectory_stays_above_witness` |
+| Closed maintenance loop preserves fast audit supercriticality | `jam_closed_maintenance_loop_preserves_supercritical_correction` |
+| Deleting the return edge makes positive corrective capacity decline | `jam_deleting_return_edge_makes_corrective_capacity_decline` |
 | Fungal redundant-state stability iff effective gain < 1 | `fungal_stable_iff_effective_gain_lt_one` |
 | Unit fungal effective gain is neutral | `fungal_neutral_iff_effective_gain_eq_one` |
 | Superunit fungal effective gain is unstable | `fungal_unstable_iff_effective_gain_gt_one` |
@@ -97,12 +102,7 @@ The toolchain and Mathlib commit match the current formalization convention used
 
 ## End-to-end real-root proof
 
-`RootSafety.lean` is a default Lake build target. It adds 11 declarations covering
-root construction, its power identity, uniqueness, monotonicity, residual bounds,
-threshold feasibility, exact target attainment, least sufficient effort and the
-selected-safety/critical-cost equivalence. Every declaration prints its axioms.
-See `docs/PHASE_BOUNDARY.md` for the exact claim map. No root existence or
-leastness hypothesis remains assumed in `selected_safety_iff_critical_cost`.
+`RootSafety.lean` is a default Lake build target. It adds 11 declarations covering root construction, its power identity, uniqueness, monotonicity, residual bounds, threshold feasibility, exact target attainment, least sufficient effort and the selected-safety/critical-cost equivalence. Every declaration prints its axioms. See `docs/PHASE_BOUNDARY.md` for the exact claim map. No root existence or leastness hypothesis remains assumed in `selected_safety_iff_critical_cost`.
 
 ## Endogenous producer floor
 
@@ -154,7 +154,11 @@ leastness hypothesis remains assumed in `selected_safety_iff_critical_cost`.
 
 ## JAM dynamic corrective resilience
 
-`JamResilienceDynamics.lean` couples the slow corrective-capacity coordinate back to the next audit. For the declared state update `C' = r_C C + k_RC R` and `lambda = F C`, it proves the exact identity `lambda' = r_C lambda + F k_RC R`. At current criticality it then proves the one-step maintenance-return boundary `lambda' >= 1` iff `F k_RC R >= 1-r_C`, including strict shortfall and surplus corollaries. A reduced cross-audit path separately proves that the same current `lambda` can lead to opposite finite-horizon threshold status under different maintenance multipliers. These are dynamic model implications, not calibrated JAM forecasts.
+`JamResilienceDynamics.lean` couples the slow corrective-capacity coordinate back to the next audit. For the declared state update `C' = r_C C + k_RC R` and `lambda = F C`, it proves the exact identity `lambda' = r_C lambda + F k_RC R`. At current criticality it proves the one-step maintenance-return boundary `lambda' >= 1` iff `F k_RC R >= 1-r_C`, including strict shortfall and surplus corollaries. The reduced cross-audit model proves both a concrete matched-current-state counterexample and the general result that every finite initial reproduction number eventually becomes subcritical when `0 <= m < 1`. These are dynamic model implications, not calibrated JAM forecasts.
+
+## JAM persistent corrective resilience
+
+`JamMaintenancePersistence.lean` closes the gap between the static three-process replacement threshold and the time-indexed audit model. It constructs the canonical slow state `C*=(1-r_O)(1-r_R)`, `O*=k_CO(1-r_R)`, `R*=k_CO k_OR`; proves that the cone above this state is forward invariant under nonnegative coefficients when the three-cycle product threshold is met; and then proves that, whenever `F C* > 1`, the canonical trajectory remains fast-audit-supercritical at every future cross-audit time. It also proves one-step corrective-capacity decline when the immediate `R -> C` return edge is deleted and `r_C < 1`. The result is a conditional invariant-region theorem, not a convergence, global-stability, or calibrated long-run JAM theorem.
 
 ## Fungal flow-coupled maintenance
 
