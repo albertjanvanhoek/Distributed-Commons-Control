@@ -27,6 +27,10 @@
 | F4 | In the reduced path `lambda_t=m^t lambda_0`, the correction margin obeys `mu_{t+1}=m mu_t-(1-m)`. | Machine-checked identity | `m` is a reduced net cross-audit multiplier and is not identified with the three-process loop ratio `R_M`. |
 | F5 | The same current supercritical reproduction number can correspond to different finite-horizon threshold status: with `lambda_0=3/2`, `m=1` remains supercritical at step 5 whereas `m=9/10` is subcritical. | Machine-checked counterexample | Numerical witness demonstrates non-identifiability; it is not a calibrated JAM forecast. |
 | F6 | Current `lambda_x` is therefore not a sufficient statistic for finite-horizon corrective resilience in the declared dynamic model. | Interpretation of F4–F5 | Forecasting actual JAM resilience requires empirical identification of slow-state dynamics. |
+| F7 | For the full three-state dynamics, the canonical witness `C*=(1-r_O)(1-r_R)`, `O*=k_CO(1-r_R)`, `R*=k_CO k_OR` is componentwise nondecreasing after one update iff the three-cycle product threshold is met, with `O*` and `R*` exactly at replacement. | Machine-checked exact finite-cycle theorem | Finite three-cycle result; no novelty claim for general positive-systems or Perron–Frobenius theory. |
+| F8 | Under nonnegative retention and coupling coefficients and the product threshold, the coordinatewise cone above the canonical witness is forward invariant. | Machine-checked dynamic theorem | Applies to the declared linear slow-state model. It is not a global stability or convergence theorem. |
+| F9 | If the canonical corrective coordinate already satisfies `F C* > 1`, then every point of the canonical maintenance trajectory remains audit-supercritical for all future cross-audit times. | Machine-checked persistent-resilience theorem | Conditional on the declared slow dynamics, nonnegative coefficients and canonical initial state. |
+| F10 | Deleting the immediate `R -> C` return edge with `r_C<1` makes any positive corrective coordinate decline in the next slow update. | Machine-checked return-edge theorem | One-step erosion result; later system behavior may depend on other mechanisms not represented here. |
 
 ## Explicit non-claims
 
@@ -42,4 +46,5 @@ The paper does not claim:
 - that persistence of a validator/economic ecosystem guarantees independent correction for every correlated fault;
 - that the reduced multiplier `m=9/10` or any other numerical slow-dynamics parameter is an estimate for JAM;
 - that a single current observation of `lambda_x` is sufficient to estimate a future failure probability;
-- novelty for the underlying positive-systems, spectral-radius, reproduction-number, or geometric-decay mathematics used in the declared slow models.
+- that the full three-state forward-invariance result establishes convergence, global stability, or calibrated long-run JAM behavior;
+- novelty for the underlying positive-systems, spectral-radius, reproduction-number, software-rejuvenation, or geometric-decay mathematics used in the declared slow models.
