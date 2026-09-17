@@ -16,6 +16,11 @@
 | D1 | Slashable collateral need not equal attacker-attributable collateral when honest buggy guarantors sign the invalid report. | Economic mapping observation | Does not prove attacker has zero cost. |
 | D2 | Wonky has no ordinary Gray Paper culprit/fault offender record. | Gray Paper rule interpretation | Staking layer may add consequences; requires author confirmation. |
 | D3 | Guarantor diversity, announcement monitoring, effort proofs and load-feedback controls are design hypotheses. | Future work | No protocol recommendation is claimed. |
+| E1 | In the declared slow three-process loop `correction -> observability -> resources -> correction`, the canonical correction coordinate reaches replacement iff `(1-r_C)(1-r_O)(1-r_R) <= k_CO k_OR k_RC`. | Exact theorem; machine checked | Generic positive-system algebra; not claimed as novel mathematics or a measured JAM law. |
+| E2 | With nonnegative slow update coefficients and the replacement threshold, the cone above the canonical witness is forward invariant; with positive deficits/couplings and the strict threshold, all three capacities remain positive at every time step. | Exact deterministic theorem; machine checked | Starts from the declared canonical witness and linear update rule. |
+| E3 | Event-level supercritical correction `lambda_x>1` does not imply slow recurrent-maintenance supercriticality. | Exact logical separation; machine-checked witness | Slow-loop coefficients are independent higher-layer interface parameters. |
+| E4 | Slow recurrent-maintenance supercriticality does not imply fault-specific event-level correction `lambda_x>1`. | Exact logical separation; machine-checked witness | A persistent architecture can still be concentrated in the relevant fault domain. |
+| E5 | All four fast/slow phase cells are inhabited; in particular, current correction and local compute selection can both satisfy their declared boundaries while the slow maintenance loop remains subcritical. | Exact non-vacuity/separation result; machine checked | Does not establish which cell production JAM occupies. |
 
 ## Explicit non-claims
 
@@ -25,4 +30,7 @@ The paper does not claim:
 - that the attacker can freely choose a favorable core assignment;
 - that a wonky verdict is economically cost-free in a production staking layer;
 - that client count equals fault-domain diversity;
-- that F=2 is incorrectly chosen without a complete re-optimization under the revised threat model.
+- that F=2 is incorrectly chosen without a complete re-optimization under the revised threat model;
+- that the slow-loop coefficients are specified by the current Gray Paper;
+- that the three-process product threshold is new positive-systems or reproduction-number mathematics;
+- that satisfying the slow-maintenance threshold guarantees correctness for every fault.
