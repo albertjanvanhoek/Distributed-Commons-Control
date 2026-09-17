@@ -1,0 +1,161 @@
+\section{Result 5: current correction is not a sufficient statistic for future resilience}
+\label{sec:resilience-dynamics}
+
+Result 4 separates two reproduction conditions. The next question is dynamic: can a system remain on the supercritical side of the current audit condition while the capacity supporting future correction is already eroding?
+
+\subsection{Coupling slow capacity to fast audit reproduction}
+
+Let the slow maintenance state at cross-audit time $t$ be
+\[
+X_t=(C_t,O_t,R_t),
+\]
+where $C_t$ is a normalized fault-specific independently corrective share/capacity, $O_t$ is maintenance observability or attribution capacity, and $R_t$ is returned-resource capacity. The notation $C_t$ in this section is a normalized slow-state coordinate; it is not the earlier validator count $C_x$.
+
+Consider the declared linear update
+\begin{align}
+C_{t+1}&=r_C C_t+k_{RC}R_t,\\
+O_{t+1}&=r_O O_t+k_{CO}C_t,\\
+R_{t+1}&=r_R R_t+k_{OR}O_t.
+\end{align}
+The variables and coefficients remain model quantities rather than Gray Paper state variables.
+
+For fixed audit escalation factor $F$, couple the fast fault-specific reproduction number directly to the corrective coordinate:
+\[
+\lambda_{x,t}=F C_t.
+\]
+It follows exactly that
+\[
+\lambda_{x,t+1}
+=r_C\lambda_{x,t}+F k_{RC}R_t.
+\]
+This identity is machine checked in the repository.
+
+\subsection{An exact maintenance-return boundary}
+
+The most useful local case is the fast critical boundary. Suppose
+\[
+\lambda_{x,t}=1.
+\]
+Then
+\[
+\lambda_{x,t+1}=r_C+F k_{RC}R_t,
+\]
+and therefore
+\[
+\boxed{
+\lambda_{x,t+1}\ge1
+\quad\Longleftrightarrow\quad
+F k_{RC}R_t\ge1-r_C.
+}
+\]
+Thus the quantity
+\[
+\boxed{
+M_t=F k_{RC}R_t-(1-r_C)
+}
+\]
+acts as a local maintenance-return margin at the audit critical boundary. A negative margin implies that a system sitting exactly at current criticality crosses below it on the next cross-audit update; a positive margin moves it above criticality.
+
+This one-step boundary is deliberately local. Its advantage is interpretability: the left side is the familiar event-level audit threshold, while the right side states exactly how much effective returned resource is required to replace attrition in the corrective coordinate.
+
+\subsection{From the closed maintenance threshold to persistent correction}
+
+The static product threshold from Result 4 can also be connected directly to the full slow dynamics, without introducing a reduced multiplier. Define the canonical maintenance state
+\begin{align}
+C^*&=(1-r_O)(1-r_R),\\
+O^*&=k_{CO}(1-r_R),\\
+R^*&=k_{CO}k_{OR}.
+\end{align}
+At this state, the $O$ and $R$ coordinates are exactly at replacement. The $C$ coordinate is at or above replacement exactly when
+\[
+\boxed{
+(1-r_C)(1-r_O)(1-r_R)
+\le
+k_{CO}k_{OR}k_{RC}.
+}
+\]
+This is the same three-process maintenance threshold used in Result 4, now expressed on the time-indexed state system.
+
+Under nonnegative retention and coupling coefficients, the Lean formalization proves a stronger statement: the entire coordinatewise cone above $(C^*,O^*,R^*)$ is forward invariant whenever the product threshold is met. A trajectory initialized at the canonical state therefore remains at or above that state at every future cross-audit time.
+
+This yields the direct persistence theorem. If
+\[
+F C^*>1,
+\]
+then
+\[
+\boxed{
+\lambda_{x,t}>1\quad\text{for every }t\ge0
+}
+\]
+for the canonical maintenance trajectory. Thus the slow maintenance threshold is not merely a static feasibility condition: together with a sufficiently large canonical corrective coordinate, it supplies an explicit invariant region that preserves fast audit supercriticality indefinitely in the declared model.
+
+The converse failure mechanism is equally transparent. Deleting the immediate return edge $R\to C$ sets $k_{RC}=0$. If $r_C<1$ and $C_t>0$, then
+\[
+C_{t+1}=r_C C_t<C_t.
+\]
+Breaking the return path can therefore erode the very state variable that determines the next audit reproduction number.
+
+\subsection{Latent resilience loss}
+
+The full-state theorem shows how a closed loop can preserve correction. The complementary question is how an apparently healthy current audit can conceal future erosion.
+
+To expose this without pretending that the full slow coefficients are empirically known, define a reduced cross-audit multiplier $m$ for the effective reproduction coordinate:
+\[
+\lambda_{t+1}=m\lambda_t,
+\qquad
+\lambda_t=m^t\lambda_0.
+\]
+This $m$ is a reduced net multiplier; it is not identical to the three-process loop ratio $\mathcal R_M$ from Result 4.
+
+Define the current corrective margin
+\[
+\mu_t=\lambda_t-1.
+\]
+Then the one-step margin identity is
+\[
+\boxed{
+\mu_{t+1}=m\mu_t-(1-m).
+}
+\]
+For $m<1$, even a positive margin is therefore subject to both multiplicative shrinkage and an additive replacement drag created by the fixed critical boundary at one. More generally, the Lean proof shows that any finite $\lambda_0$ with $0\le m<1$ eventually crosses below the fast threshold.
+
+The formalization also includes a matched-current-state counterexample. Take two systems with the same observed current reproduction number
+\[
+\lambda_0=\frac32.
+\]
+For the first, let $m=1$; then $\lambda_t=3/2$ for every $t$. For the second, let $m=9/10$; then after five cross-audit steps
+\[
+\lambda_5
+=\left(\frac9{10}\right)^5\frac32
+\approx0.886<1.
+\]
+The systems are indistinguishable if one observes only the present value $\lambda_0$, yet one remains supercritical at the chosen horizon and the other does not. Therefore, in the declared dynamic model,
+\[
+\boxed{
+\text{current }\lambda_x
+\text{ is not a sufficient statistic for finite-horizon corrective resilience.}
+}
+\]
+
+A second full-state witness starts with $F=2$ and $C_t=3/4$, so $\lambda_{x,t}=3/2>1$. If only half of $C_t$ is retained and the immediate returned-resource contribution to $C_{t+1}$ is zero, the next reproduction number is $3/4<1$. Current supercriticality alone therefore supplies no invariant preventing a future threshold crossing.
+
+\subsection{Relation to prior resilience and incentive dynamics}
+
+None of the individual ingredients above is claimed to be new in isolation. Software fault-tolerance research has long studied design diversity, environmental diversity, proactive recovery and rejuvenation as ways to prevent present operation from degrading into future failure \citep{trivedi2024}. Proactive Byzantine-fault-tolerance work goes closer still: recovery and reconfiguration are used to stop faulty replicas from accumulating beyond a tolerated bound over the lifetime of a system \citep{sousa2007,tran2023}. Blockchain research has likewise studied dynamic incentive compliance \citep{karakostas2023}, payment schemes that balance participation and decentralization \citep{kiayias2024}, longitudinal validator concentration \citep{grandjean2023}, and mechanisms that identify and reward minority client implementations \citep{ron2026}.
+
+The narrower contribution proposed here is different in the object that must be reproduced. Classical proactive BFT maintains enough nonfaulty replicas relative to a fault bound. The present JAM/ELVES extension instead tracks the \emph{fault-specific independently corrective capacity} that enters a sampled audit reproduction number, including honest validators that may share the same implementation error. It then makes maintenance of that capacity endogenous through observability/attribution and resource return. The model derives an exact return-gap boundary for the next audit and proves both a full-state persistence region and counterexamples in which the same current audit reproduction implies different future resilience. The positive-systems, recovery and geometric-decay mathematics is prior art; the proposed contribution is this composition at the sampled-audit/common-mode-failure interface.
+
+\subsection{What would make this operational?}
+
+The formal result shifts the empirical question. Measuring current client shares or current audit success is not enough to estimate persistence of correction. A deployment would need evidence about at least:
+\begin{itemize}
+\item the rate at which independently corrective implementations/operators enter, leave, converge, or become correlated;
+\item whether useful independent audit effort can be distinguished from nominal participation;
+\item whether rewards, operator revenue, tooling and development resources return preferentially to capacities that preserve independent correction;
+\item whether those return flows close the measured replacement gap before the fast margin is exhausted.
+\end{itemize}
+
+Mechanisms that prove client identity and reward minority implementations \citep{ron2026} can instantiate part of the $O\to R$ pathway. The present model asks the additional systems question: whether the resulting return loop is strong enough, relative to attrition, to preserve the fault-specific corrective capacity on which the audit process relies.
+
+Longitudinal measurements are therefore central. Ethereum evidence already shows that validator participation and concentration are time-dependent and can be affected by major clients and operators \citep{grandjean2023}. For JAM, the corresponding resilience object would be a time-dependent pair: the current fault-specific audit reproduction margin together with an empirically grounded maintenance-return margin.

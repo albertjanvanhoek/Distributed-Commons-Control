@@ -1,86 +1,65 @@
-\section{Corollaries and design questions}
-\label{sec:implications}
+\section{Implications and design questions}
 
-The three main results are analytical. The following items are consequences or engineering questions, not recommendations established by the model.
+The results above do not identify a single protocol fix. They identify distinct interfaces at which correlated honest failure and long-run corrective-capacity loss can enter the system. Keeping those interfaces separate avoids turning a structural analysis into an unsupported prescription.
 
-\subsection{Slashable collateral is not necessarily attacker-attributable collateral}
+\subsection{Slashable collateral and attacker-attributable collateral}
 
-ELVES's rational-adversary argument makes invalid acceptance prohibitively expensive by charging collateral to the attack path \citep{burdges2024}. In a conventional attack, the parties signing or backing an invalid result can be economically aligned with the attacker.
+If honest guarantors share a bug and sign an invalid report because they genuinely compute the same wrong result, their stake may be slashable under a higher-layer mechanism without being attacker-controlled collateral. These are different economic objects. A security argument that counts all slashable stake as attacker cost therefore requires an explicit attribution mechanism when correlated honest failure is in scope.
 
-A shared implementation bug changes that mapping. If otherwise-honest guarantors compute the same wrong result and sign it, a later bad verdict can place \emph{their} signatures in the culprit path. The protocol may destroy collateral, yet the actor that selected the crafted input may not bear that loss.
+The paper does not claim that honest buggy guarantors are unpunished. It claims only that punishment of a mistaken participant is not automatically equivalent to economic loss borne by the adversary who found or exploited the shared bug.
 
-The distinction is:
+\subsection{Wonky outcomes and attribution gaps}
+
+Under the Gray Paper verdict interpretation used here, a wonky verdict does not create the ordinary culprit/fault offender record. Whether a production staking layer attaches additional consequences is a separate question and should be confirmed with the JAM authors. If wonky outcomes are intentionally an uncertainty state, correlated honest failure gives a concrete reason that such a state may occur without Byzantine equivocation.
+
+\subsection{Fault-domain exposure rather than client count}
+
+The analysis suggests tracking exposure to common components rather than only counting nominal clients. Candidate dimensions include implementation family, version, execution engine, shared libraries, compiler/toolchain, operating system, cloud/operator concentration and common specification interpretations. None is individually equivalent to a fault domain; together they can provide a conservative exposure map.
+
+Existing work proposes making client implementation verifiable and using that information to reward minority clients \citep{ron2026}. That can improve one important layer of diversity management. The present analysis adds a stricter criterion: a diversity mechanism matters for audit resilience only insofar as it preserves or increases fault-specific independently corrective capacity.
+
+\subsection{Guarantor diversity}
+
+If guarantors for a work report are drawn from different fault domains, a shared implementation defect is less likely to produce unanimous or near-unanimous false support. This is a design hypothesis, not a recommendation established by the present paper. Enforcing diversity can add assignment constraints, latency, implementation-identification requirements and new strategic surfaces.
+
+\subsection{Announcement and effort observability}
+
+The repository's earlier JAM experiments separate nominal participation from useful independent computation. A validator can announce availability yet still contribute little independent corrective information if it rubber-stamps, reuses a correlated result, or relies on the same faulty implementation path. Effort observability therefore affects whether rewards can selectively maintain real checking capacity.
+
+This becomes more important in the dynamic model. The slow return loop requires not merely that corrective work exists, but that useful maintenance can be observed well enough for resources to return to the capacities that generated it. Weak maintenance observability can therefore convert an apparently adequate current audit layer into a long-run replacement shortfall.
+
+\subsection{A maintenance-return margin}
+
+Result 5 suggests a concrete candidate diagnostic near the current fast threshold. Under the declared coupling,
 \[
-\boxed{
-\text{slashable collateral}
-\neq
-\text{attacker-attributable collateral}.
-}
+M_t=Fk_{RC}R_t-(1-r_C).
 \]
+At $\lambda_{x,t}=1$, the sign of $M_t$ exactly determines whether the next slow update lies below, at, or above the current audit threshold.
 
-This does not prove that exploiting the bug is cost-free. It means that the specific expected-profit argument needs an additional mapping from protocol offender to economic beneficiary when honest common-mode faults are admitted.
+The value is not that this particular expression should be hard-coded into JAM. The value is methodological: a protocol can expose a current safety/correction threshold while leaving the replenishment process that maintains the state variable behind that threshold unmeasured. Once the replenishment state is explicit, a replacement-gap diagnostic becomes possible.
 
-The wonky region strengthens the issue: the current Gray Paper does not create ordinary culprit/fault offender records for wonky reports. Whether the staking layer imposes a cost on a wonky report is therefore a first-order question for the protocol authors.
+A deployment-facing analogue of $M_t$ would require measurable estimates of attrition and return. Possible observables include independent client/operator entry and exit, version concentration, economically sustained minority implementations, audit effort that can be independently verified, and development or operator resources returned to those implementations. Estimation uncertainty should be reported rather than hidden inside a point parameter.
 
-\subsection{Guarantor diversity as a design hypothesis}
+\subsection{Early warning rather than post-failure diagnosis}
 
-Every active core has three assigned guarantors and a guarantee carries two or three credentials. If a single fault domain occupies population share \(r\), the probability that at least two of three randomly assigned guarantors belong to that domain is
+The strongest practical consequence of the dynamic result is temporal. If current $\lambda_x$ is above one but declining because maintenance is below replacement, waiting for $\lambda_x\le1$ detects the problem only after the structural correction condition has already been lost. Monitoring the maintenance-return process creates the possibility of detecting erosion earlier.
+
+This reframes resilience as a two-signal problem:
 \[
-\Prb(\ge2)=3r^2(1-r)+r^3.
+\text{current corrective margin}
+\quad+\quad
+\text{maintenance-return margin}.
 \]
-At \(r=0.2\), this is \(0.104\). Across 341 cores, the expectation is approximately 35.5 core assignments per rotation with at least two guarantors from that domain.
+The first asks whether correction is sufficient now. The second asks whether the processes supplying that correction are being reproduced. A strong implementation of the idea would estimate both through time and test whether deterioration in the second predicts deterioration in the first.
 
-This number does \emph{not} establish that an attacker can route a crafted package to one of those cores. It quantifies the frequency of favorable assignments if exploitation opportunities can be targeted or waited for.
+\subsection{Load-dependent no-shows and feedback}
 
-One possible mitigation is to require the credential set for a guarantee to span declared implementation/fault-domain classes. This could prevent a single honest client bug from supplying both signatures. But the idea has unresolved issues:
-\begin{itemize}
-\item implementation identity may be self-declared and therefore gameable;
-\item nominally distinct clients can share deeper components;
-\item diversity constraints may reduce liveness when one implementation class is unavailable;
-\item an adversarial validator can lie about identity, although doing so may force its own signature onto the report.
-\end{itemize}
-Hence guarantor diversity is a hypothesis to analyse, not a proposed protocol change in this paper.
+The existing ELVES trade-off between larger escalation factor $F$ and no-show growth becomes more complicated if no-show probability itself depends on audit load. The present paper does not solve that endogenous-load problem. It does show why the direction matters: stronger escalation can improve event-level corrective reproduction while simultaneously increasing resource demand, and long-run capacity may respond to that demand.
 
-\subsection{Fault-domain exposure metrics}
+A future extension should therefore treat validator availability, maintenance cost, observability and returned resources as jointly dynamic rather than independent constants. Such an extension should be attempted only after the simpler state variables can be tied to measurable JAM quantities.
 
-The quantity that matters for an unknown future bug cannot be measured directly: by definition we do not know which validators will be wrong on an input not yet discovered.
+\subsection{What should be tested next}
 
-What can be measured is \emph{exposure} to shared components. Examples include validator share by:
-\begin{itemize}
-\item client implementation;
-\item execution VM;
-\item compiler/toolchain;
-\item cryptographic or erasure-coding library;
-\item major shared dependencies;
-\item copied or common code paths.
-\end{itemize}
+The most informative next test is not another static client-diversity count. It is a longitudinal test of the proposed separation. On a JAM testnet or sufficiently instrumented deployment, estimate a time series for current fault-domain corrective capacity and independent proxies for maintenance return. Then ask whether maintenance shortfall predicts subsequent loss of corrective margin after controlling for validator-set size and audit load.
 
-These are upper bounds or proxies for possible fault-domain concentration, not measurements of \(f_x\) for an unknown bug. A useful operational question is therefore whether the largest identifiable shared-component exposure leaves adequate margin below the attribution and escalation boundaries.
-
-\subsection{Announcement shortfall as an early-warning statistic}
-
-JAM's later tranches respond to unmatched announcements. A validator that is offline before announcing is different: it simply reduces the number of initial auditors that appear.
-
-Aggregate announcement counts per report can therefore serve as a statistical early-warning signal for loss of available corrective capacity. The expected count is known from validator count and active-core configuration. A sustained shortfall can indicate that the online population is smaller than the nominal population.
-
-This is not a deterministic fault detector. Audit assignment is random, observations are local before information propagates, and the current formal validator-statistics tuple does not directly expose a finalized audit-count metric. The proposal is simply to monitor the discrepancy between expected and observed audit participation.
-
-\subsection{Rubber-stamping remains an open interface}
-
-The Gray Paper notes that auditing activity is difficult to track directly and delegates validator rewards to a staking subsystem; peer voting on impressions of validator effort is described as the available oracle mechanism \citep{wood2026}.
-
-That leaves a classic verifier's-dilemma-style question \citep{luu2015}: how strongly does the reward signal discriminate actual re-execution from a validator that produces the expected positive judgment without paying the full computation cost?
-
-The present paper does not claim that rubber-stamping is selected in JAM. The reward function and effort-observability mechanism are not sufficiently specified to close that game numerically. Candidate approaches such as verifiable execution artifacts, occasional test reports, or other proof-of-effort mechanisms should therefore be evaluated only after the actual staking design is specified.
-
-\subsection{Load-dependent no-shows are a separate future model}
-
-ELVES treats the no-show/fault share used in its committee-size analysis as exogenous. In a real implementation, no-show probability could rise with audit load. If
-\[
-u=u(L),
-\]
-and load \(L\) grows with the final committee size, then
-\[
- s_f\approx\frac{s_0}{1-Fu(s_f)}
-\]
-becomes a feedback equation. This could amplify load under stress, but no claim of a JAM overload transition is made without empirical measurements of \(u(L)\). A testnet stress experiment measuring deadline misses against concurrent audit load would be the appropriate next step.
+A failure of that prediction would be scientifically useful: it would indicate that the declared $C\!\to O\!\to R\!\to C$ abstraction misses an important replenishment pathway. A successful prediction would turn recurrent corrective capacity from a conceptual distinction into an operational resilience quantity.

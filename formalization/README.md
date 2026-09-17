@@ -64,6 +64,24 @@ The Lean source checks only the algebraic core of the declared model. It does no
 | Perfect observability may still be insufficient | `perfect_observability_insufficient` |
 | More effort observability improves selection | `higher_observability_improves_selection` |
 | Lower exposure raises observability requirement | `lower_exposure_raises_observability_threshold` |
+| Current correction can be supercritical while slow maintenance is subcritical | `correction_supercritical_maintenance_subcritical_witness` |
+| Slow maintenance can be viable while fault-specific correction is subcritical | `maintenance_viable_correction_subcritical_witness` |
+| Event-level correction does not imply maintenance viability | `correction_supercritical_does_not_imply_maintenance_viable` |
+| Maintenance viability does not imply event-level correction | `maintenance_viable_does_not_imply_correction_supercritical` |
+| Jointly viable and jointly non-viable phase cells are inhabited | `both_reproduction_conditions_can_hold`; `neither_reproduction_condition_need_hold` |
+| Next audit reproduction from slow-state update | `jam_next_reproduction_identity` |
+| Exact return boundary at current criticality | `jam_critical_return_boundary` |
+| Return shortfall/surplus determines next-step threshold direction | `jam_return_shortfall_makes_next_audit_subcritical`; `jam_return_surplus_makes_next_audit_supercritical` |
+| Reduced cross-audit recurrence | `jamReducedCorrectionPath_succ` |
+| Exact correction-margin recursion | `jamCorrectionMargin_step` |
+| Subunit maintenance multiplier strictly erodes positive reproduction | `jamReducedCorrection_strictly_declines` |
+| Subunit nonnegative multiplier eventually becomes subcritical | `jamReducedCorrection_eventually_subcritical`; `jamReducedCorrection_eventually_crosses_threshold` |
+| Same current reproduction can imply opposite five-step resilience | `event_level_success_not_sufficient_statistic_for_five_step_resilience` |
+| Current supercritical state can cross below threshold next round | `current_supercritical_can_cross_subcritical_next_round` |
+| Canonical full-state maintenance threshold | `jam_canonical_threshold_iff` |
+| Canonical maintenance cone is forward invariant | `jam_step_preserves_canonical_lower_bound`; `jam_canonical_trajectory_stays_above_witness` |
+| Closed maintenance loop preserves fast audit supercriticality | `jam_closed_maintenance_loop_preserves_supercritical_correction` |
+| Deleting the return edge makes positive corrective capacity decline | `jam_deleting_return_edge_makes_corrective_capacity_decline` |
 | Fungal redundant-state stability iff effective gain < 1 | `fungal_stable_iff_effective_gain_lt_one` |
 | Unit fungal effective gain is neutral | `fungal_neutral_iff_effective_gain_eq_one` |
 | Superunit fungal effective gain is unstable | `fungal_unstable_iff_effective_gain_gt_one` |
@@ -84,12 +102,7 @@ The toolchain and Mathlib commit match the current formalization convention used
 
 ## End-to-end real-root proof
 
-`RootSafety.lean` is a default Lake build target. It adds 11 declarations covering
-root construction, its power identity, uniqueness, monotonicity, residual bounds,
-threshold feasibility, exact target attainment, least sufficient effort and the
-selected-safety/critical-cost equivalence. Every declaration prints its axioms.
-See `docs/PHASE_BOUNDARY.md` for the exact claim map. No root existence or
-leastness hypothesis remains assumed in `selected_safety_iff_critical_cost`.
+`RootSafety.lean` is a default Lake build target. It adds 11 declarations covering root construction, its power identity, uniqueness, monotonicity, residual bounds, threshold feasibility, exact target attainment, least sufficient effort and the selected-safety/critical-cost equivalence. Every declaration prints its axioms. See `docs/PHASE_BOUNDARY.md` for the exact claim map. No root existence or leastness hypothesis remains assumed in `selected_safety_iff_critical_cost`.
 
 ## Endogenous producer floor
 
@@ -134,6 +147,18 @@ leastness hypothesis remains assumed in `selected_safety_iff_critical_cost`.
 ## JAM effort observability
 
 `JamEffortObservability.lean` formalizes Experiment 11's second-order maintenance channel. It proves that selective reinforcement depends jointly on effort observability and returned reward, and that structural loss of false-positive exposure raises the observability burden needed to select real computation.
+
+## JAM recurrent corrective capacity
+
+`JamRecurrentMaintenance.lean` adds a second timescale to the JAM analysis. It keeps the ELVES-style fault-specific reproduction mean `lambda_x` separate from a declared slow `C -> O -> R -> C` maintenance loop linking independently corrective capacity, maintenance observability/attribution and returned resources. The file machine-checks explicit witnesses showing that event-level supercritical correction and slow maintenance viability imply neither one another, and it inhabits all four phase cells. The slow-loop coefficients are model parameters rather than claimed Gray Paper variables; no novelty is claimed for the underlying positive-systems/reproduction-number threshold mathematics.
+
+## JAM dynamic corrective resilience
+
+`JamResilienceDynamics.lean` couples the slow corrective-capacity coordinate back to the next audit. For the declared state update `C' = r_C C + k_RC R` and `lambda = F C`, it proves the exact identity `lambda' = r_C lambda + F k_RC R`. At current criticality it proves the one-step maintenance-return boundary `lambda' >= 1` iff `F k_RC R >= 1-r_C`, including strict shortfall and surplus corollaries. The reduced cross-audit model proves both a concrete matched-current-state counterexample and the general result that every finite initial reproduction number eventually becomes subcritical when `0 <= m < 1`. These are dynamic model implications, not calibrated JAM forecasts.
+
+## JAM persistent corrective resilience
+
+`JamMaintenancePersistence.lean` closes the gap between the static three-process replacement threshold and the time-indexed audit model. It constructs the canonical slow state `C*=(1-r_O)(1-r_R)`, `O*=k_CO(1-r_R)`, `R*=k_CO k_OR`; proves that the cone above this state is forward invariant under nonnegative coefficients when the three-cycle product threshold is met; and then proves that, whenever `F C* > 1`, the canonical trajectory remains fast-audit-supercritical at every future cross-audit time. It also proves one-step corrective-capacity decline when the immediate `R -> C` return edge is deleted and `r_C < 1`. The result is a conditional invariant-region theorem, not a convergence, global-stability, or calibrated long-run JAM theorem.
 
 ## Fungal flow-coupled maintenance
 
