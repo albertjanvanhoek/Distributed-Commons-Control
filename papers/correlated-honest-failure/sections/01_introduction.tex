@@ -6,7 +6,9 @@ The security argument therefore depends not only on the number of validators but
 
 The usual honest/adversarial partition hides one important failure mode. A validator can be honest in the game-theoretic and protocol sense---it executes the assigned software, announces when selected, and publishes the result it obtains---yet still be wrong because several validators share the same implementation defect. This is a classical concern in multiversion software: independently developed implementations can exhibit coincident failures on the same inputs, and nominal redundancy does not by itself imply independent failure \citep{eckhardt1985,littlewood1989}.
 
-JAM explicitly encourages implementation diversity, but the question studied here is narrower:
+Client diversity is already recognized as a resilience mechanism in blockchain systems. Longitudinal measurements of Ethereum PoS have documented both client concentration and participation disruptions associated with major clients or service operators \citep{grandjean2023}. More recently, verifiable client identification and diversity-aware rewards have been proposed as a direct way to make minority implementations economically selectable \citep{ron2026}. The present question is therefore not whether diversity matters, nor whether it can be rewarded. It is whether a sampled auditing protocol can distinguish \emph{current corrective success} from the \emph{maintenance of the capacity that makes future correction possible}.
+
+JAM explicitly encourages implementation diversity, but the starting question studied here is narrower:
 
 \begin{quote}
 \textbf{What changes in the JAM/ELVES security bookkeeping when some otherwise-honest validators share a fault that makes one crafted invalid report appear valid?}
@@ -14,15 +16,19 @@ JAM explicitly encourages implementation diversity, but the question studied her
 
 We call this \emph{correlated honest failure}. The phrase is fault-specific. A validator class can be correct for almost all reports and correlated only on one input family. Consequently the relevant quantity is not the number of clients but the size of a \emph{fault domain}: the set of validators that would produce the same erroneous judgment for the same fault.
 
-This paper separates three layers that should not be conflated.
+Following that fault-specific analysis one further question becomes unavoidable: even if independently correct checking is sufficient today, what maintains the independently corrective population, the observability of useful maintenance, and the resources that allow those capacities to persist tomorrow?
+
+This paper separates five questions that should not be conflated.
 
 \begin{enumerate}[label=\textbf{R\arabic*.},leftmargin=*]
 \item \textbf{Verdict attribution.} Given the current Gray Paper dispute rules, how large can the combined adversarial-plus-buggy-positive bloc become before a bad verdict, and therefore ordinary offender attribution, can no longer be guaranteed?
 \item \textbf{Audit escalation.} Under ELVES's pessimistic adaptive-crash branching model, how does a shared fault change the reproduction number of independent correction?
 \item \textbf{Sampling dilution.} When only a sample audits, can adding honest-but-correlated validators reduce structural safety even before incentives or behavior change?
+\item \textbf{Recurrent corrective capacity.} Does event-level supercritical correction imply that the capacities supporting independent correction are themselves maintained across audits?
+\item \textbf{Dynamic resilience.} Can the system remain supercritical now while its corrective margin is already on a trajectory toward future subcriticality, and what return condition prevents that crossing at the critical boundary?
 \end{enumerate}
 
-The first result is the strongest because it depends only on the current JAM verdict rules plus the correlated-fault thought experiment. The second and third results are extensions of ELVES and inherit its modeling assumptions.
+R1 follows from the current JAM verdict rules plus the declared correlated-fault scenario. R2--R5 are model extensions of increasing scope: R2--R3 extend the ELVES branching bookkeeping, while R4--R5 add an explicitly declared cross-audit maintenance layer. The latter variables are not claimed to be existing Gray Paper state variables.
 
 \subsection{Main results}
 
@@ -71,14 +77,36 @@ For JAM's current \(F=2\), the asymptotic boundaries are particularly transparen
 \]
 The ordering is illustrated in \Cref{fig:thresholds}.
 
-Finally, with \(C_x\) fixed,
+With \(C_x\) fixed,
 \[
 \lambda_x(N)=F\frac{C_x}{N}
 \]
 is strictly decreasing in \(N\). Hence adding honest validators that belong to the same fault domain can reduce the corrective reproduction number without any behavioral response. The effect remains in a JAM-specific fixed-core variant in which the expected initial sample grows with validator count, although the larger sample partly offsets the dilution.
 
+R4 then separates this event-level condition from a slower maintenance condition. In a minimal declared cycle linking corrective capacity \(C\), maintenance observability \(O\), and returned resources \(R\), the canonical replacement condition is
+\[
+\boxed{
+k_{CO}k_{OR}k_{RC}\ge(1-r_C)(1-r_O)(1-r_R).
+}
+\]
+Machine-checked counterexamples show that this condition and \(\lambda_x>1\) imply neither one another.
+
+R5 adds time. Let the normalized independently corrective coordinate evolve as
+\[
+C_{t+1}=r_C C_t+k_{RC}R_t,
+\qquad
+\lambda_{x,t}=F C_t.
+\]
+At the fast critical boundary \(\lambda_{x,t}=1\), the next audit remains at or above criticality exactly when
+\[
+\boxed{
+F k_{RC}R_t\ge 1-r_C.
+}
+\]
+This gives a maintenance-return boundary in the same units as the current audit threshold. A separate machine-checked finite-horizon witness shows that two systems can have the same current supercritical value \(\lambda_0=3/2\) yet lie on opposite sides of the threshold five rounds later when their cross-audit maintenance multipliers differ. Current audit reproduction is therefore not, within the declared dynamic model, a sufficient statistic for horizon resilience.
+
 \subsection{Scope}
 
-Nothing in this paper establishes that JAM currently violates a security requirement or that a particular correlated client bug exists. The model deliberately asks what follows \emph{if} a crafted report lies inside a shared fault domain. The results are therefore best read as assumption audits and design margins.
+Nothing in this paper establishes that JAM currently violates a security requirement or that a particular correlated client bug exists. The model deliberately asks what follows \emph{if} a crafted report lies inside a shared fault domain and, for R4--R5, what follows under explicitly declared maintenance dynamics. The results are therefore best read as assumption audits, phase boundaries and candidate resilience margins.
 
 The paper also distinguishes accidental failure from strategic exploitation. For an accidental bug, assignment probabilities determine how often a bad report is produced and how often independently correct auditors see it. For a strategic attacker who knows the bug, opportunity can be concentrated on favorable assignments. We quantify the frequency of such assignments but do not assume the attacker can route arbitrary work to a chosen core unless that ability is established separately.
