@@ -9,7 +9,9 @@ Let the slow maintenance state at cross-audit time $t$ be
 \[
 X_t=(C_t,O_t,R_t),
 \]
-where $C_t$ is a normalized fault-specific independently corrective capacity, $O_t$ is maintenance observability or attribution capacity, and $R_t$ is returned-resource capacity. Consider the declared linear update
+where $C_t$ is a normalized fault-specific independently corrective share/capacity, $O_t$ is maintenance observability or attribution capacity, and $R_t$ is returned-resource capacity. The notation $C_t$ in this section is a normalized slow-state coordinate; it is not the earlier validator count $C_x$.
+
+Consider the declared linear update
 \begin{align}
 C_{t+1}&=r_C C_t+k_{RC}R_t,\\
 O_{t+1}&=r_O O_t+k_{CO}C_t,\\
