@@ -64,6 +64,11 @@ The Lean source checks only the algebraic core of the declared model. It does no
 | Perfect observability may still be insufficient | `perfect_observability_insufficient` |
 | More effort observability improves selection | `higher_observability_improves_selection` |
 | Lower exposure raises observability requirement | `lower_exposure_raises_observability_threshold` |
+| Current correction can be supercritical while slow maintenance is subcritical | `correction_supercritical_maintenance_subcritical_witness` |
+| Slow maintenance can be viable while fault-specific correction is subcritical | `maintenance_viable_correction_subcritical_witness` |
+| Event-level correction does not imply maintenance viability | `correction_supercritical_does_not_imply_maintenance_viable` |
+| Maintenance viability does not imply event-level correction | `maintenance_viable_does_not_imply_correction_supercritical` |
+| Jointly viable and jointly non-viable phase cells are inhabited | `both_reproduction_conditions_can_hold`; `neither_reproduction_condition_need_hold` |
 | Fungal redundant-state stability iff effective gain < 1 | `fungal_stable_iff_effective_gain_lt_one` |
 | Unit fungal effective gain is neutral | `fungal_neutral_iff_effective_gain_eq_one` |
 | Superunit fungal effective gain is unstable | `fungal_unstable_iff_effective_gain_gt_one` |
@@ -134,6 +139,10 @@ leastness hypothesis remains assumed in `selected_safety_iff_critical_cost`.
 ## JAM effort observability
 
 `JamEffortObservability.lean` formalizes Experiment 11's second-order maintenance channel. It proves that selective reinforcement depends jointly on effort observability and returned reward, and that structural loss of false-positive exposure raises the observability burden needed to select real computation.
+
+## JAM recurrent corrective capacity
+
+`JamRecurrentMaintenance.lean` adds a second timescale to the JAM analysis. It keeps the ELVES-style fault-specific reproduction mean `lambda_x` separate from a declared slow `C -> O -> R -> C` maintenance loop linking independently corrective capacity, maintenance observability/attribution and returned resources. The file machine-checks explicit witnesses showing that event-level supercritical correction and slow maintenance viability imply neither one another, and it inhabits all four phase cells. The slow-loop coefficients are model parameters rather than claimed Gray Paper variables; no novelty is claimed for the underlying positive-systems/reproduction-number threshold mathematics.
 
 ## Fungal flow-coupled maintenance
 
