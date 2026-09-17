@@ -205,7 +205,7 @@ theorem jam_deleting_return_edge_makes_corrective_capacity_decline
     (hrC : rC < 1)
     (hxC : 0 < x.corrective) :
     (jamCorrectiveStateStep rC rO rR kCO kOR 0 x).corrective < x.corrective := by
-  change rC * x.corrective < x.corrective
+  simp [jamCorrectiveStateStep]
   nlinarith
 
 #print axioms jam_canonical_threshold_iff
