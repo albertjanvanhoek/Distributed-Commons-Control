@@ -69,6 +69,14 @@ The Lean source checks only the algebraic core of the declared model. It does no
 | Event-level correction does not imply maintenance viability | `correction_supercritical_does_not_imply_maintenance_viable` |
 | Maintenance viability does not imply event-level correction | `maintenance_viable_does_not_imply_correction_supercritical` |
 | Jointly viable and jointly non-viable phase cells are inhabited | `both_reproduction_conditions_can_hold`; `neither_reproduction_condition_need_hold` |
+| Next audit reproduction from slow-state update | `jam_next_reproduction_identity` |
+| Exact return boundary at current criticality | `jam_critical_return_boundary` |
+| Return shortfall/surplus determines next-step threshold direction | `jam_return_shortfall_makes_next_audit_subcritical`; `jam_return_surplus_makes_next_audit_supercritical` |
+| Reduced cross-audit recurrence | `jamReducedCorrectionPath_succ` |
+| Exact correction-margin recursion | `jamCorrectionMargin_step` |
+| Subunit maintenance multiplier strictly erodes positive reproduction | `jamReducedCorrection_strictly_declines` |
+| Same current reproduction can imply opposite five-step resilience | `event_level_success_not_sufficient_statistic_for_five_step_resilience` |
+| Current supercritical state can cross below threshold next round | `current_supercritical_can_cross_subcritical_next_round` |
 | Fungal redundant-state stability iff effective gain < 1 | `fungal_stable_iff_effective_gain_lt_one` |
 | Unit fungal effective gain is neutral | `fungal_neutral_iff_effective_gain_eq_one` |
 | Superunit fungal effective gain is unstable | `fungal_unstable_iff_effective_gain_gt_one` |
@@ -143,6 +151,10 @@ leastness hypothesis remains assumed in `selected_safety_iff_critical_cost`.
 ## JAM recurrent corrective capacity
 
 `JamRecurrentMaintenance.lean` adds a second timescale to the JAM analysis. It keeps the ELVES-style fault-specific reproduction mean `lambda_x` separate from a declared slow `C -> O -> R -> C` maintenance loop linking independently corrective capacity, maintenance observability/attribution and returned resources. The file machine-checks explicit witnesses showing that event-level supercritical correction and slow maintenance viability imply neither one another, and it inhabits all four phase cells. The slow-loop coefficients are model parameters rather than claimed Gray Paper variables; no novelty is claimed for the underlying positive-systems/reproduction-number threshold mathematics.
+
+## JAM dynamic corrective resilience
+
+`JamResilienceDynamics.lean` couples the slow corrective-capacity coordinate back to the next audit. For the declared state update `C' = r_C C + k_RC R` and `lambda = F C`, it proves the exact identity `lambda' = r_C lambda + F k_RC R`. At current criticality it then proves the one-step maintenance-return boundary `lambda' >= 1` iff `F k_RC R >= 1-r_C`, including strict shortfall and surplus corollaries. A reduced cross-audit path separately proves that the same current `lambda` can lead to opposite finite-horizon threshold status under different maintenance multipliers. These are dynamic model implications, not calibrated JAM forecasts.
 
 ## Fungal flow-coupled maintenance
 
