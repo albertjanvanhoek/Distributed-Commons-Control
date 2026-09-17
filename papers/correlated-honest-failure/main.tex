@@ -24,7 +24,7 @@
 \newcommand{\ceil}[1]{\left\lceil #1\right\rceil}
 
 \title{\textbf{Correlated Honest Failure in JAM/ELVES}\\
-\large Fault-Domain Concentration, Sampling Dilution, and Recurrent Corrective Capacity}
+\large Fault-Domain Concentration, Sampling Dilution, and Dynamic Corrective Resilience}
 \author{Albert Jan van Hoek}
 \date{Draft --- September 2026}
 
@@ -48,9 +48,23 @@ Fourth, event-level corrective reproduction is distinct from reproduction of the
 \[
 k_{CO}k_{OR}k_{RC}\ge(1-r_C)(1-r_O)(1-r_R).
 \]
-Machine-checked witnesses show that \(\lambda_x>1\) does not imply this maintenance condition and that maintenance viability does not imply \(\lambda_x>1\). The two thresholds therefore define a genuine two-timescale phase structure: a system may be correctable now while eroding the capacity required to remain correctable later, or may remain operational while lacking fault-specific independent correction.
+Machine-checked witnesses show that \(\lambda_x>1\) does not imply this maintenance condition and that maintenance viability does not imply \(\lambda_x>1\). The two thresholds therefore define a genuine two-timescale phase structure.
 
-These are model extensions, not claims about an observed JAM vulnerability. The attribution result follows from the current Gray Paper verdict rules; the branching, dilution and recurrent-maintenance results inherit declared modeling assumptions. The purpose is to make the additional assumptions required by correlated honest failure and long-run corrective capacity explicit and reviewable by the ELVES and JAM authors.
+Fifth, coupling the slow corrective-capacity coordinate to the next audit yields an exact local maintenance-return boundary. With
+\[
+C_{t+1}=r_CC_t+k_{RC}R_t,
+\qquad
+\lambda_{x,t}=FC_t,
+\]
+current criticality \(\lambda_{x,t}=1\) implies
+\[
+\lambda_{x,t+1}\ge1
+\quad\Longleftrightarrow\quad
+Fk_{RC}R_t\ge1-r_C.
+\]
+A separate machine-checked finite-horizon witness gives two systems with the same current \(\lambda_0=3/2\) but opposite five-step threshold status under different cross-audit maintenance multipliers. Thus current audit reproduction is not, within the declared dynamic model, a sufficient statistic for future corrective resilience.
+
+These are model extensions, not claims about an observed JAM vulnerability. The attribution result follows from the current Gray Paper verdict rules; the branching, dilution, recurrent-maintenance and dynamic results inherit declared modeling assumptions. The purpose is to expose which quantities must remain above replacement if a sampled decentralized auditing system is to preserve its capacity for independent correction over time.
 \end{abstract}
 
 \input{sections/01_introduction.tex}
@@ -59,6 +73,7 @@ These are model extensions, not claims about an observed JAM vulnerability. The 
 \input{sections/04_escalation.tex}
 \input{sections/05_sampling.tex}
 \input{sections/06_recurrent_maintenance.tex}
+\input{sections/06b_resilience_dynamics.tex}
 \input{sections/06_implications.tex}
 \input{sections/07_limitations.tex}
 \input{sections/08_conclusion.tex}
